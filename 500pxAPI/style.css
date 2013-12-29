@@ -1,0 +1,44 @@
+*{
+	margin:0;
+	padding:0;
+	
+}
+body{
+	color: #222222;
+	background: #F5F4F2;
+}
+.container{
+	padding:20px;
+	margin:20px;
+	background: #fff;
+	height: 100%;
+	border-radius: 5px;
+}
+.container:before,.container:after{
+	content: "";
+	display: table;
+}
+.container:after{
+	clear: both;
+}
+.container h1{
+
+    font-weight: bold;
+    margin: 20px 0 6px;
+    padding: 4px 0;
+}
+.img{
+	float:left;
+	padding:5px;
+	margin:10px;
+	background: #FFF;
+	border:1px solid #EEE;
+}
+.copyright{
+	text-align: center;
+	margin-top: 20px;
+	font-style: italic;
+}
+.copyright a{
+	color: #1E87DD;
+}
