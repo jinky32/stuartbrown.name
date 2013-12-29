@@ -1,0 +1,90 @@
+/*
+.container {
+   height: auto;
+   overflow: hidden;
+}
+
+.right {
+    width: 180px;
+    float: right;
+    background: #aafed6;
+}
+
+.left {
+    float: none; /* not needed, just for clarification */
+   /* background: #e8f6fe;
+    /* the next props are meant to keep this block independent from the other floated one */
+    /*width: auto;
+    overflow: hidden;
+}​​
+*/
+
+table, tr, th, td {
+    border:1px solid black;
+
+}
+
+table {
+    float:left;
+    width:30%;
+    margin:10px;
+}
+
+#content {
+    width: 100%;
+    height: auto;
+    clear: both;
+    float: left;
+    margin: 0;
+    padding: 0;
+}
+
+#row1 {
+    display:block;
+    clear:both
+}
+
+#row2 {
+    display:block;
+    clear:both;
+}
+
+#vegnotes {
+    width:800px;
+}
+
+.rotate {
+    -webkit-transform: rotate(25deg);
+}
+
+.brassicas {
+    background:green;
+}
+
+li.brassicas {
+    padding:0;
+    display: block;
+}
+
+.legumes {
+    background:grey;
+}
+
+li.legumes {
+    padding:0;
+    display: block;
+}
+
+.roots {
+    background:yellow;
+}
+
+li.roots {
+    padding:0;
+    display: block;
+}
+
+.greenhouse {
+    display: block;
+    clear:both;
+}

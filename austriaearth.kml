@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://earth.google.com/kml/2.2">
+<Document>
+  <name>Austria</name>
+  <description><![CDATA[<table><tr><td style="padding:0 5px"><a href="https://picasaweb.google.com/111799074320916988149/Austria" target="_blank"><img style="border:1px solid #5C7FB9" src="https://lh5.googleusercontent.com/-UZ7qnYD_r4w/UWgj-tEHGeE/AAAAAAAALa8/3X3wP5feN-4/s160-c/Austria.jpg" alt="Austria"></a></td><td valign="top"><p><font color="#333333"></font></p><font color="#6B6B6B">Date: </font><font color="#333333">Apr 12, 2013</font><br><font color="#6B6B6B">Number of Photos in Album: </font><font color="#333333">17</font><br></td></tr><tr><td colspan="2"><a href="https://picasaweb.google.com/111799074320916988149/Austria" target="_blank"><font color="\&quot;#3964C2\&quot;">View Album</font></a></p></td></tr></table>]]></description>
+  <NetworkLink>
+    <name>Austria</name>
+    <Link>
+      <href>http://www.google.com/maps/ms?authuser=0&amp;vps=2&amp;ie=UTF8&amp;hl=en&amp;oe=UTF8&amp;msa=0&amp;msid=207471730585133444347.0004da2bc6e441f643202&amp;output=kml</href>
+    </Link>
+  </NetworkLink>
+</Document>
+</kml>

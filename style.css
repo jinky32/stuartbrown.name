@@ -1,0 +1,242 @@
+   <style type="text/css">
+@font-face {
+    font-family: "Essays 1743";
+    font-style: normal;
+    font-weight: normal;
+    src: local("Essays 1743"), url("f/essays1743-webfont.woff") format("woff"), url("f/essays1743-webfont.ttf") format("truetype");
+}
+@font-face {
+    font-family: "Essays 1743";
+    font-style: italic;
+    font-weight: normal;
+    src: local("Essays 1743"), url("f/essays1743-italic-webfont.woff") format("woff"), url("f/essays1743-italic-webfont.ttf") format("truetype");
+}
+@font-face {
+    font-family: "Linux Libertine";
+    font-style: normal;
+    font-weight: normal;
+    src: local("Linux Libertine"), url("f/linlibertine_re-4.7.5-webfont.woff") format("woff"), url("f/linlibertine_re-4.7.5-webfont.ttf") format("truetype");
+}
+@font-face {
+    font-family: "Linux Libertine";
+    font-style: normal;
+    font-weight: bold;
+    src: local("Linux Libertine"), url("f/linlibertine_bd-4.1.5-webfont.woff") format("woff"), url("f/linlibertine_bd-4.1.5-webfont.ttf") format("truetype");
+}
+@font-face {
+    font-family: "Linux Libertine";
+    font-style: italic;
+    font-weight: normal;
+    src: local("Linux Libertine"), url("f/linlibertine_it-4.2.6-webfont.woff") format("woff"), url("f/linlibertine_it-4.2.6-webfont.ttf") format("truetype");
+}
+@font-face {
+    font-family: "WorldWideWeb";
+    font-style: normal;
+    font-weight: normal;
+    src: local("WorldWideWeb"), url("f/WorldWideWeb.woff") format("woff"), url("f/orldWideWeb.ttf") format("truetype");
+}
+  * {
+   margin:0;
+   padding:0;
+   }
+   body
+   {
+	font: large/1.556 'Linux Libertine',Palatino,'Palatino Linotype','Book Antiqua',Georgia,'Times New Roman',serif;
+   margin:0 auto;
+   width:960px;
+	padding-bottom: 2em;
+   word-spacing: 0.1em;
+   }
+   a {color:#000000; text-shadow:1px 1px 1px #cccccc;}
+   p {text-align:justify;}
+     header, footer, aside, section {display:block;}
+	h1, h2, h4, caption, thead th {
+	    font-family: 'WorldWideWeb','Essays 1743',Palatino,'Palatino Linotype','Book Antiqua',Georgia,'Times New Roman',serif;
+	    font-weight: normal;
+	    text-shadow: 0 0 1px #666677;
+	    text-transform: uppercase;
+	}
+   	h1 {
+	    font-size: 200.7%;
+	    line-height: 1.1;
+	    margin: 1.00em 0;
+	    text-align: left;
+	    width: 100%;
+	}
+	h2 {
+	    clear: both;
+	    font-size: 180%;
+	    line-height: 1.3125;
+	    margin: 1.167em 0;
+	    text-align: left;
+	}
+	
+   nav {
+   width:77%;
+   height:40px;
+   -moz-border-radius:10px;
+   -webkit-border-radius:10px;
+   background:#f3f3f3;
+   border:1px solid #cccccc;
+   position:absolute;
+   }
+     nav ul {
+list-style-image:none;
+list-style-position:outside;
+list-style-type:none;
+margin:0 auto;
+width:940px;
+}
+nav ul li {
+float:left;
+}
+nav ul li a{
+margin-right:20px;
+display:block;
+line-height:40px;
+}
+
+/* =Menu
+----------------------------------------------- */
+#menu {
+  border-bottom: 1px solid #ddd;
+  border-top: 1px solid #ddd;
+  margin-bottom: 25px;
+  padding: 10px;
+  text-align: right;
+  width: 800px;
+}
+#menu img {
+  margin-bottom: 10px;
+}
+#menu a {
+  color: #666;
+  font-family: 'Oswald', Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  margin: 0 10px;
+  padding: 4px 0;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+#menu a:hover {
+  color: #000;
+}
+#menu ul {
+  list-style: none;
+  margin: 0;
+  padding-left: 0;
+}
+#menu li {
+  float: right;
+  position: relative;
+}
+#access a {
+  color: #888;
+  display: block;
+
+  text-decoration: none;
+}
+#menu ul ul {
+  display: none;
+  float: right;
+  position: absolute;
+    right: 0;
+    top: 2em;
+  z-index: 99999;
+}
+#menu ul ul ul {
+  right: 100%;
+  top: 0;
+}
+#menu ul ul a {
+  background: #e9e9e9;
+  border-bottom: 1px solid #e1e1e1;
+  display: block;
+  font-size: 14px;
+  height: auto;
+  line-height: 1em;
+  margin: 0;
+  padding: .8em .5em .8em 1em;
+  width: 130px;
+}
+#menu ul ul li:last-of-type a {
+  border-bottom: none;
+}
+#menu li:hover > a,
+#menu ul ul :hover > a {
+  color: #444;
+}
+#menu ul ul a:hover {
+  background: #f0f0f0;
+}
+#menu ul li:hover > ul {
+  display: block;
+}
+#menu ul li.current_page_item > a,
+#menu ul li.current_page_ancestor > a,
+#menu ul li.current-menu-item > a {
+  color: #111;
+}
+#menu ul:after {
+  clear: both;
+  content: ' ';
+  display: block;
+}
+
+
+
+
+
+#content {
+display:table;
+margin-top:40px;
+}
+div.c1of2, div.c1of3, div.c2of3 {
+  float:left;
+}
+div.c2of2, div.c3of3 {
+  float:right;
+}
+div.c1of2, div.c2of2 {
+  width:48%;
+}
+#mcontent {
+display:table-cell;
+padding-right:22px;
+width:620px;
+}
+aside {
+display:table-cell;
+width:300px;
+background:#f3f3f3;
+}
+.bpage div {
+-webkit-column-count:2;
+-moz-column-count:2;
+-moz-column-gap:22px;
+-webkit-coulmn-gap:22px;
+}
+aside section {
+-moz-border-radius:11px;
+-webkit-border-radius:11px;
+background:#e0e0e0;
+margin:22px 0 0 22px;
+padding:11px 22px;
+width:50%;
+}
+.image {margin:6px auto;
+-moz-border-radius:10px;
+-webkit-border-radius:10px;
+background:url(test.jpg);
+height:250px;
+width:600px;
+}
+footer{background:#666666;
+border-top:1px solid #cccccc;
+padding:10px;
+-moz-border-radius-topleft:5px;
+-moz-border-radius-topright:5px;
+text-align:center;
+color:#ffffff;
+}
+   </style>

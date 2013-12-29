@@ -1,0 +1,68 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" version="XHTML+RDFa 1.0" xml:lang="en-gb" lang="en-gb">
+
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+<a href="https://plus.google.com/u/0/b/116885993308590908200?
+   rel=author">The Open University</a>
+<title>RDFa Course 101</title>
+</head>
+
+<body>
+
+<h1>here is a title</h1>
+<!-- Product -->
+<div xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+xmlns="http://www.w3.org/1999/xhtml" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:gr="http://purl.org/goodrelations/v1#"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema#" xmlns:v="http://rdf.data-vocabulary.org/#"
+>
+	<div about="http://data.XXX.ac.uk/course/offer/l204-be-2011b" typeof="gr:Offering">
+		<div property="gr:name" content="Course Title" xml:lang="en-GB"></div> <!-- frz: Is this needed for offerings? -->
+
+		<div property="gr:description" content="Course Description" xml:lang="en-GB"></div>
+		<div property="rdfs:comment" content="Comment goes here..." xml:lang="en-GB"></div>
+		<div rev="gr:offers" resource="http://data.XXX.ac.uk/page/organization/the_XXX_university"></div>
+        <div property="gr:validThrough" datatype="xsd:dateTime" content="2011-01-18T15:55:10+00:00"></div>
+        <div rel="gr:availableAtOrFrom" resource="http://sws.geonames.org/2802361/"></div>
+		<div rel="gr:hasBusinessFunction" resource="http://purl.org/goodrelations/v1#ProvideService"></div>
+		
+        <!--frz: Belgium Pricing-->
+        <div rel="gr:hasPriceSpecification">
+			<div typeof="gr:UnitPriceSpecification" about="http://data.XXX.ac.uk/course/price/l204-be-2011b">
+				<div property="gr:hasCurrency" content="GBP" datatype="xsd:string"></div>
+                <!--
+				<div property="gr:hasCurrencyValue" content="1835.00" datatype="xsd:float"></div>
+                -->
+                <div property="gr:hasMinCurrencyValue" content="1000.00" datatype="xsd:float"></div>
+			</div>
+		</div>
+		
+        <div rel="foaf:page" resource="http://www3.XXX.ac.uk/study/undergraduate/course/l204.htm"></div>
+        
+        <!--frz: replacing gr:includesObject by gr:includes -->
+		<div rel="gr:includes">
+			<div typeof="gr:ProductOrService" about="http://data.XXX.ac.uk/course/l204">
+            	<div property="gr:name" content="Course title" xml:lang="en-GB"></div>
+						<div property="gr:description" content="Course description." xml:lang="en-GB"></div>                      
+                        <div rel="foaf:thumbnail" resource="http://xxx.jpg"></div>
+                 </div>
+         </div>
+	</div>
+</div>
+		<!-- /block-content -->
+		    </div>
+		</div>
+		
+		
+				
+		    </div>
+		</div>
+
+		
+</div>
+
+
+
+</body>
+</html>

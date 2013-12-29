@@ -1,0 +1,276 @@
+<rdf:RDF
+xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+xmlns:foaf="http://xmlns.com/foaf/0.1/"
+xmlns:dc="http://purl.org/dc/elements/1.1/"
+xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
+xmlns:wordnet="http://xmlns.com/wordnet/1.6/"
+xmlns:contact="http://www.w3.org/2000/10/swap/pim/contact#"
+xmlns:air="http://www.daml.org/2001/10/html/airport-ont#"
+xmlns:srw="http://purl.org/net/inkel/rdf/schemas/lang/1.1#"
+xmlns:bio="http://purl.org/vocab/bio/0.1/"
+xmlns:rss="http://purl.org/rss/1.0/"
+xmlns:owl="http://www.w3.org/2002/07/owl#">
+	<!-- Thanks to Leigh Dodds http://www.ldodds.com/ldodds.rdf who's profile I ripped off while learning how to write this document! -->
+
+<foaf:PersonalProfileDocument rdf:about="">
+  <dc:title>Stuart Brown's FOAF description</dc:title>
+  <dc:description>Metadata about Stuart Brown encoded using the Friend-Of-A-Friend Vocabulary</dc:description>
+  <foaf:primaryTopic rdf:resource="http://www.stuartbrown.name#me"/>
+  <foaf:maker rdf:resource="http://www.stuartbrown.name#me"/>
+</foaf:PersonalProfileDocument>
+
+<foaf:Person rdf:about="http://www.stuartbrown.name#me">
+<owl:sameAs rdf:resource="http://data.open.ac.uk/page/person/43b2570740ed588de3172dbf9d0201a0"/>
+
+   <!-- about me -->
+   <foaf:name>Stuart Brown</foaf:name>
+   <foaf:title>Mr</foaf:title>
+   <foaf:given>Stuart</foaf:given>
+   <foaf:family_name>Brown</foaf:family_name>
+   <foaf:nick>stuartbrown</foaf:nick>
+
+   <foaf:gender>Male</foaf:gender>
+   <foaf:depiction rdf:resource="http://www.stuartbrown.name/stuartbrown.jpg"/>
+   <foaf:workplaceHomepage rdf:resource="http://www.open.ac.uk"/>
+   <foaf:schoolHomepage rdf:resource="http://learning.royallatin.bucks.sch.uk/"/>
+   <foaf:schoolHomepage rdf:resource="http://www.manchester.ac.uk/"/>
+   <foaf:schoolHomepage rdf:resource="http://www.ed.ac.uk/home"/>
+
+    <foaf:based_near>
+      <geo:Point geo:lat="51.8468766" geo:long="-0.9214692"/>
+
+    </foaf:based_near>
+
+  <foaf:interest>
+    <rdf:Description rdf:about="http://en.wikipedia.org/wiki/Theology">
+      <dc:title>Theology</dc:title>
+      <foaf:primaryTopic rdf:resource="http://dbpedia.org/resource/wiki/Theology"/>
+    </rdf:Description>
+  </foaf:interest>
+  
+  <foaf:interest>
+    <rdf:Description rdf:about="http://en.wikipedia.org/wiki/Philosophy">
+      <dc:title>Philosophy</dc:title>
+      <foaf:primaryTopic rdf:resource="http://dbpedia.org/resource/Philosophy"/>
+    </rdf:Description>
+  </foaf:interest>
+
+  <foaf:interest>
+    <rdf:Description rdf:about="http://en.wikipedia.org/wiki/Vegetable_growing">
+      <dc:title>Vegetable Growing</dc:title>
+      <foaf:primaryTopic rdf:resource="http://dbpedia.org/resource/Vegetable_growing"/>
+    </rdf:Description>
+  </foaf:interest>
+  
+  <foaf:interest>
+    <rdf:Description rdf:about="http://en.wikipedia.org/wiki/Technology">
+      <dc:title>Technology</dc:title>
+      <foaf:primaryTopic rdf:resource="http://dbpedia.org/resource/Technology"/>
+    </rdf:Description>
+  </foaf:interest>
+  
+  <foaf:interest>
+    <rdf:Description rdf:about="http://en.wikipedia.org/wiki/Linked_Data">
+      <dc:title>Linked Data</dc:title>
+      <foaf:primaryTopic rdf:resource="http://dbpedia.org/resource/wiki/Linked_Data"/>
+    </rdf:Description>
+  </foaf:interest>
+
+  <foaf:interest>
+    <rdf:Description rdf:about="http://en.wikipedia.org/wiki/Semantic_Web">
+      <dc:title>Semantic Web</dc:title>
+      <foaf:homepage rdf:resource="http://www.w3.org/2001/sw/"/>
+
+      <foaf:primaryTopic rdf:resource="http://dbpedia.org/resource/Semantic_Web"/>
+    </rdf:Description>
+  </foaf:interest>
+
+  <foaf:interest>
+    <rdf:Description rdf:about="http://en.wikipedia.org/wiki/Drupal">
+      <dc:title>Drupal</dc:title>
+      <foaf:primaryTopic rdf:resource="http://dbpedia.org/resource/wiki/Drupal"/>
+    </rdf:Description>
+  </foaf:interest>
+
+
+
+   <!-- Inverse Functional Properties -->
+   <foaf:mbox_sha1sum>02f36d14aa0c574fc2c1fe632c65de11c9fa6626</foaf:mbox_sha1sum>
+
+   <foaf:mbox_sha1sum>71707491a7f3d4d3e1188dc18e2fb6aee71c27d0</foaf:mbox_sha1sum>
+
+   <foaf:mbox rdf:resource="mailto:jinky32@gmail.com"/>
+   <foaf:mbox rdf:resource="mailto:s.a.brown@open.ac.uk.com"/>
+   <foaf:phone rdf:resource="tel:+44-(0)1908 653636"/>
+   <foaf:homepage rdf:resource="http://www.stuartbrown.name"/>
+   <foaf:weblog rdf:resource="http://www.open.ac.uk/blogs/SocialCommunications/"/>
+
+
+   <!-- langauges-->
+
+   <srw:speaks>en</srw:speaks>
+   <srw:reads>en</srw:reads>
+   <srw:writes>en</srw:writes>
+
+   <bio:olb>
+   Interested in online communities, social recommendation and linked data. At work involved in Drupal, web applications, social media and linked data (data.open.ac.uk #luceroproject).
+   More generally I'm interested in ecology and things organic.  Interested in theology and philosophy / ethics (which were the subject of my degree and Masters)
+   </bio:olb>
+   <bio:event>
+      <bio:Birth>
+         <bio:date>1977-10-13</bio:date>
+         <bio:place>Aylesbury, Buckinghamshire, United Kingdom</bio:place>
+      </bio:Birth>
+   </bio:event>
+
+    <bio:event>
+      <bio:Marriage>
+        <bio:date>2008-07-19</bio:date>
+        <bio:place>
+          The Great Barn, Upper Aynho Grounds, 
+		  Aynho, Banbury, Oxon. OX17 3AY. 
+		  United Kingdon
+        </bio:place>
+      </bio:Marriage>
+    </bio:event>
+
+    <!-- RSS feeds -->
+    <rdfs:seeAlso>
+
+        <rss:channel rdf:about="http://del.icio.us/rss/jinky32">
+            <dc:title>delicious.com/jinky32</dc:title>
+            <dc:description>del.icio.us bookmarks as an RSS 1.0 news feed</dc:description>
+            <foaf:maker rdf:resource="http://www.stuartbrown.me#me"/>
+        </rss:channel>
+
+    </rdfs:seeAlso>
+<!--
+    <rdfs:seeAlso>
+
+        <rss:channel rdf:about="https://picasaweb.google.com/data/feed/base/user/jinky32?alt%3Drss&kind%3Dalbum&hl%3Den_US&access%3Dpublic">
+            <dc:title>Stuart Brown's Photos</dc:title>
+            <dc:description>A feed of Stuart Brown's photos</dc:description>
+            <foaf:maker rdf:resource="http://www.stuartbrown.me#me"/>
+        </rss:channel>
+
+
+    </rdfs:seeAlso>
+
+-->
+
+  <!-- From http://semantictweet.com/ and my Twitter account, 05/09/2011 -->
+    <foaf:knows rdf:resource="http://semantictweet.com/baxtree#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/TomWoodnutt#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/rufuspollock#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/rtroncy#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/fantasticlife#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/alexbilbie#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/lod2project#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/MLuczak#me"/>
+
+    <foaf:knows rdf:resource="http://semantictweet.com/Samsungtweets#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/AmyWinter#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/jamietalk#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/smyles#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/kansandhaus#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/dankarran#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/tommorris#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/stephenfung#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/carlhaggerty#me"/>
+
+    <foaf:knows rdf:resource="http://semantictweet.com/hughcarling#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/LearningSPARQL#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/mustardseedinc#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/WayneRooney#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/nevali#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/jaymyers#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/jj27vv#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/jonrmcginty#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/derivadow#me"/>
+
+    <foaf:knows rdf:resource="http://semantictweet.com/cygri#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/MikeAtherton#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/Cennydd#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/peteskomoroch#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/LizMallett#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/tomjordanuk#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/thepagehub#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/Louis_Theroux#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/manusporny#me"/>
+
+    <foaf:knows rdf:resource="http://semantictweet.com/Al1977Fox#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/luisnani#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/IamAustinHealey#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/learnlinkeddata#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/fzablith#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/terraflop#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/semwebcompany#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/the_real_fago#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/BoseService#me"/>
+
+    <foaf:knows rdf:resource="http://semantictweet.com/shortyawards#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/bendiken#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/AnnaCPage#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/kmlboo#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/AntonyMcEvoy#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/dfflanders#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/nfreear#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/simoncollister#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/guydbarrett#me"/>
+
+    <foaf:knows rdf:resource="http://semantictweet.com/zbeauvais#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/andrevock#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/timhodson#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/ostephens#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/locahproject#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/DirDigEng#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/mattroweshow#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/koush#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/jeffsayre#me"/>
+
+    <foaf:knows rdf:resource="http://semantictweet.com/IssWinn#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/SisterWhitloe#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/RichDevX#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/Mathieulh#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/scorlosquet#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/tinefin#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/mmmmmrob#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/androidtips#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/Disey49#me"/>
+
+    <foaf:knows rdf:resource="http://semantictweet.com/KirstieGower#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/MikeNolan#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/nrambeck#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/timberners_lee#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/Tomsetter#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/billroberts#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/sleicester#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/IDPDRIE#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/mdaquin#me"/>
+
+    <foaf:knows rdf:resource="http://semantictweet.com/skwlilac#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/mia_out#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/OpenLink#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/tommyh#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/cgutteridge#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/johnbreslin#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/rehanapmalik#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/SkyNewsBreak#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/NickyWhitsed#me"/>
+
+    <foaf:knows rdf:resource="http://semantictweet.com/gkob#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/jamcaul#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/soilandreyes#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/Giancarla22#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/shashivelur#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/patrick_mj#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/JeniT#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/stephendale#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/currybet#me"/>
+
+    <foaf:knows rdf:resource="http://semantictweet.com/beersoft#me"/>
+    <foaf:knows rdf:resource="http://semantictweet.com/iand#me"/>
+		
+</foaf:Person>
+</rdf:RDF>
