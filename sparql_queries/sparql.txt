@@ -1,0 +1,10 @@
+select ?s
+FROM <http://dbpedia.org>
+where 
+{
+
+?s ?p ?o.
+
+}
+
+LIMIT 20
