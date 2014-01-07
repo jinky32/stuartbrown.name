@@ -1,10 +1,40 @@
-select ?s
-FROM <http://dbpedia.org>
-where 
+select distinct (str(?coderaw) as ?code) (str(?pod) as ?podcast) (str(?podpublishedraw) as ?podpublished) 
+	            (str(?poddurationraw) as ?podduration) (str(?podalbumlabelraw) as ?podalbumlabel) 
+	            (str(?itunesraw) as ?itunes) (str(?embed) as ?embedcode) (str(?olraw) as ?ol) (str(?olpublishedraw) as ?olpublished)
+	            ?url ?bbcraw
+where
 {
+?qual <http://purl.org/vocab/aiiso/schema#code> "Q67".
+?qual <http://data.open.ac.uk/saou/ontology#hasPathway> ?pathway.
+?pathway <http://data.open.ac.uk/saou/ontology#hasStage> ?stage.
+?stage <http://data.open.ac.uk/saou/ontology#includesCompulsoryCourse> ?course.
+?course <http://purl.org/vocab/aiiso/schema#code> ?coderaw.
+	OPTIONAL {
+	?olrelated <http://data.open.ac.uk/openlearn/ontology/relatesToCourse> ?course.
+	 ?olrelated <http://www.w3.org/2000/01/rdf-schema#label> ?olraw;
+	<http://purl.org/dc/terms/published> ?olpublishedraw;
+	 <http://dbpedia.org/property/url> ?url.
+	}
+	OPTIONAL {
+	?podrelated <http://data.open.ac.uk/podcast/ontology/relatesToCourse> ?course;
+	 <http://www.w3.org/2000/01/rdf-schema#label> ?pod;
+	 <http://data.open.ac.uk/podcast/ontology/embedCode> ?embed ;
+	 <http://purl.org/dc/terms/published> ?podpublishedraw;
+	 <http://www.w3.org/TR/2010/WD-mediaont-10-20100608/duration> ?poddurationraw;
+	 <http://purl.org/dc/terms/isPartOf> ?podalbumraw.
+	 ?podalbumraw <http://www.w3.org/2000/01/rdf-schema#label> ?podalbumlabelraw.
+         FILTER(CONTAINS(STR(?embed),"mediaplayer"))
+		 OPTIONAL {
+		 	?podalbumraw  <http://data.open.ac.uk/podcast/ontology/hasiTunesU> ?itunesraw.
+		 }
 
-?s ?p ?o.
+	}
+
+	OPTIONAL {
+	?bbcrelated <http://data.open.ac.uk/bbc/ontology/relatesToCourse> ?course.
+	 ?bbcrelated <http://www.w3.org/2000/01/rdf-schema#label> ?bbcraw;
+	
+	}
 
 }
 
-LIMIT 20

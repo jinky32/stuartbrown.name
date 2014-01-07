@@ -94,7 +94,12 @@
                     }
           else {
             print "<p>Currently, No Service Available.</p>";
-                } ?>
+                } 
+
+// print_r($obj);
+                ?>
+
+
 
      <?php /*          
           $i = 0;      
