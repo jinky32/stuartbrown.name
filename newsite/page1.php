@@ -20,7 +20,9 @@
       <div class="container">
         <div class="content row">
           <div class="main col col-lg-8">
-            
+            <?php
+              include "_/components/php/header.php";
+            ?>
             
           </div><!-- end of main -->
           

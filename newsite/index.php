@@ -16,10 +16,13 @@
     <![endif]-->
   </head>
   <body id="home">
-    <h1>Hello, world!</h1>
       <div class="container">
         <div class="content row">
           <div class="main col col-lg-8">
+            <?php
+              include "_/components/php/header.php";
+            ?>
+            <h1>Hello, world!</h1>
             
             
           </div><!-- end of main -->
@@ -34,7 +37,7 @@
       </div> <!-- end of container -->
 
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="_/js/bootstrap.min.js"></script>
-    <script src="_/js/myscript.min.js"></script>
+    <script src="_/js/bootstrap.js"></script>
+    <script src="_/js/myscript.js"></script>
   </body>
 </html>
