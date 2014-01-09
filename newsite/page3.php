@@ -15,7 +15,7 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
   </head>
-  <body id="home">
+  <body id="page3">
     <h1>Hello, world!</h1>
       <div class="container">
         <div class="content row">
