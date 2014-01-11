@@ -38,7 +38,7 @@
       </div> <!-- end of container -->
 
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="_/js/bootstrap.min.js"></script>
-    <script src="_/js/myscript.min.js"></script>
+    <script src="_/js/bootstrap.js"></script>
+    <script src="_/js/myscript.js"></script>
   </body>
 </html>
