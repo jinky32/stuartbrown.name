@@ -127,7 +127,7 @@ $intersect = array_intersect_key($sitecategories, $catkeys); //create an array o
             
               foreach ($combined as $key => $value) {
                     if($id==$value){
-                      print "<li><a tabindex='-1' href='artists.php'>$key</a></li>";
+                      print "<li><a tabindex='-1' href='page2.php?title=$key'>$key</a></li>";
                     }
                     
                     }

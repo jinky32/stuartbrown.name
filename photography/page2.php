@@ -19,8 +19,30 @@
     <?php
               include "_/components/php/header.php";
               include "_/components/php/primary_navigation.php";
+              if(isset($_GET['title'])){
+                $title=$_GET['title'];
+                print "<h1>$title</h1>";
+              } else {
+                print "<h1>Hello World!</h1>";
+              }
+              //print_r($obj->photos[1]);
+              //print_r($photoname);
+
+              $arraykey=array_keys($photoname); // put the keys of $photoname into $arraykey.  This will be
+              //used below to try and match $title (of image) to its array key.
+
+
+foreach ($arraykey as $key => $value) { //break apart $arraykey to use the key
+ if($photoname[$key]==$title){ // test if the value at position $photoname[key] is the same as current $title.  If it is we know the key of the array in $obj->photos that we want
+  $photoarray=$obj->photos[$key]; // the test has returned true.  Now grab the whole array for that photo and put it in $photarray.
+  
+ } 
+}
+print $photoarray->image_url; //print out the URL of the image.
+//print_r($obj->photos[$key]);
+
             ?>
-    <h1>Hello, world!</h1>
+    
       <div class="container">
         <div class="content row">
           <div class="main col col-lg-8">
