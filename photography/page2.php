@@ -38,12 +38,18 @@ foreach ($arraykey as $key => $value) { //break apart $arraykey to use the key
   
  } 
 }
-print $photoarray->image_url; //print out the URL of the image.
+//print $photoarray->image_url; //print out the URL of the image.
 //print_r($obj->photos[$key]);
 
             ?>
     
       <div class="container">
+        <div class="jumbotron">
+          <?php 
+            //print "<img src=". str_replace('/3.', '/4.', $photoarray->image_url)">";
+             print '<img src=\''.str_replace('/3.', '/4.', $photoarray->image_url).'\' class=\'img-responsive img-rounded img-centred\');>';
+          ?>
+        </div>
         <div class="content row">
           <div class="main col col-lg-8">
             
