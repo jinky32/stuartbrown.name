@@ -32,4 +32,9 @@ foreach ($xml->entry as $playlists) {
 // write a function here that will take $playlist_id (e.g. http://gdata.youtube.com/feeds/api/users/jinky32/playlists/PLEtmlR7ubZ2m6J32yq3W2wDb4kxXw40gU)
 // and will return the videos in that playlist and the url of the playlist for embedding.
 
+// function YouTubePlaylist ($url){
+// 	$specific_playlist=simplexml_load_file($url);
+// 	return $specific_playlist;
+// }
+
 ?>

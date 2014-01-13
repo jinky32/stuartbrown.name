@@ -52,12 +52,60 @@ foreach ($arraykey as $key => $value) { //break apart $arraykey to use the key
         </div>
         <div class="content row">
           <div class="main col col-lg-8">
-            <?php
-              $test=array_combine($playlist_id, $playlist_title);
+            <form method="post" action="">
+              <select name="playlistselect" id="input" class="form-control" required="required">
+              <?php
+               
 
-              print_r($test);
-            ?>
-            
+                $test=array_combine($playlist_id, $playlist_title); //I THINK THE KEY MAY BE WRONG HERE. 
+                //WHEN I USE BELOW IT DOESNT BRING BACK VIDEOS IN A PLAYLIST AND LOOKS LIKE 
+                //http://gdata.youtube.com/feeds/api/users/jinky32/playlists/PLEtmlR7ubZ2nfQnDVkTGWDNzd4M8towxb
+                foreach($test as $key => $value){
+                  $key=str_replace("http://gdata.youtube.com/feeds/api/users/jinky32/playlists/","",$key);
+                  print "<option value='$key'>$value</option>";
+                }
+                print "</select>
+                      <input type='submit' class='btn btn-default' name='youtube' id='youtube' value='submit'>
+                        </form>";
+                  if (isset($_POST['playlistselect'])){
+                    $chosen_playlist="https://gdata.youtube.com/feeds/api/playlists/".$_POST["playlistselect"];
+                    print $chosen_playlist;
+                  } else {
+                    print "false";
+                  }
+
+                $specific_playlist=simplexml_load_file($chosen_playlist);
+                $video_title=array();
+                $i=0;
+                foreach ($specific_playlist->entry as $playlist_videos) {
+                  $video_title[]=$playlist_videos;
+                  print "<p>" . $video_title[$i]->title . "</p><br />";
+                  $i++;
+                
+                  //print $playlist_videos;
+                }
+
+                // $newvidtitle=array();
+                // foreach ($video_title as $key => $value) {
+                //   print "this is key $key and this is value $value";
+                //   //$newvidtitle[]=$vid_titles;
+                // }
+
+                // $stuart=array();
+                // for($i=0;$i<sizeof($video_title);$i++){
+                //   $video_title[$i]=$stuart;
+
+                // }
+                
+
+// foreach ($xml->entry as $playlists) {
+//   $playlist_title[]=$playlists->title;
+//     $playlist_id[]=$playlists->id;
+// }
+              //print_r($video_title);
+             // print_r($specific_playlist);
+              ?>
+           
           </div><!-- end of main -->
           
           <div class="sidebar col col-lg-4">
