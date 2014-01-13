@@ -18,7 +18,7 @@
   <body id="page2">
     <?php
               include "_/components/php/header.php";
-              include "_/components/php/primary_navigation.php";
+              include "_/components/php/youtubeapi.php";
               if(isset($_GET['title'])){
                 $title=$_GET['title'];
                 print "<h1>$title</h1>";
@@ -52,7 +52,11 @@ foreach ($arraykey as $key => $value) { //break apart $arraykey to use the key
         </div>
         <div class="content row">
           <div class="main col col-lg-8">
-            
+            <?php
+              $test=array_combine($playlist_id, $playlist_title);
+
+              print_r($test);
+            ?>
             
           </div><!-- end of main -->
           
