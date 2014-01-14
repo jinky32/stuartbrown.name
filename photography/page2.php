@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Bootstrap 101 Template</title>
+    <title>Bootstrap 101 STuart</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='http://fonts.googleapis.com/css?family=Bree+Serif|Merriweather:400,300,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <!-- Bootstrap -->
@@ -45,7 +45,7 @@ foreach ($arraykey as $key => $value) { //break apart $arraykey to use the key
     
       <div class="container">
         <div class="jumbotron">
-          <?php 
+          <?php //print the selected image into the bootstrap jumbotron. str_replace to get larger iage
             //print "<img src=". str_replace('/3.', '/4.', $photoarray->image_url)">";
              print '<img src=\''.str_replace('/3.', '/4.', $photoarray->image_url).'\' class=\'img-responsive img-rounded img-centred\');>';
           ?>
@@ -56,34 +56,44 @@ foreach ($arraykey as $key => $value) { //break apart $arraykey to use the key
               <select name="playlistselect" id="input" class="form-control" required="required">
               <?php
                
-
+              //combine the values from $playlist_id and $playlist_title (passed from youtubeapi.php) into an array $test
                 $test=array_combine($playlist_id, $playlist_title); //I THINK THE KEY MAY BE WRONG HERE. 
                 //WHEN I USE BELOW IT DOESNT BRING BACK VIDEOS IN A PLAYLIST AND LOOKS LIKE 
                 //http://gdata.youtube.com/feeds/api/users/jinky32/playlists/PLEtmlR7ubZ2nfQnDVkTGWDNzd4M8towxb
-                foreach($test as $key => $value){
-                  $key=str_replace("http://gdata.youtube.com/feeds/api/users/jinky32/playlists/","",$key);
+                foreach($test as $key => $value){ // break the array apart to be used in select list 
+                  $key=str_replace("http://gdata.youtube.com/feeds/api/users/jinky32/playlists/","",$key); //I only want the ID
                   print "<option value='$key'>$value</option>";
                 }
                 print "</select>
                       <input type='submit' class='btn btn-default' name='youtube' id='youtube' value='submit'>
                         </form>";
-                  if (isset($_POST['playlistselect'])){
-                    $chosen_playlist="https://gdata.youtube.com/feeds/api/playlists/".$_POST["playlistselect"];
+                  if (isset($_POST['playlistselect'])){ //when the form is submitted use the value (which will be the ID of a playlist) to create a new request to YouTube API
+                    $chosen_playlist="https://gdata.youtube.com/feeds/api/playlists/".$_POST["playlistselect"]; //set URI to be used
                     print $chosen_playlist;
                   } else {
                     print "false";
                   }
 
-                $specific_playlist=simplexml_load_file($chosen_playlist);
-                $video_title=array();
+                $specific_playlist=simplexml_load_file($chosen_playlist); // load the URI ($chosen_playlist above) and parse
+                $video_title=array(); //initiate $video_title array - this will house all videos in the returned array
+                $video_array=array(); //initiate $video_array array - this will contain all the titles of the videos
+                //I THINK THERE NEEDS TO BE ANOTHER ARRAY HERE AND IN THE FOREACH BELOW TO GET THE VIDEO ID / URL - DONE NOW through below arrays
+                $video_uri=array();
+                $video_uri2=array();
                 $i=0;
                 foreach ($specific_playlist->entry as $playlist_videos) {
                   $video_title[]=$playlist_videos;
-                  print "<p>" . $video_title[$i]->title . "</p><br />";
+                  $video_array[]=$video_title[$i]->title;
+                  $video_uri[]=$video_title[$i]->link;
+                  $video_uri2[]=$video_uri[$i]->attributes()->href;
+                  //print "<p>" . $video_title[$i]->title . "</p><br />";
                   $i++;
                 
                   //print $playlist_videos;
                 }
+
+                print_r($video_uri2);
+                //I THINK I NOW NEED TO SPLIT $VIDEO_URI2 ADN USE EITHER THE KEY OR VALUE AND ARRAY_COMBINE WITH THE TITLE ($VIDEO_TITLE??)
 
                 // $newvidtitle=array();
                 // foreach ($video_title as $key => $value) {
