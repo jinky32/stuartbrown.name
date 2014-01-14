@@ -69,7 +69,7 @@ foreach ($arraykey as $key => $value) { //break apart $arraykey to use the key
                         </form>";
                   if (isset($_POST['playlistselect'])){ //when the form is submitted use the value (which will be the ID of a playlist) to create a new request to YouTube API
                     $chosen_playlist="https://gdata.youtube.com/feeds/api/playlists/".$_POST["playlistselect"]; //set URI to be used
-                    print $chosen_playlist;
+                    //print $chosen_playlist;
                   } else {
                     print "false";
                   }
@@ -92,29 +92,32 @@ foreach ($arraykey as $key => $value) { //break apart $arraykey to use the key
                   //print $playlist_videos;
                 }
 
-                print_r($video_uri2);
-                //I THINK I NOW NEED TO SPLIT $VIDEO_URI2 ADN USE EITHER THE KEY OR VALUE AND ARRAY_COMBINE WITH THE TITLE ($VIDEO_TITLE??)
+                //print_r($video_uri2);
+                $vid2url=array();
+                $i=0;
+                foreach ($video_uri2 as $vid2key => $vid2value) {
+                  $vid2url[$i]=str_replace("&feature=youtube_gdata", "", $vid2value);
+                  $i++;
+                  //$vid2url=str_replace("&feature=youtube_gdata", "", $vid2url);
 
-                // $newvidtitle=array();
-                // foreach ($video_title as $key => $value) {
-                //   print "this is key $key and this is value $value";
-                //   //$newvidtitle[]=$vid_titles;
-                // }
+                  //I THINK I NEED TO CLEAN UP $VID2URL AS PER THE ABOVE LINE.  MAY NEED TO DO THIS THROUGH FOR ($I++) LOOP THOUGH
+                }
 
-                // $stuart=array();
-                // for($i=0;$i<sizeof($video_title);$i++){
-                //   $video_title[$i]=$stuart;
-
-                // }
-                
-
-// foreach ($xml->entry as $playlists) {
-//   $playlist_title[]=$playlists->title;
-//     $playlist_id[]=$playlists->id;
-// }
-              //print_r($video_title);
-             // print_r($specific_playlist);
+                $playlist_combined=array_combine($vid2url, $video_array);
+                //print_r($playlist_combined);
+                print "<select name='playlistselect' id='input' class='form-control' required='required'>";
+                foreach ($playlist_combined as $pckey => $pcvalue) {
+                  print "<option value='$pckey'>$pcvalue</option>";
+                }
+                print "</select>
+                      <input type='submit' class='btn btn-default' name='youtube2' id='youtube2' value='submit'>
+                        </form>";
+            
               ?>
+
+
+
+
            
           </div><!-- end of main -->
           
