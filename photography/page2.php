@@ -67,7 +67,7 @@
                   print "</select>
                      <input type='submit' class='btn btn-default' name='youtube' id='youtube' value='submit'>
                       </form></div>";
-            
+     
                 if (isset($_POST['playlistselect'])){ //when the form is submitted use the value (which will be the ID of a playlist) to create a new request to YouTube API
                   $playlist_selected=$_POST["playlistselect"];
                   $chosen_playlist="https://gdata.youtube.com/feeds/api/playlists/".$_POST["playlistselect"]; //set URI to be used
@@ -104,7 +104,7 @@
                   
                   //print_r($playlist_combined);
                   print "<div class='forms col-lg-6'><form method='post' action=''>
-                          <select name='videoselect' multiple='multiple' id='input' class='form-control' required='required' style='height: 169px;'>";
+                          <select name='videoselect[]' multiple='multiple' id='input' class='form-control' required='required' style='height: 169px;'>";
                              
                 if($youtube_combined){
                   foreach ($youtube_combined as $youtube_combined_key => $youtube_combined_value) {
@@ -117,8 +117,30 @@
                   print "</select>
                         <input type='submit' class='btn btn-default' name='youtube2' id='youtube2' value='submit'>
                           </form></div>";
+                        $i=0;
+                        $embed_array=array();
+     //IS IT BETTER TO USE SOME FORM OF !EMPTY SO THAT THE VALUES PERSIST IN THE BOX AFTER THEY ARE SELECTED?
+                        if(isset($_POST['videoselect'])){
+                            foreach ($_POST['videoselect'] as $skey => $yt_embed_url) {
+                                $embed_value=str_replace("https://www.youtube.com/watch?v=", "", $yt_embed_url);
+                               // print "this is key $embkey and this is yt_embed_url $embed_value<br />";
+                          
 
-                
+                              
+                              print "<div class='content row'>
+                          <div class='videos_and_comments col col-lg-12'>
+                             <div class='videos col-lg-6'>
+                               <iframe width='420' height='315' src='http://www.youtube.com/embed/".$embed_value."' frameborder='0' allowfullscreen></iframe>
+                             </div>
+                             <div class='videos col-lg-6'>
+                              <textarea class='form-control' id='$embed_value' rows='15'></textarea>
+                             </div>
+                           </div>
+                         </div> ";
+                         $i++;
+                            }
+                        }
+
 
             ?>
 
