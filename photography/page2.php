@@ -14,6 +14,7 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
+
   </head>
   <body id="page2">
     <?php
@@ -48,65 +49,78 @@
           ?>
         </div>
         <div class="content row">
-          <div class="main col col-lg-8">
-            <form method="post" action="">
-              <select name="playlistselect" id="input" class="form-control" required="required">
-              <?php
-               
-              //combine the values from $playlist_id and $playlist_title (passed from youtubeapi.php) into an array $playlist_combined
-                $playlist_combined=array_combine($playlist_id, $playlist_title); 
+          <div class="main col col-lg-12">
+            <div class="forms col-lg-6">
+            
+              
 
-                foreach($playlist_combined as $key => $value){ // break the array apart to be used in select list 
-                  $key=str_replace("http://gdata.youtube.com/feeds/api/users/jinky32/playlists/","",$key); //I only want the ID
-                  print "<option value='$key'>$value</option>";
-                }
-                print "</select>
-                      <input type='submit' class='btn btn-default' name='youtube' id='youtube' value='submit'>
-                        </form>";
-                  if (isset($_POST['playlistselect'])){ //when the form is submitted use the value (which will be the ID of a playlist) to create a new request to YouTube API
-                    $chosen_playlist="https://gdata.youtube.com/feeds/api/playlists/".$_POST["playlistselect"]; //set URI to be used
-                    //print $chosen_playlist;
-                  } else {
-                    print "false";
+                <?php
+                  $playlist_combined=array_combine($playlist_id, $playlist_title); 
+                  print "<form method='post' action=''>
+                        <select multiple='multiple' class='form-control'  
+                         name='playlistselect' id='playlistselect' required='required' style='height: 169px;''>";
+                  foreach($playlist_combined as $key => $value){ // break the array apart to be used in select list 
+                    $key=str_replace("http://gdata.youtube.com/feeds/api/users/jinky32/playlists/","",$key); //I only want the ID
+                    print "<option value='$key'>$value</option>";
                   }
 
-                $specific_playlist=simplexml_load_file($chosen_playlist); // load the URI ($chosen_playlist above) and parse
-                $videos=array(); //initiate $videos array - this will house all videos in the returned array
-                $video_titles=array(); //initiate $video_titles array - this will contain all the titles of the videos
-                $video_url=array(); //initiate $video_url which will hold the urls of the videos
-                $i=0;
-                
-                foreach ($specific_playlist->entry as $playlist_videos) {
-                  $videos[]=$playlist_videos;
-                  $video_titles[]=$videos[$i]->title;
-                  $video_url[]=$videos[$i]->link->attributes()->href;
-                  $i++;
-                }
-
-                $youtube_second_api_call=array();
-                $i=0;
-                foreach ($video_url as $ytkey => $youtube_id) {
-                  $youtube_second_api_call[$i]=str_replace("&feature=youtube_gdata", "", $youtube_id);
-                  $i++;
-                  //$youtube_second_api_call=str_replace("&feature=youtube_gdata", "", $youtube_second_api_call);
-
-                  //I THINK I NEED TO CLEAN UP $youtube_second_api_call AS PER THE ABOVE LINE.  MAY NEED TO DO THIS THROUGH FOR ($I++) LOOP THOUGH
-                }
-
-                $playlist_combined=array_combine($youtube_second_api_call, $video_titles);
-                //print_r($playlist_combined);
-                print "<select name='playlistselect' id='input' class='form-control' required='required'>";
-                foreach ($playlist_combined as $pckey => $pcvalue) {
-                  print "<option value='$pckey'>$pcvalue</option>";
-                }
-                print "</select>
-                      <input type='submit' class='btn btn-default' name='youtube2' id='youtube2' value='submit'>
-                        </form>";
+                  print "</select>
+                     <input type='submit' class='btn btn-default' name='youtube' id='youtube' value='submit'>
+                      </form></div>";
             
-              ?>
+                if (isset($_POST['playlistselect'])){ //when the form is submitted use the value (which will be the ID of a playlist) to create a new request to YouTube API
+                  $playlist_selected=$_POST["playlistselect"];
+                  $chosen_playlist="https://gdata.youtube.com/feeds/api/playlists/".$_POST["playlistselect"]; //set URI to be used
+                  //print $chosen_playlist;
+                  $specific_playlist=simplexml_load_file($chosen_playlist); // load the URI ($chosen_playlist above) and parse
 
 
+                  $videos=array(); //initiate $videos array - this will house all videos in the returned array
+                  $video_titles=array(); //initiate $video_titles array - this will contain all the titles of the videos
+                  $video_url=array(); //initiate $video_url which will hold the urls of the videos
+                  $i=0;
+                  
+                  foreach ($specific_playlist->entry as $playlist_videos) {
+                    $videos[]=$playlist_videos;
+                    $video_titles[]=$videos[$i]->title;
+                    $video_url[]=$videos[$i]->link->attributes()->href;
+                    $i++;
+                  }
 
+                  $youtube_second_api_call=array();
+                  $i=0;
+                  foreach ($video_url as $ytkey => $youtube_id) {
+                    $youtube_second_api_call[$i]=str_replace("&feature=youtube_gdata", "", $youtube_id);
+                    $i++;
+                    //$youtube_second_api_call=str_replace("&feature=youtube_gdata", "", $youtube_second_api_call);
+                  }
+
+                  $youtube_combined=array_combine($youtube_second_api_call, $video_titles);
+
+                } 
+
+           
+
+                  
+                  //print_r($playlist_combined);
+                  print "<div class='forms col-lg-6'><form method='post' action=''>
+                          <select name='videoselect' multiple='multiple' id='input' class='form-control' required='required' style='height: 169px;'>";
+                             
+                if($youtube_combined){
+                  foreach ($youtube_combined as $youtube_combined_key => $youtube_combined_value) {
+                  print "<option value='$youtube_combined_key'>$youtube_combined_value</option>";
+                  }
+                } else {
+                  //print "<option value='#'>Choose a video</option>";
+                }
+                  
+                  print "</select>
+                        <input type='submit' class='btn btn-default' name='youtube2' id='youtube2' value='submit'>
+                          </form></div>";
+
+                
+
+            ?>
 
            
           </div><!-- end of main -->
