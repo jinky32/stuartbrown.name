@@ -19,31 +19,34 @@
     <?php
               include "_/components/php/header.php";
               include "_/components/php/youtubeapi.php";
-              
               if(isset($_GET['title'])){
                 $title=$_GET['title'];
                 print "<h1>$title</h1>";
               } else {
                 print "<h1>Hello World!</h1>";
               }
-              
+              //print_r($obj->photos[1]);
+              //print_r($photoname);
 
-              $arraykey=array_keys($photoname); 
-              // put the keys of $photoname (from 500pxapi.php) into $arraykey.  This will be used below to try and match $title (of image) to its array key.
+              $arraykey=array_keys($photoname); // put the keys of $photoname into $arraykey.  This will be
+              //used below to try and match $title (of image) to its array key.
 
 
-              foreach ($arraykey as $key => $value) { //break apart $arraykey to use the key
-               if($photoname[$key]==$title){ // test if the value at position $photoname[key] is the same as current $title.  If it is we know the key of the array in $obj->photos that we want
-                $photoarray=$obj->photos[$key]; // the test has returned true.  Now grab the whole array for that photo and put it in $photarray.
-                
-                                            } 
-              }
-//MIGHT WANT TO ADD SOME MORE INFORMATION ON THE PHOTO - FOR EXAMPLE THE PHOTOGRAPHER, LINK BACK TO 500PX ETC ETC. ALL THIS IS IN $PHOTOARRAY()?
-    ?>
+foreach ($arraykey as $key => $value) { //break apart $arraykey to use the key
+ if($photoname[$key]==$title){ // test if the value at position $photoname[key] is the same as current $title.  If it is we know the key of the array in $obj->photos that we want
+  $photoarray=$obj->photos[$key]; // the test has returned true.  Now grab the whole array for that photo and put it in $photarray.
+  
+ } 
+}
+//print $photoarray->image_url; //print out the URL of the image.
+//print_r($obj->photos[$key]);
+
+            ?>
     
       <div class="container">
         <div class="jumbotron">
           <?php //print the selected image into the bootstrap jumbotron. str_replace to get larger iage
+            //print "<img src=". str_replace('/3.', '/4.', $photoarray->image_url)">";
              print '<img src=\''.str_replace('/3.', '/4.', $photoarray->image_url).'\' class=\'img-responsive img-rounded img-centred\');>';
           ?>
         </div>
@@ -96,19 +99,29 @@
                   $vid2url[$i]=str_replace("&feature=youtube_gdata", "", $vid2value);
                   $i++;
                   //$vid2url=str_replace("&feature=youtube_gdata", "", $vid2url);
-
-                  //I THINK I NEED TO CLEAN UP $VID2URL AS PER THE ABOVE LINE.  MAY NEED TO DO THIS THROUGH FOR ($I++) LOOP THOUGH
+                  
                 }
+           
 
                 $playlist_combined=array_combine($vid2url, $video_array);
                 //print_r($playlist_combined);
-                print "<select name='playlistselect' id='input' class='form-control' required='required'>";
+                print "<form method='post' action=''>
+                <select name='videoselect' id='input' class='form-control' required='required'>";
                 foreach ($playlist_combined as $pckey => $pcvalue) {
                   print "<option value='$pckey'>$pcvalue</option>";
                 }
                 print "</select>
                       <input type='submit' class='btn btn-default' name='youtube2' id='youtube2' value='submit'>
                         </form>";
+
+                 if (isset($_POST['videoselect'])){ //when the form is submitted use the value (which will be the URL of a video) to construct YT embed
+                    //print $vid2url;
+                    print "<iframe width='560' height='315' 
+                                src=\"$pckey\"
+                                 frameborder='0' allowfullscreen></iframe>";
+                  } else {
+                    print "false";
+                  }
             
               ?>
 
