@@ -33,8 +33,8 @@
 
 
               foreach ($arraykey as $key => $value) { //break apart $arraykey to use the key
-               if($photoname[$key]==$title){ // test if the value at position $photoname[key] is the same as current $title.  If it is we know the key of the array in $obj->photos that we want
-                $photoarray=$obj->photos[$key]; // the test has returned true.  Now grab the whole array for that photo and put it in $photarray.
+               if($photoname[$key]==$title){ // playlist_combined if the value at position $photoname[key] is the same as current $title.  If it is we know the key of the array in $obj->photos that we want
+                $photoarray=$obj->photos[$key]; // the playlist_combined has returned true.  Now grab the whole array for that photo and put it in $photarray.
                 
                                             } 
               }
@@ -53,11 +53,10 @@
               <select name="playlistselect" id="input" class="form-control" required="required">
               <?php
                
-              //combine the values from $playlist_id and $playlist_title (passed from youtubeapi.php) into an array $test
-                $test=array_combine($playlist_id, $playlist_title); //I THINK THE KEY MAY BE WRONG HERE. 
-                //WHEN I USE BELOW IT DOESNT BRING BACK VIDEOS IN A PLAYLIST AND LOOKS LIKE 
-                //http://gdata.youtube.com/feeds/api/users/jinky32/playlists/PLEtmlR7ubZ2nfQnDVkTGWDNzd4M8towxb
-                foreach($test as $key => $value){ // break the array apart to be used in select list 
+              //combine the values from $playlist_id and $playlist_title (passed from youtubeapi.php) into an array $playlist_combined
+                $playlist_combined=array_combine($playlist_id, $playlist_title); 
+
+                foreach($playlist_combined as $key => $value){ // break the array apart to be used in select list 
                   $key=str_replace("http://gdata.youtube.com/feeds/api/users/jinky32/playlists/","",$key); //I only want the ID
                   print "<option value='$key'>$value</option>";
                 }
@@ -72,35 +71,29 @@
                   }
 
                 $specific_playlist=simplexml_load_file($chosen_playlist); // load the URI ($chosen_playlist above) and parse
-                $video_title=array(); //initiate $video_title array - this will house all videos in the returned array
-                $video_array=array(); //initiate $video_array array - this will contain all the titles of the videos
-                //I THINK THERE NEEDS TO BE ANOTHER ARRAY HERE AND IN THE FOREACH BELOW TO GET THE VIDEO ID / URL - DONE NOW through below arrays
-                $video_uri=array();
-                $video_uri2=array();
+                $videos=array(); //initiate $videos array - this will house all videos in the returned array
+                $video_titles=array(); //initiate $video_titles array - this will contain all the titles of the videos
+                $video_url=array(); //initiate $video_url which will hold the urls of the videos
                 $i=0;
-                foreach ($specific_playlist->entry as $playlist_videos) {
-                  $video_title[]=$playlist_videos;
-                  $video_array[]=$video_title[$i]->title;
-                  $video_uri[]=$video_title[$i]->link;
-                  $video_uri2[]=$video_uri[$i]->attributes()->href;
-                  //print "<p>" . $video_title[$i]->title . "</p><br />";
-                  $i++;
                 
-                  //print $playlist_videos;
-                }
-
-                //print_r($video_uri2);
-                $vid2url=array();
-                $i=0;
-                foreach ($video_uri2 as $vid2key => $vid2value) {
-                  $vid2url[$i]=str_replace("&feature=youtube_gdata", "", $vid2value);
+                foreach ($specific_playlist->entry as $playlist_videos) {
+                  $videos[]=$playlist_videos;
+                  $video_titles[]=$videos[$i]->title;
+                  $video_url[]=$videos[$i]->link->attributes()->href;
                   $i++;
-                  //$vid2url=str_replace("&feature=youtube_gdata", "", $vid2url);
-
-                  //I THINK I NEED TO CLEAN UP $VID2URL AS PER THE ABOVE LINE.  MAY NEED TO DO THIS THROUGH FOR ($I++) LOOP THOUGH
                 }
 
-                $playlist_combined=array_combine($vid2url, $video_array);
+                $youtube_second_api_call=array();
+                $i=0;
+                foreach ($video_url as $ytkey => $youtube_id) {
+                  $youtube_second_api_call[$i]=str_replace("&feature=youtube_gdata", "", $youtube_id);
+                  $i++;
+                  //$youtube_second_api_call=str_replace("&feature=youtube_gdata", "", $youtube_second_api_call);
+
+                  //I THINK I NEED TO CLEAN UP $youtube_second_api_call AS PER THE ABOVE LINE.  MAY NEED TO DO THIS THROUGH FOR ($I++) LOOP THOUGH
+                }
+
+                $playlist_combined=array_combine($youtube_second_api_call, $video_titles);
                 //print_r($playlist_combined);
                 print "<select name='playlistselect' id='input' class='form-control' required='required'>";
                 foreach ($playlist_combined as $pckey => $pcvalue) {
