@@ -1,3 +1,21 @@
+<?php namespace Photo\DB;
+require "_/components/php/functions.php";
+include "_/components/php/header.php";
+$conn = connect($config);
+  
+
+
+  foreach ($sitecategories as $key => $value) {
+//      print "this is key $key and this is value $value";
+      if ( $conn ) {
+          $catquery=query("INSERT IGNORE into categories (cat_id, label) VALUES (:catid, :label)",
+          array(':catid'=>$key, ':label'=>$value),
+          $conn);
+  } else {
+    print "could not connect to the database";
+  }
+    }
+?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -19,10 +37,15 @@
       <div class="container">
         <div class="content row">
           <div class="main col col-lg-8">
-            <?php
-              include "_/components/php/header.php";
-            ?>
+            
             <h1>Hello, world!</h1>
+            <?php 
+           if ( $row ){
+            print_r($row);
+           } else {
+              print "<h1>No User</h1>";
+            }
+            ?>
             
             
           </div><!-- end of main -->
