@@ -35,6 +35,16 @@ function query($query, $bindings, $conn)
 	return $results ? $results : false;
 }
 
+function query2($query, $conn)
+{
+	$stmt = $conn->prepare($query);
+	$stmt->execute();
+
+	$results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+	return $results ? $results : false;
+}
+
 
 function get($tableName, $conn)
 {

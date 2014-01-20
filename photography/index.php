@@ -5,16 +5,55 @@ $conn = connect($config);
   
 
 
-  foreach ($sitecategories as $key => $value) {
-//      print "this is key $key and this is value $value";
-      if ( $conn ) {
-          $catquery=query("INSERT IGNORE into categories (cat_id, label) VALUES (:catid, :label)",
-          array(':catid'=>$key, ':label'=>$value),
-          $conn);
-  } else {
-    print "could not connect to the database";
-  }
-    }
+//   foreach ($sitecategories as $key => $value) {
+// //      print "this is key $key and this is value $value";
+//       if ( $conn ) {
+//           $catquery=query("INSERT IGNORE into categories (cat_id, label) VALUES (:catid, :label)",
+//           array(':catid'=>$key, ':label'=>$value),
+//           $conn);
+//   } else {
+//     print "could not connect to the database";
+//   }
+//     }
+
+// foreach ($sitecategories as $key => $value) {
+//       if ( $conn ) {
+//         $catquery=query("INSERT INTO categories(cat_id, label)
+//           VALUES (:catid, :label)
+//           ON DUPLICATE KEY UPDATE label = VALUES(label)",
+//         array('catid'=>$key, 'label'=>$value),
+//     $conn);
+//       } else {
+//         print "could not connect to the database";
+//       }
+//     }
+
+//the above (lines 19++ need to be uncommented. only out because they will restore all values when index.php loads and affects testing)
+//the below gets the cat_id from the hard coded categories array and the cat_id from the categories in the database
+//if there is a difference between the two the difference (a cat_id) should be used to delete a row from the database
+
+$catarray=array(); //initiate $catarray
+
+
+foreach ($sitecategories as $key => $value) { //split $sitecateogres and put the key (cat_id) in an array for comparison to db values below
+$catarray[]=$key;
+}
+ if ( $conn ) {
+        $catquery2=query2("SELECT cat_id, label FROM categories", //query to db
+        $conn);
+      } else {
+        print "could not connect to the database";
+      }
+  print_r($catarray); 
+  $stuarray=array(); //initiate $stuarray
+for ($i=0; $i < sizeof($catquery2); $i++) { //loop through the array  and fill $stuarray with the cat_id
+  $stuarray[]=$catquery2[$i]['cat_id'];
+}
+print_r($stuarray);
+
+$result = array_diff($catarray, $stuarray);  // compare the two arrays and then print the result
+print_r($result);
+
 ?>
 <!DOCTYPE html>
 <html>
