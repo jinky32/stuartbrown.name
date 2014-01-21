@@ -45,6 +45,16 @@ function query2($query, $conn)
 	return $results ? $results : false;
 }
 
+function delete($query, $conn)
+{
+	$stmt = $conn->prepare($query);
+	$stmt->execute();
+
+	//$results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+	return $results ? $results : false;
+}
+
 
 function get($tableName, $conn)
 {
