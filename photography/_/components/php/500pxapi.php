@@ -89,13 +89,24 @@ if (!empty($photos_database)){  //if there are values in the images table
 
   $photodiff = array_diff($photoarray_database_combined, $combined);  // compare the two arrays and then print the result.  Values of $combined are the master since they come from api.
 
-  // print_r($photodiff);
+  //print_r($photodiff);
   //if there are differences between the two arrays then remove from database.  Additions are delat with thorugh the initial insert which deals with ON DUPLICATE KEY 
   if($photodiff){ // if there is a difference use that cat_id in a delete statement
     foreach ($photodiff as $key => $value) { //break apart array to get cat_id value
       $photodelete=delete("DELETE FROM images where cat_id=$value",$conn);
     }
-    
+    if ( $conn ) {
+      $image_cat_query=query2("SELECT * FROM images WHERE cat_id=$value", 
+      $conn);
+      if (empty($image_cat_query)) {
+        $deletecategory=delete("DELETE FROM categories where cat_id=$value",$conn);
+      }
+} else {
+      print "could not connect to the database";
+}
+   
+
+
   }
 
 }
@@ -103,8 +114,8 @@ if (!empty($photos_database)){  //if there are values in the images table
 
 //then select from the table and use the results to get a unique array_unique() as below.
 
-$photoarray_database=array_unique($photoarray_database); //make photoarray_database contian only unique category ID from API in order to create primary nav labels
-
+$photoarray_database=array_unique($photoarray_database); //make photoarray_database contian only unique category ID from db in order to create primary nav labels
+//print_r($photoarray_database);
 $catkeys = array(); //initiate $catkeys array
 foreach($photoarray_database as $key => $value){ //loop through $photoarray_database
   $catkeys[$value] = ""; // assign $value (e.g. 9, 12 , 24 etc) as the key and give each an empty value.
