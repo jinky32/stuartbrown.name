@@ -29,7 +29,7 @@ include "_/components/php/500pxapi.php";
                     <a href='#' class='dropdown-toggle' data-toggle='dropdown'>$label <b class='caret'></b>
                     </a><ul class='dropdown-menu'>";
             
-              foreach ($combined as $key => $value) {
+              foreach ($photoarray_database_combined as $key => $value) {
                     if($id==$value){
                       print "<li><a tabindex='-1' href='page2.php?title=$key'>$key</a></li>";
                     }

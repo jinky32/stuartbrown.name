@@ -1,6 +1,8 @@
 <?php namespace Photo\DB;
 require "_/components/php/500pxhardcoded.php";
 
+
+
     $comsumer_key = 'I9CDYnaxrFxLTEvYxTmsDKZQlgStyLNQkmtOKGKb';
     $username = 'jinky32';
     $count = 14;
@@ -44,6 +46,8 @@ foreach ($obj->photos as $photos_500px){ //loop through photos and set values of
     }
     $combined=array_combine($photoname, $nonunique); 
 
+    //print_r($combined);
+
 
 //break apart the $combined array and insert the values into the database.  The db then contains all the items 
 //from 500px that i have favourited.
@@ -79,31 +83,35 @@ if (!empty($photos_database)){  //if there are values in the images table
     $photoarray_database[]=$photos_database[$i]['cat_id'];
     $photoarray_database_label[]=$photos_database[$i]['photo_title'];
   }
-  //print_r($photoarray_database);
+  // print_r($photoarray_database);
   // print_r($photoarray_database_label);
 
 
   $photoarray_database_combined=array_combine($photoarray_database_label, $photoarray_database); // combine the values into a new array.  This is used to compare with the images returned from the 500px api with the images from the database.
+  // print "photoarray_database_combined";
   // print_r($photoarray_database_combined);
-  // print_r($categories);
+  // print "combined";
+  // print_r($combined);
 
-  $photodiff = array_diff($photoarray_database_combined, $combined);  // compare the two arrays and then print the result.  Values of $combined are the master since they come from api.
-
-  //print_r($photodiff);
+  $photodiff = array_diff_assoc($photoarray_database_combined, $combined);  // compare the two arrays and then print the result.  Values of $combined are the master since they come from api.
+// print "photodiff";
+//   print_r($photodiff);
   //if there are differences between the two arrays then remove from database.  Additions are delat with thorugh the initial insert which deals with ON DUPLICATE KEY 
   if($photodiff){ // if there is a difference use that cat_id in a delete statement
     foreach ($photodiff as $key => $value) { //break apart array to get cat_id value
       $photodelete=delete("DELETE FROM images where cat_id=$value",$conn);
     }
-    if ( $conn ) {
-      $image_cat_query=query2("SELECT * FROM images WHERE cat_id=$value", 
-      $conn);
-      if (empty($image_cat_query)) {
-        $deletecategory=delete("DELETE FROM categories where cat_id=$value",$conn);
-      }
-} else {
-      print "could not connect to the database";
-}
+    //I SHOULD DELETE THE BELOW BECUASE I DON'T WANT TO REMOVE FROM CATGEORIES TABLE. I ACTUALLY WANT TO DELETE FROM
+    //PRIMARY NAV IS THE ARRAY_INTERSECT DOESN'T CONTAIN THE VALUE.
+//     if ( $conn ) {
+//       $image_cat_query=query2("SELECT * FROM images WHERE cat_id=$value", 
+//       $conn);
+//       if (empty($image_cat_query)) {
+//         $deletecategory=delete("DELETE FROM categories where cat_id=$value",$conn);
+//       }
+// } else {
+//       print "could not connect to the database";
+// }
    
 
 
@@ -111,17 +119,17 @@ if (!empty($photos_database)){  //if there are values in the images table
 
 }
 
-
-//then select from the table and use the results to get a unique array_unique() as below.
-
-$photoarray_database=array_unique($photoarray_database); //make photoarray_database contian only unique category ID from db in order to create primary nav labels
-//print_r($photoarray_database);
+//I THINK THE ISSUE IS THAT ALTHOUGH THE PHOTO IS DELETED FROM THE DB, FOR SOME REASON $INTERSECT STILL THINKS THAT THERE IS AN IMAGE WITH A 
+//CAT_ID THAT MATCHED A LABEL IN THE CATEGORIES TABLE
+$photoarray_database=array_unique($photoarray_database); //make photoarray_database_combined contian only unique category ID from db in order to create primary nav labels
+//print_r($photoarray_database_combined);
 $catkeys = array(); //initiate $catkeys array
-foreach($photoarray_database as $key => $value){ //loop through $photoarray_database
+foreach($photoarray_database_combined as $key => $value){ //loop through $photoarray_database_combined
   $catkeys[$value] = ""; // assign $value (e.g. 9, 12 , 24 etc) as the key and give each an empty value.
 }
 
 $intersect = array_intersect_key($catarray_database_combined, $catkeys); //create an array of the items in $catarray_database_combined (from 500pxhardcoded.php) and $catkeys that 
 //are the same.  This is what will go into the primary nav
+print_r($intersect);
 
 ?>
