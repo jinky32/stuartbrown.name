@@ -1,9 +1,10 @@
 <?php namespace Photo\DB;
 
-            require "_/components/php/functions.php";
+            
               //include "_/components/php/header.php";
-              include "_/components/php/youtubeapi.php";
-              $conn = connect($config);
+              //include "_/components/php/youtubeapi.php";
+// require "_/components/php/functions.php";
+//               $conn = connect($config);
 
        //create as array of the 500px categories and category ID.  Only ID is returned in the API array so the label needs to be matched later
 $sitecategories = array(

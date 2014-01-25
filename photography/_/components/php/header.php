@@ -1,5 +1,10 @@
-<?php
-include "_/components/php/500pxapi.php";
+<?php namespace Photo\DB;
+
+
+require "_/components/php/functions.php";
+              $conn = connect($config);
+              include "_/components/php/500pxapi.php";
+include "_/components/php/youtubeapi.php";
 ?>
 <div class="content row">
 	<div class="col-lg-12">
@@ -31,7 +36,7 @@ include "_/components/php/500pxapi.php";
             
               foreach ($photoarray_database_combined as $key => $value) {
                     if($id==$value){
-                      print "<li><a tabindex='-1' href='page2.php?title=$key'>$key</a></li>";
+                      print "<li><a tabindex='-1' href='page2.php?category=$label&title=$key'>$key</a></li>";
                     }
                     
                     }

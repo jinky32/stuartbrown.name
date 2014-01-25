@@ -109,8 +109,8 @@ if (!empty($photos_database)){  //if there are values in the images table
 
 
   $photodiff = array_diff_assoc($photoarray_database_combined, $combined);  // compare the two arrays and then print the result.  Values of $combined are the master since they come from api.
-print "photodiffhere " . sizeof($photodiff)."<br />";
-print_r($photodiff);
+// print "photodiffhere " . sizeof($photodiff)."<br />";
+// print_r($photodiff);
   //if there are differences between the two arrays then remove from database.  Additions are delat with thorugh the initial insert which deals with ON DUPLICATE KEY 
   if($photodiff){ // if there is a difference use that cat_id in a delete statement
     foreach ($photodiff as $key => $value) { //break apart array to get cat_id value
@@ -127,15 +127,15 @@ print_r($photodiff);
 
       //////////********HERE BEGINS WHERE I RESELECT THINGS FROM THE DATABASE IN ORDER TO FEED NAVIGATION********//////////
 
-//now i think i need to requery the databse because the items in it will be different
+
 //GO BACK INTO THE DATABASE TO GET THE UPDATED LIST OF ITEMS AFTER THE DELETE ABOVE
 if ( $conn ) {
       $photos_database2=query2("SELECT cat_id, photo_title FROM images", 
       $conn);
 
 
-print "photos_database2 " . sizeof($photos_database2)."<br />";
-print_r($photos_database2);
+// print "photos_database2 " . sizeof($photos_database2)."<br />";
+// print_r($photos_database2);
 
   $photoarray_database2=array(); //initiate $photoarray_database
   
@@ -144,8 +144,8 @@ print_r($photos_database2);
     // $photoarray_database_label[]=$photos_database[$i]['photo_title'];
   }
 $photoarray_database2=array_unique($photoarray_database2);
-print "photoarray_database2 " . sizeof($photoarray_database2)."<br />";
-print_r($photoarray_database2);
+// print "photoarray_database2 " . sizeof($photoarray_database2)."<br />";
+// print_r($photoarray_database2);
 
 
 } else {
@@ -167,7 +167,7 @@ foreach($photoarray_database2 as $key => $value){
 
 $intersect = array_intersect_key($catarray_database_combined, $catkeys); //create an array of the items in $catarray_database_combined (from 500pxhardcoded.php) and $catkeys that 
 //are the same.  This is what will go into the primary nav
-print "intersect ". sizeof($intersect)."<br />";
-print_r($intersect);
+// print "intersect ". sizeof($intersect)."<br />";
+// print_r($intersect);
 
 ?>

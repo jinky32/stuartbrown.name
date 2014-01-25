@@ -22,7 +22,7 @@
     <?php 
              // require "_/components/php/functions.php";
               include "_/components/php/header.php";
-              include "_/components/php/youtubeapi.php";
+              // include "_/components/php/youtubeapi.php";
               //$conn = connect($config);
 
 
@@ -119,9 +119,13 @@
             <div class="forms col-lg-6">
             
               
-
                 <?php
+//beginning of youtube integration
+
+
                   $playlist_combined=array_combine($playlist_id, $playlist_title); 
+                  print "playist playlist_combined";
+
                   print "<form method='post' action=''>
                         <select multiple='multiple' class='form-control'  
                          name='playlistselect' id='playlistselect' required='required' style='height: 169px;''>";
@@ -162,6 +166,20 @@
                   }
 
                   $youtube_combined=array_combine($youtube_second_api_call, $video_titles);
+
+                  if($youtube_combined){
+                    if ( $conn ) {
+                  foreach ($youtube_combined as $youtube_combined_key => $youtube_combined_value) {
+                  $combinedquery=query("INSERT INTO videos(video_label, video_url) 
+                  VALUES (:video_label, :video_url)
+                  ON DUPLICATE KEY UPDATE video_label = VALUES(video_label)",
+                  array('video_label'=>$youtube_combined_value, 'video_url'=>$youtube_combined_key), //bind the values
+                  $conn);
+                  }
+                }
+                } else {
+                  //print "<option value='#'>Choose a video</option>";
+                }
 
                 } 
 
