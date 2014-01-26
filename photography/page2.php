@@ -25,75 +25,23 @@
               // include "_/components/php/youtubeapi.php";
               //$conn = connect($config);
 
-
-
-// $catarray_harcoded=array(); //initiate $catarray_harcoded
-// foreach ($sitecategories as $key => $value) { //split $sitecateogres and put the key (cat_id) in an array for comparison to db values below
-// $catarray_harcoded[]=$key; //put the cat_id into an array for comparison to values from the database later.  If in the db but not in the hardcoded we delete from db
-// }
- 
-// //query to db and put in results in $categories_database. may be used later to create primary nav.  Also used to craetea test. if empty we need to insert into db 
-// if ( $conn ) {
-//       $categories_database=query2("SELECT cat_id, label FROM categories", 
-//       $conn);
-// } else {
-//       print "could not connect to the database";
-// }
-//   //print_r($catarray_harcoded); 
-
-// //if (empty($categories_database)){  //if the database is empty insert the values from 500pxapi.php
-
-// //get the $sitecategories array from the 500pxapi file which is included in the header.php file and put into the database
-//   foreach ($sitecategories as $key => $value) {
-//     if ( $conn ) { //break the array apart and pass value for insert to the query() function in functions.php
-//       $catquery=query("INSERT INTO categories(cat_id, label) 
-//         VALUES (:catid, :label)
-//         ON DUPLICATE KEY UPDATE label = VALUES(label)",
-//       array('catid'=>$key, 'label'=>$value), //bind the values
-//       $conn);
-//     } else {
-//       print "could not connect to the database";
-//     }
-//   }
-// //} 
-
-// //the above (lines 48++ need to be uncommented. only out because they will restore all values when index.php loads and affects testing)
-// //the below gets the cat_id from the hard coded categories array and the cat_id from the categories in the database
-// //if there is a difference between the two the difference (a cat_id) should be used to delete a row from the database
-
-
-
-// if (!empty($categories_database)){
-
-//   $catarray_database=array(); //initiate $catarray_database
-  
-//   for ($i=0; $i < sizeof($categories_database); $i++) { //loop through the array  and fill $catarray_database with the cat_id
-//     $catarray_database[]=$categories_database[$i]['cat_id'];
-//   }
-//   //print_r($catarray_database);
-
-//   $result = array_diff($catarray_database, $catarray_harcoded);  // compare the two arrays and then print the result.  Values of $catarray_harcoded are the master since hard coded.
-//   //if the are removed from there they should be removed fro mDB
-//   //print_r($result);
-
-//   if($result){ // if there is a difference between the cat_id in the db and those in the hard coded array then use that cat_id in a 
-//     //delete statement
-//     foreach ($result as $key => $value) { //break apart array to get cat_id value
-//       $deleteitem=delete("DELETE FROM categories where cat_id=$value",$conn);
-//     }
-    
-//   }
-
-// }
-
               
               if(isset($_GET['title'])){
                 $title=$_GET['title'];
-                print "<h1>$title</h1>";
+                $category=$_GET['category'];
+                print "<h1>$title - $category</h1>";
               } else {
                 print "<h1>Hello World!</h1>";
               }
               
+              if ( $conn ) {
+      $image_category_query=query2("SELECT cat_id FROM categories WHERE label = '$category'", 
+      $conn);
+      $image_catid=$image_category_query[0][cat_id];
+    }
+
+      // print_r($image_category_query);
+      // print $image_catid;
 
               $arraykey=array_keys($photoname); 
               // put the keys of $photoname (from 500pxapi.php) into $arraykey.  This will be used below to try and match $title (of image) to its array key.
@@ -170,10 +118,10 @@
                   if($youtube_combined){
                     if ( $conn ) {
                   foreach ($youtube_combined as $youtube_combined_key => $youtube_combined_value) {
-                  $combinedquery=query("INSERT INTO videos(video_label, video_url) 
-                  VALUES (:video_label, :video_url)
+                  $combinedquery=query("INSERT INTO videos(video_label, video_url, pid) 
+                  VALUES (:video_label, :video_url, :pid)
                   ON DUPLICATE KEY UPDATE video_label = VALUES(video_label)",
-                  array('video_label'=>$youtube_combined_value, 'video_url'=>$youtube_combined_key), //bind the values
+                  array('video_label'=>$youtube_combined_value, 'video_url'=>$youtube_combined_key, 'pid'=>$chosen_playlist), //bind the values
                   $conn);
                   }
                 }
@@ -206,23 +154,65 @@
      //IS IT BETTER TO USE SOME FORM OF !EMPTY SO THAT THE VALUES PERSIST IN THE BOX AFTER THEY ARE SELECTED?
                         if(isset($_POST['videoselect'])){
                             foreach ($_POST['videoselect'] as $skey => $yt_embed_url) {
+                              print "this is key $key and this is yt_embed_url $yt_embed_url";
                                 $embed_value=str_replace("https://www.youtube.com/watch?v=", "", $yt_embed_url);
+                                $embed_value="http://www.youtube.com/embed/".$embed_value;
+                                print $embed_value;
                                // print "this is key $embkey and this is yt_embed_url $embed_value<br />";
-                          
+                                if ( $conn ) {
 
-                              
+                                    $combinedquery=query("INSERT INTO vidpicjoin(video_url, cat_id, photo_title, pid) 
+                                    VALUES (:video_url, :cat_id, :photo_title, :pid)
+                                    ON DUPLICATE KEY UPDATE photo_title = VALUES(photo_title)",
+                                    array('video_url'=>$yt_embed_url, 'cat_id'=>$image_catid, 'photo_title'=>$title, 'pid'=>$chosen_playlist), //bind the values
+                                    $conn);
+
+                                    $insert_embed_query=query("UPDATE videos SET video_embed = :video_embed
+                                    WHERE video_url='$yt_embed_url'",
+                                    array('video_embed'=>$embed_value), //bind the values
+                                    $conn);
+
+                                    // UPDATE Users SET weight = 160, desiredWeight = 145 WHERE id = 1;
+
+                                }
+                          
                               print "<div class='content row'>
                           <div class='videos_and_comments col col-lg-12'>
                              <div class='videos col-lg-6'>
-                               <iframe width='420' height='315' src='http://www.youtube.com/embed/".$embed_value."' frameborder='0' allowfullscreen></iframe>
+                               <iframe width='420' height='315' src='$embed_value' frameborder='0' allowfullscreen></iframe>
                              </div>
                              <div class='videos col-lg-6'>
-                              <textarea class='form-control' id='$embed_value' rows='15'></textarea>
+                              <form method='post' action=''>
+                                <textarea class='form-control' name='$embed_value' id='$embed_value' rows='14'></textarea>
+                                <input type='submit' class='btn btn-default' name='youtube_comment' id='youtube_comment' value='submit'>
+                              </form>
+
                              </div>
                            </div>
                          </div> ";
+                         // print "<h2>this is embedvalue $embed_value</h2>";
+                         // if(isset($_POST['youtube_comment'])){
+                            print "<h2>here is ". $_POST['embed_value']. "</h2>";
+                            // print "<h2>".$_POST['$embed_value']."</h2>";
+                        //  }
+                         // $insert_youtbe_comment=query("UPDATE vidpicjoin SET video_comment= :video_comment
+                         //            WHERE video_url='$yt_embed_url' AND photo_title='$title'",
+                         //            array('video_comment'=>$_POST['$embed_value']), //bind the values
+                         //            $conn);
+
                          $i++;
                             }
+// UPDATE vidpicjoin SET video_comment= 'comments n stuff'
+// WHERE video_url='https://www.youtube.com/watch?v=ygdXXjstzd0' AND photo_title='Gotcha!';
+
+
+                            //mysql select to get catid given the cat name from url. then use that id($image_catid) and photoname ($title) to insert 
+                            //$yt_embed_url in video_url in pictures table. can't get playlist ID, but do I need it?
+                            //vidpicjoin table
+
+                //need to sort primary on vidpicjoin to avoid multiple rows of the same
+
+                            //then insert $embed_value into a new column in vodeo table
                         }
 
 
