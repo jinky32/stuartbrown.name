@@ -71,10 +71,6 @@
                 <?php
 //beginning of youtube integration
 
-
-                //  $playlist_combined=array_combine($playlist_id, $playlist_title); 
-                 // print "playist playlist_combined";
-
                   print "<form method='post' action=''>
                         <select multiple='multiple' class='form-control'  
                          name='playlistselect' id='playlistselect' required='required' style='height: 169px;''>";
@@ -172,25 +168,9 @@
                                     WHERE video_url='$yt_embed_url'",
                                     array('video_embed'=>$embed_value), //bind the values
                                     $conn);
-
-                                    // UPDATE Users SET weight = 160, desiredWeight = 145 WHERE id = 1;
-
                                 }
                           
-                              print "<div class='content row'>
-                          <div class='videos_and_comments col col-lg-12'>
-                             <div class='videos col-lg-6'>
-                               <iframe width='420' height='315' src='$embed_value' frameborder='0' allowfullscreen></iframe>
-                             </div>
-                             <div class='videos col-lg-6'>
-                              <form method='post' action=''>
-                                <textarea class='form-control' name='$embed_value'' id='$embed_value' rows='14'></textarea>
-                                <input type='submit' class='btn btn-default' name='youtube_comment' id='youtube_comment' value='submit'>
-                              </form>
-
-                             </div>
-                           </div>
-                         </div> ";
+                             
 
 
                          // //print "<h2>this is embedvalue $embed_value</h2>";
@@ -208,9 +188,51 @@
                          $i++;
                             }
 
+                         if ( $conn ) {
+                                        $youtube_video_database=query2("SELECT video_embed FROM videos, vidpicjoin WHERE vidpicjoin.cat_id=$image_catid
+                                          AND vidpicjoin.photo_title='$title' AND vidpicjoin.video_url=videos.video_url", 
+                                        $conn);
+                                        // print "youtube_video_database";
+                                        // print_r($youtube_video_database);
+                                      $youtube_video_database_embed=array();
+                                      $i=0;
+                                      foreach ($youtube_video_database as $key => $value) {
+                                        foreach ($value as $key => $value) {
+                                           print "<div class='content row'>
+                                              <div class='videos_and_comments col col-lg-12'>
+                                                 <div class='videos col-lg-6'>
+                                                   <iframe width='420' height='315' src='$value' frameborder='0' allowfullscreen></iframe>
+                                                 </div>
+                                                 <div class='videos col-lg-6'>
+                                                  <form method='post' action=''>
+                                                    <textarea class='form-control' name='$value'' id='$value' rows='14'></textarea>
+                                                    <input type='submit' class='btn btn-default' name='youtube_comment' id='youtube_comment' value='submit'>
+                                                  </form>
+
+                                                 </div>
+                                               </div>
+                                             </div> ";
+                                        }
+                                        
+                                      }
+                                       // print "youtube_video_database_embed";
+                                       //  print_r($youtube_video_database_embed);
+
+
+                        } else {
+                              print "could not connect to the database";
+                        }
+
 
                             //then insert $embed_value into a new column in vodeo table
                         }
+
+                        // if ( $conn ) {
+                        //       $youtube_video_database=query2("SELECT cat_id, photo_title FROM images", 
+                        //       $conn);
+                        // } else {
+                        //       print "could not connect to the database";
+                        // }
 
  //print "<h2>this is embedvalue $embed_value</h2>";
                          if(isset($_POST[$embed_value])){
