@@ -15,9 +15,9 @@ foreach ($xml->entry as $playlists) {
 	$playlist_title[]=$playlists->title;
     $playlist_id[]=$playlists->id;
 }
-$playlist_combined2=array_combine($playlist_id, $playlist_title); 
+$playlist_combined=array_combine($playlist_id, $playlist_title); 
 
-foreach($playlist_combined2 as $key => $value){
+foreach($playlist_combined as $key => $value){
 //print "this is key $key and this is value $value <br />";
 	if ( $conn ) { //break the array apart and pass value for insert to the query() function in functions.php
       $youtube_playlist_insert=query("INSERT INTO playlists(playlist_url, playlist_title) 
@@ -29,12 +29,33 @@ foreach($playlist_combined2 as $key => $value){
     else {
       print "could not connect to the database";
     }
-
-
 }
 
+if ( $conn ) {
+      $playlists_database=query2("SELECT playlist_title, playlist_url FROM playlists", 
+      $conn);
+  
+      } else {
+      print "could not connect to the database";
+}
+$playlists_database_title=array();
+$playlists_database_url=array();
+ for ($i=0; $i < sizeof($playlists_database); $i++) { //loop through the array  and fill $photoarray_database with the cat_id
+    $playlists_database_title[]=$playlists_database[$i]['playlist_title'];
+    $playlists_database_url[]=$playlists_database[$i]['playlist_url'];
+    
+  }
 
+  $playlists_database_combined=array_combine($playlists_database_url, $playlists_database_title)
+  // print "playlists_database".sizeof($playlists_database);
+  // print_r($playlists_database);
+  // print "playlists_database_title";
+  // print_r($playlists_database_title);
+  // print "playlists_database_url)";
+  // print_r($playlists_database_url);
 
    
 
 ?>
+
+ 

@@ -1,4 +1,5 @@
 <?php namespace Photo\DB;
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -71,15 +72,15 @@
 //beginning of youtube integration
 
 
-                  $playlist_combined=array_combine($playlist_id, $playlist_title); 
-                  print "playist playlist_combined";
+                //  $playlist_combined=array_combine($playlist_id, $playlist_title); 
+                 // print "playist playlist_combined";
 
                   print "<form method='post' action=''>
                         <select multiple='multiple' class='form-control'  
                          name='playlistselect' id='playlistselect' required='required' style='height: 169px;''>";
-                  foreach($playlist_combined as $key => $value){ // break the array apart to be used in select list 
+                  foreach($playlists_database_combined as $key => $value){ // break the array apart to be used in select list 
                     $key=str_replace("http://gdata.youtube.com/feeds/api/users/jinky32/playlists/","",$key); //I only want the ID
-                    print "<option value='$key'>$value</option>";
+                    print "<option value='".$key."'>".$value."</option>";
                   }
 
                   print "</select>
@@ -154,10 +155,10 @@
      //IS IT BETTER TO USE SOME FORM OF !EMPTY SO THAT THE VALUES PERSIST IN THE BOX AFTER THEY ARE SELECTED?
                         if(isset($_POST['videoselect'])){
                             foreach ($_POST['videoselect'] as $skey => $yt_embed_url) {
-                              print "this is key $key and this is yt_embed_url $yt_embed_url";
+                              //print "this is key $key and this is yt_embed_url $yt_embed_url";
                                 $embed_value=str_replace("https://www.youtube.com/watch?v=", "", $yt_embed_url);
                                 $embed_value="http://www.youtube.com/embed/".$embed_value;
-                                print $embed_value;
+                                //print $embed_value;
                                // print "this is key $embkey and this is yt_embed_url $embed_value<br />";
                                 if ( $conn ) {
 
@@ -183,38 +184,45 @@
                              </div>
                              <div class='videos col-lg-6'>
                               <form method='post' action=''>
-                                <textarea class='form-control' name='$embed_value' id='$embed_value' rows='14'></textarea>
+                                <textarea class='form-control' name='$embed_value'' id='$embed_value' rows='14'></textarea>
                                 <input type='submit' class='btn btn-default' name='youtube_comment' id='youtube_comment' value='submit'>
                               </form>
 
                              </div>
                            </div>
                          </div> ";
-                         // print "<h2>this is embedvalue $embed_value</h2>";
+
+
+                         // //print "<h2>this is embedvalue $embed_value</h2>";
                          // if(isset($_POST['youtube_comment'])){
-                            print "<h2>here is ". $_POST['embed_value']. "</h2>";
-                            // print "<h2>".$_POST['$embed_value']."</h2>";
-                        //  }
-                         // $insert_youtbe_comment=query("UPDATE vidpicjoin SET video_comment= :video_comment
-                         //            WHERE video_url='$yt_embed_url' AND photo_title='$title'",
-                         //            array('video_comment'=>$_POST['$embed_value']), //bind the values
-                         //            $conn);
+                         //  print "<h2>HELLO</h2>"; 
+                         //    // print "<h2>here is ". $_POST['embed_value']. "</h2>";
+                         //    // print "<h2>".$_POST['$embed_value']."</h2>";
+                         
+                         // // $insert_youtbe_comment=query("UPDATE vidpicjoin SET video_comment= :video_comment
+                         // //            WHERE video_url='$yt_embed_url' AND photo_title='$title'",
+                         // //            array('video_comment'=>$_POST['stuartyoutube']), //bind the values
+                         // //            $conn);
+                         // }
 
                          $i++;
                             }
-// UPDATE vidpicjoin SET video_comment= 'comments n stuff'
-// WHERE video_url='https://www.youtube.com/watch?v=ygdXXjstzd0' AND photo_title='Gotcha!';
 
-
-                            //mysql select to get catid given the cat name from url. then use that id($image_catid) and photoname ($title) to insert 
-                            //$yt_embed_url in video_url in pictures table. can't get playlist ID, but do I need it?
-                            //vidpicjoin table
-
-                //need to sort primary on vidpicjoin to avoid multiple rows of the same
 
                             //then insert $embed_value into a new column in vodeo table
                         }
 
+ //print "<h2>this is embedvalue $embed_value</h2>";
+                         if(isset($_POST[$embed_value])){
+                          print "<h2>HELLO</h2>"; 
+                         //    print "<h2>here is ". $_POST['embed_value']. "</h2>";
+                         //    print "<h2>".$_POST['$embed_value']."</h2>";
+                         
+                         // $insert_youtbe_comment=query("UPDATE vidpicjoin SET video_comment= :video_comment
+                         //            WHERE video_url='$yt_embed_url' AND photo_title='$title'",
+                         //            array('video_comment'=>$_POST['youtube_comment']), //bind the values
+                         //            $conn);
+                         }
 
             ?>
 
