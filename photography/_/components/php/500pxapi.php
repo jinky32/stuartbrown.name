@@ -78,6 +78,7 @@ if ( $conn ) {
       print "could not connect to the database";
 }
 
+// print_r($photos_database);
 //below is the same script as used in 500pxhardcoded.php.  It checks the values from 500px api with the values in the database
 //values from 500px api are the master so if there is a difference then the db is updated with api data
 
@@ -133,7 +134,8 @@ if ( $conn ) {
       $photos_database2=query2("SELECT cat_id, photo_title FROM images", 
       $conn);
 
-
+// print "photo_database2";
+// print_r($photo_database2);
 // print "photos_database2 " . sizeof($photos_database2)."<br />";
 // print_r($photos_database2);
 
@@ -146,7 +148,8 @@ if ( $conn ) {
 $photoarray_database2=array_unique($photoarray_database2);
 // print "photoarray_database2 " . sizeof($photoarray_database2)."<br />";
 // print_r($photoarray_database2);
-
+// print "photo_database2";
+// print_r($photo_database2);
 
 } else {
       print "could not connect to the database";
@@ -168,6 +171,8 @@ foreach($photoarray_database2 as $key => $value){
 $intersect = array_intersect_key($catarray_database_combined, $catkeys); //create an array of the items in $catarray_database_combined (from 500pxhardcoded.php) and $catkeys that 
 //are the same.  This is what will go into the primary nav
 // print "intersect ". sizeof($intersect)."<br />";
+// print_r($intersect);
+// print "intersect";
 // print_r($intersect);
 
 ?>

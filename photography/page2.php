@@ -171,14 +171,17 @@
             $i++;
           }
         }
-
+//print gettype($combinedquery);
+      
+        if(isset($_GET['title'])){
         if ( $conn ) {
-          $youtube_video_database=query2("SELECT video_embed FROM videos, vidpicjoin WHERE vidpicjoin.cat_id=$image_catid
-                                          AND vidpicjoin.photo_title='$title' AND vidpicjoin.video_url=videos.video_url", 
-                                          $conn
-                                        );
-            // print "youtube_video_database";
-            // print_r($youtube_video_database);
+                  $youtube_video_database=query2("SELECT video_embed FROM videos, vidpicjoin WHERE vidpicjoin.cat_id=$image_catid
+                                                  AND vidpicjoin.photo_title='$title' AND vidpicjoin.video_url=videos.video_url", 
+                                                  $conn
+                                                );
+
+                    // print "youtube_video_database";
+                    // print_r($youtube_video_database);
 
           $youtube_video_database_embed=array();
           $i=0;
@@ -201,12 +204,14 @@
               }
             }
           }
-          
-           // print "youtube_video_database_embed";
-           //  print_r($youtube_video_database_embed);
-        } else {
-            print "could not connect to the database";
+          } else {
+              print "could not connect to the database";
+          }
         }
+
+              
+
+        
 
 
       // if ( $conn ) {
