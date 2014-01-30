@@ -195,15 +195,29 @@
                      </div>
                      <div class='videos col-lg-6'>
                       <form method='post' action=''>
-                        <textarea class='form-control' name='$value'' id='$value' rows='14'></textarea>
-                        <input type='submit' class='btn btn-default' name='youtube_comment' id='youtube_comment' value='submit'>
+                        <textarea class='form-control' name='$value' id='$value' rows='14'></textarea>
+                        <input type='submit' class='btn btn-default' name='submit' id='youtube_comment' value='submit'>
                       </form>
                     </div>
                    </div>
                  </div> ";
+
+                 // print_r($_POST);
+                  if (isset($_POST['submit']) ) {
+
+ 
+                  $commentinsertquery=insert("UPDATE vidpicjoin SET video_comment = 'blah blah' WHERE cat_id=$image_catid AND photo_title='$title' AND video_url='".$_POST[value]."'",
+                  
+                $conn);
               }
+    
+              }
+            
             }
+        
           }
+
+
           } else {
               print "could not connect to the database";
           }
@@ -222,8 +236,8 @@
       // }
 
       //print "<h2>this is embedvalue $embed_value</h2>";
-       if(isset($_POST[$embed_value])){
-        print "<h2>HELLO</h2>"; 
+       // if(isset($_POST[$embed_value])){
+       //  print "<h2>HELLO</h2>"; 
        //    print "<h2>here is ". $_POST['embed_value']. "</h2>";
        //    print "<h2>".$_POST['$embed_value']."</h2>";
        
@@ -231,7 +245,7 @@
        //            WHERE video_url='$yt_embed_url' AND photo_title='$title'",
        //            array('video_comment'=>$_POST['youtube_comment']), //bind the values
        //            $conn);
-       }
+      // }
 
             ?>
 
