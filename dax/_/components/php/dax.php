@@ -30,50 +30,22 @@
   else {
       print "<p>Currently, No Service Available.</p>";
         } 
-// print_r($dax);
-//var_dump($dax);
-// echo $dax[reportitems]['reportitem'];
-$i=0;
-while (sizeof($dax[reportitems]['reportitem'][0]['column'])>$i) {
-  print $dax[reportitems]['reportitem'][0]['column']['ctitle'];
-  $i++;
-}
 
 
+// $columns=array();
+// for ($i=0; $i <= sizeof($dax[reportitems]['reportitem'][0][columns][column]); $i++) { 
+//   $columns[]=$dax[reportitems]['reportitem'][0][columns][column][$i];
 
+//  print $columns[$i]['ctitle']."<br />";
+//     //print "this is key ". $key . " and this is value" . $value ."<br />";
 
-// echo $dax->reportitems['reportitem']->0->columns['column']->0->ctitle;
-// print_r($dax->reportitems[reportitem]);
-// echo $results[0]->address_components[0]->long_name;
-
-
-
-// $key=array();
-// foreach ($dax[reportitems][reportitem] as $key => $value) {
-//   foreach ($value as $key => $value2) {
-//     foreach ($value2 as $key3 => $value3) {
-//       print "this is key $key3 and this is value $value3<br />";
-//     }
-
-      
-//       }
-//   }
   
 // }
-//print "<h1>$value[columns]</h1>";
 
-// $nonunique=array(); //initiate $nonunique array.  This will hold the full list of category IDs from the 500px API.  $categories below will be used to get only unique IDs in order to create the primary navigation.
 
-// $photoname=array(); // intitiate $photoname array.  Holds the names of the photographs from the API array
 
-// $categories=array(); // intitiate $categories array.  This will be filtered to contain only unique values to drive the primary navigation labels.
 
-// foreach ($dax->photos as $photos_500px){ //loop through photos and set values of arrays
-//     $categories[]=$photos_500px->category;
-//     $nonunique[]=$photos_500px->category;
-//     $photoname[]=$photos_500px->name;
- 
-//     }
-//     $combined=array_combine($photoname, $nonunique); 
+
 
 ?>
+
