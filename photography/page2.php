@@ -180,6 +180,9 @@
                                                   $conn
                                                 );
 
+
+
+
                     // print "youtube_video_database";
                     // print_r($youtube_video_database);
 
@@ -188,6 +191,7 @@
           if($youtube_video_database) {
             foreach ($youtube_video_database as $key => $value) {
               foreach ($value as $key => $value) {
+                $shortvalue=str_replace("http://www.youtube.com/embed/", "", $value);
                 print "<div class='content row'>
                   <div class='videos_and_comments col col-lg-12'>
                      <div class='videos col-lg-6'>
@@ -195,20 +199,34 @@
                      </div>
                      <div class='videos col-lg-6'>
                       <form method='post' action=''>
-                        <textarea class='form-control' name='$value' id='$value' rows='14'></textarea>
+                        <textarea class='form-control' name='$shortvalue' id='$shortvalue' rows='14'>";
+                        $insertvalue= "https://www.youtube.com/watch?v=".$shortvalue;
+                        $result=query2("SELECT video_comment FROM vidpicjoin WHERE cat_id=$image_catid AND photo_title='$title' AND video_url='$insertvalue'", 
+                        $conn);
+                          if ($result) {
+                              print_r($result);
+                          }
+
+                        print "</textarea>
                         <input type='submit' class='btn btn-default' name='submit' id='youtube_comment' value='submit'>
                       </form>
                     </div>
                    </div>
                  </div> ";
 
-                 print_r($_POST);
-                  if (isset($_POST['submit']) ) {
+                 // print_r($_POST);
+                 // print sizeof($_POST);
+                 // print $_POST[0];
+                  if (isset($_POST[$shortvalue]) ) {
+                   
+                    
+                    //print $insertvalue;
 
- 
-                  $commentinsertquery=insert("UPDATE vidpicjoin SET video_comment = 'blah blah' WHERE cat_id=$image_catid AND photo_title='$title' AND video_url='".$_POST[value]."'",
-                  
-                $conn);
+                    $commentinsertquery=query("UPDATE vidpicjoin SET video_comment = :comment WHERE cat_id=$image_catid AND photo_title='$title' AND video_url='$insertvalue'",
+                    array('comment'=>$_POST[$shortvalue]), //bind the values
+                    $conn);
+
+             
               }
     
               }
