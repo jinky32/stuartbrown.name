@@ -54,6 +54,9 @@ foreach ($obj->photos as $photos_500px){ //loop through photos and set values of
 //from 500px that i have favourited.
     foreach ($combined as $key => $value) {
     if ( $conn ) { //break the array apart and pass value for insert to the query() function in functions.php
+      // $key=urlencode($key);
+      //THE URLENCODE ABOVE IS CORRECT IT SEEMS FOR INSERTING AND THEN PRINTING TO MENU TO HEADER.PHP BUT IT SEEMS T AFFECT THE QUERY THAT
+      //BUILDS THE MENU. THE ARRAY_INTERSECT IS AFFECTED? INCORRECT NUMBER OF CATEGORIES ADDED TO MENU
       $combinedquery=query("INSERT INTO images(photo_title, cat_id) 
         VALUES (:photo_title, :cat_id)
         ON DUPLICATE KEY UPDATE photo_title = VALUES(photo_title)",

@@ -204,7 +204,8 @@
                         $result=query2("SELECT video_comment FROM vidpicjoin WHERE cat_id=$image_catid AND photo_title='$title' AND video_url='$insertvalue'", 
                         $conn);
                           if ($result) {
-                              print_r($result);
+                              // print_r($result);
+                            print $result[0][video_comment];
                           }
 
                         print "</textarea>
