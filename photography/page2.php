@@ -175,6 +175,7 @@
       
         if(isset($_GET['title'])){
         if ( $conn ) {
+                  $title=urlencode($title);
                   $youtube_video_database=query2("SELECT video_embed FROM videos, vidpicjoin WHERE vidpicjoin.cat_id=$image_catid
                                                   AND vidpicjoin.photo_title='$title' AND vidpicjoin.video_url=videos.video_url", 
                                                   $conn
@@ -222,7 +223,7 @@
                    
                     
                     //print $insertvalue;
-
+                    $title=urlencode($title);
                     $commentinsertquery=query("UPDATE vidpicjoin SET video_comment = :comment WHERE cat_id=$image_catid AND photo_title='$title' AND video_url='$insertvalue'",
                     array('comment'=>$_POST[$shortvalue]), //bind the values
                     $conn);

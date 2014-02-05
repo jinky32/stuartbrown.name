@@ -36,9 +36,9 @@ include "_/components/php/youtubeapi.php";
             
               foreach ($photoarray_database_combined as $key => $value) {
                     if($id==$value){
-                      // $menu_item=urldecode($key);
+                      $menu_item=urlencode($key);
                       //PERHAPS TRY URLENCODING WHEN INSERTING INTO DB AND THEN URLDECODE ON THE WAY OUT HERE.
-                      print "<li><a tabindex='-1' href='page2.php?category=$label&title=$key'>$key</a></li>";
+                      print "<li><a tabindex='-1' href='page2.php?category=$label&title=$menu_item'>$key</a></li>";
                     }
                     
                     }
