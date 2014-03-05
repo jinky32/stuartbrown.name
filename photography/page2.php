@@ -1,5 +1,4 @@
 <?php namespace Photo\DB;
-
 ?>
 <!DOCTYPE html>
 <html>
