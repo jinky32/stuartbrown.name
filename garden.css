@@ -66,6 +66,15 @@ li.brassicas {
     display: block;
 }
 
+.salad {
+    background:orange;
+}
+
+li.salad {
+    padding:0;
+    display: block;
+}
+
 .legumes {
     background:grey;
 }
