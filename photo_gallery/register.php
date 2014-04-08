@@ -3,13 +3,14 @@
 require_once '_/components/php/core/init.php';
 
 if(Input::exists()){
-	if(var_dump(Token::check(Input::get('token')))){
+	if(Token::check(Input::get('token'))){
 
-		echo 'I have been run';
+		//echo 'I have been run';
 
 		$validate = new Validate();  //instantiate an instance of the class
 		$validation=$validate->check($_POST, array( //check the values
 			//set the requirements for each feld on the forms.  names (eg 'username') must match the name of the input name of the field of the form
+			//these values are checked in the check method of the Validate class (validate.php)
 			'username'=> array(
 				'required'=> true,
 				'min' => 2,
@@ -32,9 +33,30 @@ if(Input::exists()){
 			));
 
 		if($validation->passed()){
-			echo 'passed';
+			$user=new User();
+
+			$salt = Hash::salt(32);
+
+			try { //use the create method of the User class
+				$user->create(array(
+					'username' => Input::get('username'),	
+					'password' => Hash::make(Input::get('password'), $salt),	
+					'salt' => $salt,	
+					'name' => Input::get('name'),	
+					'joined' => date('Y-m-d H:i:s'),	
+					'group' => 1	
+					));
+
+				Session::flash('home','You have been registered and can now log in');
+				header('Location:index.php');
+
+			} catch (Exception $e) {
+				die($e->getMessage());
+			}
 		} else {
-			print_r($validation->errors());
+			foreach($validation->errors() as $error) {
+				echo $error, '<br />';
+			}
 		}
 	}
 }
@@ -62,7 +84,7 @@ if(Input::exists()){
 		<label for="name">Enter your name</label>
 		<input type="text" name="name" value="<?php echo escape(Input::get('name'))?>" id="name">
 	</div>
-	<input type="hidden" name="token" value="<?php echo Token::generate();?>"/>
+	<input type="hidden" name="token" value="<?php echo Token::generate();?>"/> <!--this generates a token used by Token class token.php-->
 	<input type="submit" value="Register">
 
 </form>
