@@ -48,7 +48,7 @@ if(Input::exists()){
 					));
 
 				Session::flash('home','You have been registered and can now log in');
-				Redirect::to(index.php); //based on video at https://www.youtube.com/watch?v=VEzJHww-QwM
+				Redirect::to('index.php'); //based on video at https://www.youtube.com/watch?v=VEzJHww-QwM
 
 			} catch (Exception $e) {
 				die($e->getMessage());

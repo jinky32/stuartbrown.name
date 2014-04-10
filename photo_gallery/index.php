@@ -5,6 +5,8 @@ if(Session::exists('home')){
 	echo '<p>' . Session::flash('home') .'</p>';
 }
 
+echo Session::get(Config::get('session/session_name'));
+
 // $user = DB::getInstance()->get('users', array('username', '=', 'stuart'));
 // $user = DB::getInstance()->update('users', 7, array(
 // 	'username'=> 'tom2',

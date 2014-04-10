@@ -1,13 +1,16 @@
 <?php
-//taken from https://www.youtube.com/watch?v=G3hkHIoDi6M
+//taken from https://www.youtube.com/watch?v=AtivJV-kx5c&list=PLfdtiltiRHWF5Rhuk7k4UAU1_yLAZzhWc&index=18
 //require_once "_/components/php/connect.php";
 class User {
-	private $_db;
+	private $_db,
+			$_data,
+			$_sessionName;
 
 	//use get instance method of db
 	
 	public function __construct($user = null){//define if we want to pass in a user value or not.
 		$this->_db =DB::getInstance(); //connect to the database
+		$this->_sessionName = Config::get('session/session_name');
 	}
 
 	//create a user
@@ -15,6 +18,40 @@ class User {
 		if (!$this->_db->insert('users', $fields)){ //i.e. using the insert method of the DB class.  If it doesn't work throw error
 			throw new Exception('There was a problem creating account');
 		}
+	}
+
+	public function find($user = null){
+		//find user by ID or username.  The below doesn't take account of the fact that we allow users to have numeric usernames. see 
+		//9.30seconds of https://www.youtube.com/watch?v=AtivJV-kx5c&list=PLfdtiltiRHWF5Rhuk7k4UAU1_yLAZzhWc
+		if($user){
+			$field=(is_numeric($user)) ? 'id' : 'username'; //if the value passed ($user) is numeric then assume it is the user id otherwise assume tht its the username
+			//$data represnts what we get back from the db via the DB instance createed n the __construct
+			$data=$this->_db->get('users', array($field, '=', $user));
+
+			if($data->count()){
+				$this->_data = $data->first(); //now $_data contains all of the user's data (first record retrned)
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public function login($username=null, $password=null){
+		//check if user exists
+		$user=$this->find($username);
+		// print_r($this->_data);
+		if($user){
+			if($this->data()->password === Hash::make($password, $this->data()->salt)){
+			Session::put($this->_sessionName, $this->data()->id);
+			return true;
+		 }
+		}
+		
+		return false;
+	}
+
+	private function data(){
+		return $this->_data;
 	}
 
 }
