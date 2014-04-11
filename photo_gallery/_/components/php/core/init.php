@@ -35,4 +35,20 @@ spl_autoload_register(function($class){
 
 require_once '_/components/php/functions/sanitize.php';
 
+//remember functionality below from https://www.youtube.com/watch?v=d8DRVp2kdCc
+if(Cookie::exists(Config::get('remember/cookie_name')) && !Session::exists(Config::get('session/session_name'))){
+	//get the cookie from config
+	$hash = Cookie::get(Config::get('remember/cookie_name'));
+	//check to see if it already exists 
+	$hashCheck = DB::getInstance()->get('users_session', array('hash', '=', $hash));
+
+	if($hashCheck->count()){
+		//find the user and log them in
+		$user = new User($hashCheck->first()->user_id);
+		$user->login();
+	}
+
+}
+
+
 ?>

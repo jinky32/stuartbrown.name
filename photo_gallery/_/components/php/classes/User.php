@@ -1,16 +1,35 @@
 <?php
 //taken from https://www.youtube.com/watch?v=AtivJV-kx5c&list=PLfdtiltiRHWF5Rhuk7k4UAU1_yLAZzhWc&index=18
+//checking signed in status taken from https://www.youtube.com/watch?v=_Hm53TOM30c
 //require_once "_/components/php/connect.php";
 class User {
 	private $_db,
 			$_data,
-			$_sessionName;
+			$_sessionName,
+			$_cookieName,
+			$_isLoggedIn;
 
 	//use get instance method of db
 	
 	public function __construct($user = null){//define if we want to pass in a user value or not.
 		$this->_db =DB::getInstance(); //connect to the database
 		$this->_sessionName = Config::get('session/session_name');
+		$this->_cookieName = Config::get('remember/cookie_name');
+
+		if(!$user) { //this way we can grab any user's details or the curretly logged in user using the same method (just put the user id as a param e.g. User(6))
+			if(Session::exists($this->_sessionName)) {
+				$user=Session::get($this->_sessionName);
+
+				//now check if that user actually exists or not 
+				if($this->find($user)) {
+					$this->_isLoggedIn = true;
+				} else {
+					//process logout
+				}
+			}
+		} else {
+			$this->find($user);
+		}
 	}
 
 	//create a user
@@ -35,24 +54,75 @@ class User {
 		}
 		return false;
 	}
-
-	public function login($username=null, $password=null){
+	//the $remember variable was added to the login method during the video at https://www.youtube.com/watch?v=d8DRVp2kdCc
+	public function login($username=null, $password=null, $remember=false){
 		//check if user exists
-		$user=$this->find($username);
-		// print_r($this->_data);
-		if($user){
-			if($this->data()->password === Hash::make($password, $this->data()->salt)){
+		
+
+// check if a username and password hasnt been defined and if a user exists or not. 
+		if(!$username && !$password && $this->exists()){
+			//log user in
 			Session::put($this->_sessionName, $this->data()->id);
-			return true;
-		 }
+
+		} else {
+			$user=$this->find($username);
+
+
+			// print_r($this->_data);
+			if($user){
+				if($this->data()->password === Hash::make($password, $this->data()->salt)){
+				Session::put($this->_sessionName, $this->data()->id);
+
+				//added from video https://www.youtube.com/watch?v=d8DRVp2kdCc
+				if($remember){ //generate a has, check that it doesn't already exist in the db, and then insert this has in to the db
+					//generate a unique hash
+					$hash= Hash::unique();
+					//check if it is stored in the db or not.  value grabbed from cookie and checked in db and then get user id
+					$hashCheck = $this->_db->get('users_session', array('user_id', '=', $this->data->id));
+					//if no hash in database then insert a record into the db
+					if(!$hashCheck->count()){
+						$this->_db->insert('users_session', array(
+							'user_id' => $this->data()->id,
+							'hash' => $hash //set the has in the database
+							));
+					} else {
+						$hash = $hashCheck->first()->hash;  //otherwise hash is waht is already int he db
+					}
+
+					Cookie::put($this->_cookieName, $hash, Config::get('remember/cookie_expiry'));
+				}
+
+				return true;
+			 }
 		}
+	}
 		
 		return false;
 	}
 
-	private function data(){
+	//below method taken from https://www.youtube.com/watch?v=d8DRVp2kdCc
+	public function exists(){
+		return (!empty($this->_data)) ? true : false;
+	}
+
+	//below method taken from https://www.youtube.com/watch?v=CmqcUJOjJzo&list=PLfdtiltiRHWF5Rhuk7k4UAU1_yLAZzhWc
+	public function logout(){
+		//regenerate the has every time a user logs in via https://www.youtube.com/watch?v=d8DRVp2kdCc
+		$this->_db->delete('users_session', array('user_id', '=', $this->data()->id));
+
+		Session::delete($this->_sessionName);
+		//delete cookie taken from https://www.youtube.com/watch?v=d8DRVp2kdCc 26:49
+		Cookie::delete($this->_cookieName);
+	}
+
+	public function data(){
 		return $this->_data;
 	}
+
+	public function isLoggedIn(){
+		return $this->_isLoggedIn;
+	}
+
 
 }
 
