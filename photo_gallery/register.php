@@ -67,7 +67,7 @@ if(Input::exists()){
 	<div class="field">
 		<label for="username">Username</label>
 		<input type="text" name="username" id="username" value="<?php echo escape(Input::get('username'))?>" autocomplete="off">
-	</form>
+
 	<div>
 
 	<div class="field">

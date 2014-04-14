@@ -13,7 +13,7 @@ if($user->isLoggedIn()){
 <p>Hello <a href="#"><?php echo escape($user->data()->username);?></a>!</p>
 <ul>
 	<li><a href="logout.php">Logout</a></li>
-	<li><a href="#"></a>Something else</li>
+	<li><a href="update.php">update details</a></li>
 	<li><a href="#"></a>Something else</li>
 </ul>
 <?php

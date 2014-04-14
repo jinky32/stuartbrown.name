@@ -1,0 +1,11 @@
+play with validation.  add a new form and use validation class to test again
+
+import json data into database
+
+new fields to a user profile and render them.  
+
+take a look at data method on User class and get a better idea of how it works.
+
+Understand more about hte Config class
+
+Check form inut using Input class
