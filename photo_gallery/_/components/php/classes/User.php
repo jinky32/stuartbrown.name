@@ -114,6 +114,24 @@ class User {
 		return false;
 	}
 
+	//below method is taken from  https://www.youtube.com/watch?v=_Y-3YfVxIas
+	public function hasPermission($key){
+		$group = $this->_db->get('groups', array('id', '=', $this->data()->group));
+		//check if the user is in a group.  then extract permissions
+
+		
+		if($group->count()){
+			$permissions = json_decode($group->first()->permissions, true);
+
+			if($permissions[$key]== true) {
+				return true;
+			}
+		}
+		return false;
+
+	}
+
+
 	//below method taken from https://www.youtube.com/watch?v=d8DRVp2kdCc
 	public function exists(){
 		return (!empty($this->_data)) ? true : false;

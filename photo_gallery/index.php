@@ -17,6 +17,12 @@ if($user->isLoggedIn()){
 	<li><a href="changepassword.php">Change password</a></li>
 </ul>
 <?php
+
+//permission stuff taken from https://www.youtube.com/watch?v=_Y-3YfVxIas
+if($user->hasPermission('moderator')){
+	echo '<p> you are an moderator</p>';
+}
+
 } else {
 	echo '<p>You need to <a href="login.php">login</a> or <a href="register.php">register</a></p>';
 }
