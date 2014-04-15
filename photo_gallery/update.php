@@ -28,6 +28,19 @@ $validate = new Validate();  //instantiate an instance of the class
 
 
 		if($validation->passed()) {
+
+			try {
+				$user->update(array(
+					'name'=>Input::get('name')
+					));
+
+				//session flash taken from https://www.youtube.com/watch?v=KL4oviBqnQk
+				Session::flash('home', 'Your details have been updated');
+				Redirect::to('index.php');
+
+			} catch(Exception $e) {
+				die($e->getMessage());
+			}
 					
 		} else {
 			foreach($validation->errors() as $error) {

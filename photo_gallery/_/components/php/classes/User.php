@@ -32,6 +32,20 @@ class User {
 		}
 	}
 
+	//update method created from https://www.youtube.com/watch?v=KL4oviBqnQk
+	//will call update method of db class.  Including the $id param in the method allows us to update any user record not just the current one (for example if there waws an admin interface)
+	//the first if statement is therefore setting the id based on whether or not the param was provided and if a user is logged in
+	public function update($fields = array(), $id=null){
+		if(!$id && $this->isLoggedIn()){
+			$id=$this->data()->id;
+		}
+
+		if(!$this->_db->update('users', $id, $fields)){
+			throw new Exception('There was an error updating'); 
+		}
+	}
+
+
 	//create a user
 	public function create($fields=array()) {
 		if (!$this->_db->insert('users', $fields)){ //i.e. using the insert method of the DB class.  If it doesn't work throw error
