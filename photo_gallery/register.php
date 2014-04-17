@@ -29,6 +29,13 @@ if(Input::exists()){
 				'required'=> true,
 				'min'=>2,
 				'max'=>50
+				),
+			//I don't think YT nad 500px should be required but below is just testing
+			'youtube'=>array(
+				'required'=>true
+				),
+			'500px'=>array(
+				'required'=>true
 				)
 			));
 
@@ -44,6 +51,8 @@ if(Input::exists()){
 					'salt' => $salt,	
 					'name' => Input::get('name'),	
 					'joined' => date('Y-m-d H:i:s'),	
+					'youtube' => Input::get('youtube'),
+					'500px' => Input::get('500px'),
 					'group' => 1	
 					));
 
@@ -83,6 +92,14 @@ if(Input::exists()){
 	<div class="field">
 		<label for="name">Enter your name</label>
 		<input type="text" name="name" value="<?php echo escape(Input::get('name'))?>" id="name">
+	</div>
+	<div class="field">
+		<label for="youtube">Enter your YouTube username</label>
+		<input type="text" name="youtube" id="youtube">
+	</div>
+	<div class="field">
+		<label for="500px">Enter your 500px username</label>
+		<input type="text" name="500px" id="500px">
 	</div>
 	<input type="hidden" name="token" value="<?php echo Token::generate();?>"/> <!--this generates a token used by Token class token.php-->
 	<input type="submit" value="Register">

@@ -17,4 +17,15 @@ if(!$username = Input::get('user')){
 <p>Full Name: <?php echo escape($data->name);?></p>
 <p>Joined: <?php echo escape($data->joined);?></p>
 
-
+<?php 
+if(escape($data->youtube)){
+	echo '<p>Youtube ID is: ' . $data->youtube .'</p>'; 
+} else {
+	echo '<p>you havent entered a youtube ID.  You can do so by <a href="update.php">Updating your profile</a></p>';
+}
+if(escape($data->fivehundredpx)){
+	echo '<p>500px is: ' . $data->fivehundredpx .'</p>'; 
+} else {
+	echo '<p>you havent entered a 500px ID.  You can do so by <a href="update.php">Updating your profile</a></p>';
+}
+?>
