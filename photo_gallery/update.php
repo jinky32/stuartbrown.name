@@ -67,7 +67,7 @@ $validate = new Validate();  //instantiate an instance of the class
 		<label for="name">500px</label>
 		<input type="text" name="500px" value="<?php echo escape($user->data()->fivehundredpx);?>">
 		<label for="500px_consumerkey">Enter your 500px consumer key</label>
-		<input type="text" name="500px_consumerkey" id="500px_consumerkey">
+		<input type="text" name="500px_consumerkey" id="500px_consumerkey" value="<?php echo escape($user->data()->fivehundredpxconsumerkey);?>">
 		<input type="submit" value="Update">
 		<input type="hidden" name="token" value="<?php echo Token::generate(); ?>">
 	</div>
