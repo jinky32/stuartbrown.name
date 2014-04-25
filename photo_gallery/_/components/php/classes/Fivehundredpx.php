@@ -5,6 +5,7 @@ class Fivehundredpx {
 			$_userFavourites,
 			$_userFavouritesEnd;
 	public static $consumer_key;
+	public static $fivehundredpx;
 	public static $username;
 	public static $userid;
 	public static $nonunique=array(); //initiate $nonunique array.  This will hold the full list of category IDs from the 500px API.  $categories below will be used to get only unique IDs in order to create the primary navigation.
@@ -27,15 +28,17 @@ public function fivehundredUser($userid=null){
 	$username = Input::get('user');
 	$user = new User($username);
 	$data=$user->data(); 
-	//print_r($data);
+	print_r($data);
 	self::$consumer_key = $data->fivehundredpxconsumerkey;
 	self::$username = $data->username;
 	self::$userid = $data->id;
+	self::$fivehundredpx=$data->fivehundredpx;
 	
 }
 
 public function apiString(){
-	return $apistring = $this->_userFavourites.self::$username.$this->_userFavouritesEnd.self::$consumer_key;
+	return $apistring = $this->_userFavourites.self::$fivehundredpx.$this->_userFavouritesEnd.self::$consumer_key;
+
 	}
 
 public function apiConnect($apiString){
@@ -60,6 +63,7 @@ public function apiConnect($apiString){
       print "<p>Currently, No Service Available.</p>";
         } 
    return $obj;
+        
 }
 
 public function picArray($obj){
@@ -70,6 +74,7 @@ public function picArray($obj){
  
     }
    return $combined=array_combine($photoname, $nonunique); 
+   print_r($combined);
 }
 
 public function fiveinsert(){
