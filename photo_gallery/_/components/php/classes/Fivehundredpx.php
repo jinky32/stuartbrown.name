@@ -6,14 +6,16 @@ class Fivehundredpx {
 			$_userFavouritesEnd;
 	public static $consumer_key;
 	public static $username;
+	public static $userid;
 	public static $nonunique=array(); //initiate $nonunique array.  This will hold the full list of category IDs from the 500px API.  $categories below will be used to get only unique IDs in order to create the primary navigation.
 	public static $photoname=array(); // intitiate $photoname array.  Holds the names of the photographs from the API array
 	public static $categories=array(); // intitiate $categories array.  This will be filtered to contain only unique values to drive the primary navigation labels.
-			
+	//public static $combined ='foo';
 
 public function __construct($user = null){//define if we want to pass in a user value or not.
 		$this->_userFavourites = 'https://api.500px.com/v1/photos?feature=user_favorites&username=';
 		$this->_userFavouritesEnd ='&sort=rating&image_size=3&include_store=store_download&include_states=voted&consumer_key=';
+		$this->_db = DB::getInstance();  //set db to getInstance e.g. connect to db
 	}
 
 public function fivehundredUser($userid=null){
@@ -25,8 +27,10 @@ public function fivehundredUser($userid=null){
 	$username = Input::get('user');
 	$user = new User($username);
 	$data=$user->data(); 
+	//print_r($data);
 	self::$consumer_key = $data->fivehundredpxconsumerkey;
 	self::$username = $data->username;
+	self::$userid = $data->id;
 	
 }
 
@@ -65,9 +69,21 @@ public function picArray($obj){
     $photoname[]=$photos_500px->name;
  
     }
-    $combined=array_combine($photoname, $nonunique); 
+   return $combined=array_combine($photoname, $nonunique); 
+}
 
-    print_r($combined);
+public function fiveinsert(){
+	print 'HELLO' . self::$userid;
+	$combined=$this->picArray($this->apiConnect($this->apiString()));
+	foreach($combined as $key => $value){
+		$this->_db->insert('images', array(
+								'photo_title'=>$key,
+								'cat_id'=>$value,
+								'user_id'=>self::$userid
+							
+								)
+						);
+	}
 }
 
 //the below two methods do absolutely nothing!

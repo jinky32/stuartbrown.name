@@ -35,6 +35,9 @@ $fivehundredpx->fivehundredUser();
 //$fivehundredpx->apiString();
 $obj = $fivehundredpx->apiConnect($fivehundredpx->apiString());
 $fivehundredpx->picArray($obj);
+print_r($fivehundredpx->picArray($obj));
+$fivehundredpx->fiveinsert();
+
 
 //$fivehundredpx->api;
 
@@ -42,7 +45,7 @@ $fivehundredpx->picArray($obj);
 
 echo '<p>Your 500px is: ' . $data->fivehundredpx .'</p>'; 
 echo '<p>Your 500px consumer key is: ' . $data->fivehundredpxconsumerkey .'</p>'; 
-echo '<p>THis is from the class: ' . Fivehundredpx::$consumer_key .'</p>'; 
+echo '<p>THis is from the class: ' . Fivehundredpx::$consumer_key .'</p>';
 //echo '<p>THis is from the class: ' . self::consumer_key .'</p>'; 
 
 ?>
