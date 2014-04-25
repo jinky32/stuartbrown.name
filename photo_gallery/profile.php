@@ -28,4 +28,21 @@ if(escape($data->fivehundredpx)){
 } else {
 	echo '<p>you havent entered a 500px ID.  You can do so by <a href="update.php">Updating your profile</a></p>';
 }
+
+$fivehundredpx = new Fivehundredpx;
+$fivehundredpx->fivehundredUser();
+
+//$fivehundredpx->apiString();
+$obj = $fivehundredpx->apiConnect($fivehundredpx->apiString());
+$fivehundredpx->picArray($obj);
+
+//$fivehundredpx->api;
+
+
+
+echo '<p>Your 500px is: ' . $data->fivehundredpx .'</p>'; 
+echo '<p>Your 500px consumer key is: ' . $data->fivehundredpxconsumerkey .'</p>'; 
+echo '<p>THis is from the class: ' . Fivehundredpx::$consumer_key .'</p>'; 
+//echo '<p>THis is from the class: ' . self::consumer_key .'</p>'; 
+
 ?>

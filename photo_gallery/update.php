@@ -36,7 +36,8 @@ $validate = new Validate();  //instantiate an instance of the class
 				$user->update(array(
 					'name'=>Input::get('name'),
 					'youtube'=>Input::get('youtube'),
-					'fivehundredpx'=>Input::get('500px')
+					'fivehundredpx'=>Input::get('500px'),
+					'fivehundredpxconsumerkey' => Input::get('500px_consumerkey')
 					));
 
 				//session flash taken from https://www.youtube.com/watch?v=KL4oviBqnQk
@@ -65,6 +66,8 @@ $validate = new Validate();  //instantiate an instance of the class
 		<input type="text" name="youtube" value="<?php echo escape($user->data()->youtube);?>">
 		<label for="name">500px</label>
 		<input type="text" name="500px" value="<?php echo escape($user->data()->fivehundredpx);?>">
+		<label for="500px_consumerkey">Enter your 500px consumer key</label>
+		<input type="text" name="500px_consumerkey" id="500px_consumerkey">
 		<input type="submit" value="Update">
 		<input type="hidden" name="token" value="<?php echo Token::generate(); ?>">
 	</div>

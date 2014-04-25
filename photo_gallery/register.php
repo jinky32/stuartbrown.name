@@ -46,13 +46,18 @@ if(Input::exists()){
 
 			try { //use the create method of the User class
 				$user->create(array(
-					'username' => Input::get('username'),	
-					'password' => Hash::make(Input::get('password'), $salt),	
-					'salt' => $salt,	
-					'name' => Input::get('name'),	
-					'joined' => date('Y-m-d H:i:s'),	
-					'youtube' => Input::get('youtube'),
-					'500px' => Input::get('500px'),
+				
+					// 'youtube' => Input::get('youtube'),
+					// '500px' => Input::get('500px'),
+					// 'group' => 1	
+					'username' => Input::get('username'),
+					'name'=>Input::get('name'),
+					'password' => Hash::make(Input::get('password'), $salt),
+					'salt' => $salt,		
+					'joined' => date('Y-m-d H:i:s'),
+					'youtube'=>Input::get('youtube'),
+					'fivehundredpx'=>Input::get('500px'),
+					'fivehundredpxconsumerkey' => Input::get('500px_consumerkey'),
 					'group' => 1	
 					));
 
@@ -101,6 +106,11 @@ if(Input::exists()){
 		<label for="500px">Enter your 500px username</label>
 		<input type="text" name="500px" id="500px">
 	</div>
+	<div class="field">
+		<label for="500px_consumerkey">Enter your 500px consumer key</label>
+		<input type="text" name="500px_consumerkey" id="500px_consumerkey">
+	</div>
+
 	<input type="hidden" name="token" value="<?php echo Token::generate();?>"/> <!--this generates a token used by Token class token.php-->
 	<input type="submit" value="Register">
 
