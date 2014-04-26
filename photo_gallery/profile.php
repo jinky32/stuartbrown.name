@@ -34,10 +34,13 @@ $fivehundredpx->fivehundredUser();
 
 
 //$fivehundredpx->apiString();
-$obj = $fivehundredpx->apiConnect($fivehundredpx->apiString());
+// $obj = $fivehundredpx->apiConnect($fivehundredpx->apiString());
+$obj = $fivehundredpx->apiConnect($fivehundredpx->defineEndpoint(user_favourites));
 $fivehundredpx->picArray($obj);
 print_r($fivehundredpx->picArray($obj));
 $fivehundredpx->fiveinsert();
+print 'HERE IT IS!!!!!' . $fivehundredpx->defineEndpoint(user);
+
 
 
 //$fivehundredpx->api;

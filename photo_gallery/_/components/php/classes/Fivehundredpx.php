@@ -13,6 +13,9 @@ class Fivehundredpx {
 	public static $categories=array(); // intitiate $categories array.  This will be filtered to contain only unique values to drive the primary navigation labels.
 	//public static $combined ='foo';
 
+
+//I THINK THE CONSTRUCTOR ONLY NEEDS TO ESTABLISH DB CONNECTION.
+	//THE OTHER VALUES CAN BE SET IN A METHOD BELOW USING CASE / SWITCH IN ORDER TO DETERMINE WHICH API ENDPOINT TO CALL
 public function __construct($user = null){//define if we want to pass in a user value or not.
 		$this->_userFavourites = 'https://api.500px.com/v1/photos?feature=user_favorites&username=';
 		$this->_userFavouritesEnd ='&sort=rating&image_size=3&include_store=store_download&include_states=voted&consumer_key=';
@@ -34,6 +37,24 @@ public function fivehundredUser($userid=null){
 	self::$userid = $data->id;
 	self::$fivehundredpx=$data->fivehundredpx;
 	
+}
+// see https://github.com/500px/api-documentation/blob/master/endpoints/photo/GET_photos.md for the list of phot-related endpints
+// categories at https://github.com/500px/api-documentation/blob/master/basics/formats_and_terms.md#categories.
+// might want to show other photos from users in the same category as theirs that you have favourited 
+// eg https://api.500px.com/v1/photos?feature=user&username=***user**earlmcgraw**/user***category**&only=Black and White****/category***&sort=rating&image_size=3&include_store=store_download&include_states=voted&consumer_key=I9CDYnaxrFxLTEvYxTmsDKZQlgStyLNQkmtOKGKb
+public function defineEndpoint($endpoint){
+	//return 'AND HERE I AM';
+	switch ($endpoint) {
+		case 'user_favourites':
+			return $apistring = 'https://api.500px.com/v1/photos?feature=user_favorites&username=' .self::$fivehundredpx . '&sort=rating&image_size=3&include_store=store_download&include_states=voted&consumer_key=I9CDYnaxrFxLTEvYxTmsDKZQlgStyLNQkmtOKGKb';
+			break;
+		case 'user':
+			return $apistring = 'https://api.500px.com/v1/photos?feature=user&username=' .self::$fivehundredpx . '&sort=rating&image_size=3&include_store=store_download&include_states=voted&consumer_key=I9CDYnaxrFxLTEvYxTmsDKZQlgStyLNQkmtOKGKb';
+			break;		
+		default:
+			return $apistring = 'https://api.500px.com/v1/photos?feature=user_favorites&username=' .self::$fivehundredpx . '&sort=rating&image_size=3&include_store=store_download&include_states=voted&consumer_key=I9CDYnaxrFxLTEvYxTmsDKZQlgStyLNQkmtOKGKb';
+			break;
+	}
 }
 
 public function apiString(){
