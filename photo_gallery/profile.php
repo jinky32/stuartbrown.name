@@ -30,16 +30,16 @@ if(escape($data->fivehundredpx)){
 }
 
 $fivehundredpx = new Fivehundredpx;
-$fivehundredpx->fivehundredUser();
+$fivehundredpx->fhpxUser();
 
 
 //$fivehundredpx->apiString();
 // $obj = $fivehundredpx->apiConnect($fivehundredpx->apiString());
-$obj = $fivehundredpx->apiConnect($fivehundredpx->defineEndpoint(user_favourites));
-$fivehundredpx->picArray($obj);
-print_r($fivehundredpx->picArray($obj));
-$fivehundredpx->fiveinsert();
-print 'HERE IT IS!!!!!' . $fivehundredpx->defineEndpoint(user);
+$obj = $fivehundredpx->fhpxApiConnect($fivehundredpx->fhpxEndpoint(user_favourites));
+$fivehundredpx->fhpxApiArray($obj);
+print_r($fivehundredpx->fhpxApiArray($obj));
+$fivehundredpx->fhpxInsert('user_favorites');
+print 'HERE IT IS!!!!!' . $fivehundredpx->fhpxEndpoint(user);
 
 
 
