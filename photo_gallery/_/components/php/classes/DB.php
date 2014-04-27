@@ -47,6 +47,7 @@ class DB {
 		return $this;  // return the object we are working with
 	}
 
+
 	//to allow you to easily set update, delete etc and from which table
 	public function action($action, $table, $where=array()){
 		if(count($where)===3) { //check if value is 3 cos we need a field an opertor and a value (e.g. 'username', '=', 'alex')
@@ -74,8 +75,18 @@ class DB {
 	public function delete($table, $where){
 		return $this->action('DELETE', $table, $where);
 	}
+
+
+
+
+
+
 //the insert and update methods are created from https://www.youtube.com/watch?v=FCnZsU19jyo&list=PLfdtiltiRHWF5Rhuk7k4UAU1_yLAZzhWc
-	public function insert($table, $fields=array()){ //set the table to insert into and the values to insert
+
+// THE EMPTY $DUPLICATEKEY PARAM IS ADDED BECAUSE OF THE NEEDS OF THE fhpxInsert METHOD IN THE FIVEHUNDREDPX CLASS.
+// AS PER THE COMMENTS THERE $DUPLICATEKEY MAY NEED TO BE AN ARRAY IN ORDER TO ALLOW DIFFERENT USERS TO ENTER THE SAME IMAGE_NAME
+	public function insert($table, $fields=array(), $duplicateKey=''){ //set the table to insert into and the values to insert
+		
 		$keys=array_keys($fields); //store the keys from the key=>value array passed in $fields
 		$values=''; //keeps track of ?s to go int he query
 		$x=1;
@@ -87,8 +98,15 @@ class DB {
 			}
 			$x++;
 		}
+		if($duplicateKey){
+			$sql = "INSERT INTO {$table} (`" .implode('`,`', $keys) ."`) VALUES ({$values}) ON DUPLICATE KEY UPDATE '$duplicateKey' = VALUES('$duplicateKey')";
+		} else {
+			$sql= "INSERT INTO {$table} (`" .implode('`,`', $keys) ."`) VALUES ({$values})";
+		}
 		//explode $keys and use to build sql query
-		$sql= "INSERT INTO {$table} (`" .implode('`,`', $keys) ."`) VALUES ({$values})";
+		//$sql= "INSERT INTO {$table} (`" .implode('`,`', $keys) ."`) VALUES ({$values})";
+		//print "INSERT INTO {$table} (`" .implode('`,`', $keys) ."`) VALUES ({$values}) ON DUPLICATE KEY UPDATE '$duplicateKey' = VALUES('$duplicateKey')";
+		//$sql = "INSERT INTO {$table} (`" .implode('`,`', $keys) ."`) VALUES ({$values}) ON DUPLICATE KEY UPDATE {$duplicateKey} = VALUES({$duplicateKey})";
 		
 		if(!$this->query($sql, $fields)->error()) {
 			return true;

@@ -99,7 +99,12 @@ class Fivehundredpx {
 	   print_r($combined);
 	}
 
-	public function fhpxInsert($feature){
+//this method allows me to set the api endpoint to conenct to using $feature (e.g user_favourites), and also allows me to set
+// a duplicate key to avpid the same image being inserted twice
+//HOWEVER HOW WILL THIS WORK IF THE SAME IMAGE NEEDS TO BE INSERTED FOR TWO DIFFERENT USERS? DOES DUPICATE KEY NEED TO BE AN 
+//ARRAY OF USER AND IMAGE_NAME?
+
+	public function fhpxInsert($feature, $duplicateKey=''){
 		print 'HELLO' . self::$userid;
 		$combined=$this->fhpxApiArray($this->fhpxApiConnect($this->fhpxEndpoint($feature)));
 		foreach($combined as $key => $value){
@@ -107,7 +112,7 @@ class Fivehundredpx {
 								'photo_title'=>$key,
 								'cat_id'=>$value,
 								'user_id'=>self::$userid
-								)
+								), $duplicateKey
 							);
 							}
 	}

@@ -38,7 +38,7 @@ $fivehundredpx->fhpxUser();
 $obj = $fivehundredpx->fhpxApiConnect($fivehundredpx->fhpxEndpoint(user_favourites));
 $fivehundredpx->fhpxApiArray($obj);
 print_r($fivehundredpx->fhpxApiArray($obj));
-$fivehundredpx->fhpxInsert('user_favorites');
+$fivehundredpx->fhpxInsert('user_favorites', 'photo_title');
 print 'HERE IT IS!!!!!' . $fivehundredpx->fhpxEndpoint(user);
 
 
