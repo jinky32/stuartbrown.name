@@ -15,7 +15,7 @@ class DB {
 		} catch (PDOExeption $e) {
 			die($e->getMessage());
 		}
-		
+
 	}
 	
 	public static function getInstance(){ //checks if object is instantiated and we have connected to db (via __construct)
@@ -85,7 +85,7 @@ class DB {
 
 // THE EMPTY $DUPLICATEKEY PARAM IS ADDED BECAUSE OF THE NEEDS OF THE fhpxInsert METHOD IN THE FIVEHUNDREDPX CLASS.
 // AS PER THE COMMENTS THERE $DUPLICATEKEY MAY NEED TO BE AN ARRAY IN ORDER TO ALLOW DIFFERENT USERS TO ENTER THE SAME IMAGE_NAME
-	public function insert($table, $fields=array(), $duplicateKey=''){ //set the table to insert into and the values to insert
+	public function insert($table, $fields=array()){ //set the table to insert into and the values to insert
 		
 		$keys=array_keys($fields); //store the keys from the key=>value array passed in $fields
 		$values=''; //keeps track of ?s to go int he query
@@ -98,18 +98,21 @@ class DB {
 			}
 			$x++;
 		}
-		if($duplicateKey){
-			$sql = "INSERT INTO {$table} (`" .implode('`,`', $keys) ."`) VALUES ({$values}) ON DUPLICATE KEY UPDATE '$duplicateKey' = VALUES('$duplicateKey')";
-		} else {
-			$sql= "INSERT INTO {$table} (`" .implode('`,`', $keys) ."`) VALUES ({$values})";
-		}
+		// if($duplicateKey){
+		// 	$sql = "INSERT INTO {$table} (`" .implode('`,`', $keys) ."`) VALUES ({$values}) ON DUPLICATE KEY UPDATE {$duplicateKey} = VALUES({$duplicateKey})";
+		// 	//$sql = "INSERT INTO {$table} (`" .implode('`,`', $keys) ."`) VALUES ({$values}) ON DUPLICATE KEY UPDATE '$duplicateKey' = VALUES('$duplicateKey')";
+		// } else {
+		// 	$sql= "INSERT INTO {$table} (`" .implode('`,`', $keys) ."`) VALUES ({$values})";
+		// }
 		//explode $keys and use to build sql query
-		//$sql= "INSERT INTO {$table} (`" .implode('`,`', $keys) ."`) VALUES ({$values})";
+		$sql= "INSERT INTO {$table} (`" .implode('`,`', $keys) ."`) VALUES ({$values})";
 		//print "INSERT INTO {$table} (`" .implode('`,`', $keys) ."`) VALUES ({$values}) ON DUPLICATE KEY UPDATE '$duplicateKey' = VALUES('$duplicateKey')";
 		//$sql = "INSERT INTO {$table} (`" .implode('`,`', $keys) ."`) VALUES ({$values}) ON DUPLICATE KEY UPDATE {$duplicateKey} = VALUES({$duplicateKey})";
 		
 		if(!$this->query($sql, $fields)->error()) {
 			return true;
+		} else {
+
 		}
 
 	return false;
@@ -150,6 +153,7 @@ class DB {
 	public function count(){
 		return $this->_count; //default is 0 otherwise set in query method $this->_count = $this->_query->rowCount();
 	}
+
 			
 }	
 

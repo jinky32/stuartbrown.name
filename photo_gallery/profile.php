@@ -28,18 +28,31 @@ if(escape($data->fivehundredpx)){
 } else {
 	echo '<p>you havent entered a 500px ID.  You can do so by <a href="update.php">Updating your profile</a></p>';
 }
+print '<h2>Beginning of 500px play</h2>';
+print 'HERE IT IS!!!!!' . Fivehundredpx::fhpxEndpoint(user);
 
 $fivehundredpx = new Fivehundredpx;
-$fivehundredpx->fhpxUser();
+Fivehundredpx::fhpxUser();
+print '<p>fhpxUser was called above but i don\'t think it prints anything</p><br />';
 
 
 //$fivehundredpx->apiString();
 // $obj = $fivehundredpx->apiConnect($fivehundredpx->apiString());
-$obj = $fivehundredpx->fhpxApiConnect($fivehundredpx->fhpxEndpoint(user_favourites));
-$fivehundredpx->fhpxApiArray($obj);
-print_r($fivehundredpx->fhpxApiArray($obj));
-$fivehundredpx->fhpxInsert('user_favorites', 'photo_title');
+print '<h3>Connect fhpxApiArray</h3>';
+$obj = Fivehundredpx::fhpxApiConnect(Fivehundredpx::fhpxEndpoint(user_favourites));
+Fivehundredpx::fhpxApiArray($obj);
+// $obj = $fivehundredpx->fhpxApiConnect($fivehundredpx->fhpxEndpoint(user_favourites));
+// $fivehundredpx->fhpxApiArray($obj);
+print '<h3>Print-r fhpxApiArray</h3>';
+print_r(Fivehundredpx::fhpxApiArray($obj));
+print '<h3>PInsert values to DB</h3>';
+//$fivehundredpx->fhpxInsert('user_favorites', 'photo_title');
+$fivehundredpx->fhpxInsert('user_favorites');
+print '<h3>This is the endpoint User</h3>';
 print 'HERE IT IS!!!!!' . $fivehundredpx->fhpxEndpoint(user);
+print '<h3>This is the endpoint User-favourites</h3>';
+print 'HERE IT IS!!!!!' . $fivehundredpx->fhpxEndpoint(user_favourites);
+
 
 
 
@@ -50,6 +63,7 @@ print 'HERE IT IS!!!!!' . $fivehundredpx->fhpxEndpoint(user);
 echo '<p>Your 500px is: ' . $data->fivehundredpx .'</p>'; 
 echo '<p>Your 500px consumer key is: ' . $data->fivehundredpxconsumerkey .'</p>'; 
 echo '<p>THis is from the class: ' . Fivehundredpx::$consumer_key .'</p>';
+//echo '<p>THis is from the class: ' . Fivehundredpx::fhpxUser()->$consumer_key .'</p>';
 //echo '<p>THis is from the class: ' . self::consumer_key .'</p>'; 
 
 ?>
