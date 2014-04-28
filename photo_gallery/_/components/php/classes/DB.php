@@ -98,12 +98,7 @@ class DB {
 			}
 			$x++;
 		}
-		// if($duplicateKey){
-		// 	$sql = "INSERT INTO {$table} (`" .implode('`,`', $keys) ."`) VALUES ({$values}) ON DUPLICATE KEY UPDATE {$duplicateKey} = VALUES({$duplicateKey})";
-		// 	//$sql = "INSERT INTO {$table} (`" .implode('`,`', $keys) ."`) VALUES ({$values}) ON DUPLICATE KEY UPDATE '$duplicateKey' = VALUES('$duplicateKey')";
-		// } else {
-		// 	$sql= "INSERT INTO {$table} (`" .implode('`,`', $keys) ."`) VALUES ({$values})";
-		// }
+	
 		//explode $keys and use to build sql query
 		$sql= "INSERT INTO {$table} (`" .implode('`,`', $keys) ."`) VALUES ({$values})";
 		//print "INSERT INTO {$table} (`" .implode('`,`', $keys) ."`) VALUES ({$values}) ON DUPLICATE KEY UPDATE '$duplicateKey' = VALUES('$duplicateKey')";

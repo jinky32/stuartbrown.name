@@ -95,15 +95,15 @@ class Fivehundredpx {
 
 	public function fhpxApiArray($obj){
 		foreach ($obj->photos as $photos_500px){ //loop through photos and set values of arrays
-	    $categories[]=$photos_500px->category;
-	    $nonunique[]=$photos_500px->category;
-	    $photoname[]=$photos_500px->name;
+	    // $categories[]=$photos_500px->category;
+	    // $nonunique[]=$photos_500px->category;
+	    // $photoname[]=$photos_500px->name;
+			$combined[$photos_500px->name]=$photos_500px->category;
 	    }
-	   return $combined=array_combine($photoname, $nonunique); 
+	    return $combined;
+	   //return $combined=array_combine($photoname, $nonunique); 
 	   //$combined=array_combine($photoname, $nonunique);
-	   print_r($combined);
-	  
-	  
+	   print_r($combined); 
 	}
 
 //this method allows me to set the api endpoint to conenct to using $feature (e.g user_favourites), and also allows me to set
@@ -111,7 +111,27 @@ class Fivehundredpx {
 //HOWEVER HOW WILL THIS WORK IF THE SAME IMAGE NEEDS TO BE INSERTED FOR TWO DIFFERENT USERS? DOES DUPICATE KEY NEED TO BE AN 
 //ARRAY OF USER AND IMAGE_NAME?
 
+
+	// 	public function get($table, $where){
+	// 	return $this->action('SELECT *', $table, $where);  // 'SELECT *' here is passed to the $action param in action menthod above
+	// }
+
+	public function fhpxDbUserSelect($fivehundredpx){
+		// print 'here is the DB DATA'.'images_'.$feature;
+		//$data=$this->_db->get('users', array('username', '=', $fivehundredpx));
+		// $this->_db->get('users', array('username', '=', $fivehundredpx))
+		return $dbUserId=$this->_db->get('users', array('username', '=', $fivehundredpx))->first()->id;
+		//print_r($data);
+	}
+
+	// public function fhpxDbImageSelect($feature){
+	// 	// print 'here is the DB DATA'.'images_'.$feature;
+	// 	$images=$this->_db->get('images_'.$feature, array('user_id', '=', self::$dbUserId));
+	// 	print_r($images);
+	// }
+
 	public function fhpxInsert($feature){
+		
 		//print 'HELLO' . self::$userid;
 		$combined=$this->fhpxApiArray($this->fhpxApiConnect($this->fhpxEndpoint($feature)));
 		//$combined=self::$fhpxApiArray(self::$fhpxApiConnect(self::$fhpxEndpoint($feature)));
