@@ -52,6 +52,13 @@ print '<h3>This is the endpoint User</h3>';
 print 'HERE IT IS!!!!!' . $fivehundredpx->fhpxEndpoint(user);
 print '<h3>This is the endpoint User-favourites</h3>';
 print 'HERE IT IS!!!!!' . $fivehundredpx->fhpxEndpoint(user_favourites);
+ //print 'HERE IS USER'. print_r(Fivehundredpx::fhpxUser()->user);
+//  print '<h3>Print-r Test</h3>';
+// print_r(Fivehundredpx::test($obj));
+//  print '<h3>Print-r Photoname</h3>';
+// print_r($fivehundredpx->photoname);
+
+
 
 
 

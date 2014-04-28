@@ -86,15 +86,24 @@ class Fivehundredpx {
 	   return $obj;        
 	}
 
+	// public function test($obj){
+	// 	foreach ($obj->photos as $photos_500px){ //loop through photos and set values of arrays
+	//     print $photos_500px->user->firstname;
+	    
+	//     }
+	// }
+
 	public function fhpxApiArray($obj){
 		foreach ($obj->photos as $photos_500px){ //loop through photos and set values of arrays
 	    $categories[]=$photos_500px->category;
 	    $nonunique[]=$photos_500px->category;
 	    $photoname[]=$photos_500px->name;
-	 
 	    }
 	   return $combined=array_combine($photoname, $nonunique); 
+	   //$combined=array_combine($photoname, $nonunique);
 	   print_r($combined);
+	  
+	  
 	}
 
 //this method allows me to set the api endpoint to conenct to using $feature (e.g user_favourites), and also allows me to set
@@ -107,7 +116,7 @@ class Fivehundredpx {
 		$combined=$this->fhpxApiArray($this->fhpxApiConnect($this->fhpxEndpoint($feature)));
 		//$combined=self::$fhpxApiArray(self::$fhpxApiConnect(self::$fhpxEndpoint($feature)));
 		foreach($combined as $key => $value){
-			$this->_db->insert('images', array(
+			$this->_db->insert('images_'.$feature, array(
 								'photo_title'=>$key,
 								'cat_id'=>$value,
 								'user_id'=>self::$userid
@@ -115,7 +124,6 @@ class Fivehundredpx {
 							);
 							}
 	}
-
 
 
 }
