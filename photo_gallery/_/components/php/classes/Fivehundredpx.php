@@ -3,11 +3,13 @@
 class Fivehundredpx {
 	private $_db,
 			$_userFavourites,
-			$_userFavouritesEnd;
+			$_userFavouritesEnd,
+			$_results;
 	public static $consumer_key;
 	public static $fivehundredpx;
 	public static $username;
 	public static $userid;
+	public static $dbUserId;
 	public static $nonunique=array(); //initiate $nonunique array.  This will hold the full list of category IDs from the 500px API.  $categories below will be used to get only unique IDs in order to create the primary navigation.
 	public static $photoname=array(); // intitiate $photoname array.  Holds the names of the photographs from the API array
 	public static $categories=array(); // intitiate $categories array.  This will be filtered to contain only unique values to drive the primary navigation labels.
@@ -120,15 +122,35 @@ class Fivehundredpx {
 		// print 'here is the DB DATA'.'images_'.$feature;
 		//$data=$this->_db->get('users', array('username', '=', $fivehundredpx));
 		// $this->_db->get('users', array('username', '=', $fivehundredpx))
-		return $dbUserId=$this->_db->get('users', array('username', '=', $fivehundredpx))->first()->id;
+		self::$dbUserId=$this->_db->get('users', array('username', '=', $fivehundredpx))->first()->id;
 		//print_r($data);
+		return self::$dbUserId;
 	}
 
-	// public function fhpxDbImageSelect($feature){
-	// 	// print 'here is the DB DATA'.'images_'.$feature;
-	// 	$images=$this->_db->get('images_'.$feature, array('user_id', '=', self::$dbUserId));
-	// 	print_r($images);
-	// }
+
+	public function fhpxDbImageSelect($feature, $userid){
+		 $images=$this->_db->get('images_'.$feature, array('user_id', '=', $userid))->results(); 
+		 //print_r($images);
+		 for ($i=0; $i < sizeof($images); $i++) { 
+		  $dbImageArray[$images[$i]->photo_title]=$images[$i]->cat_id;
+  		}
+  		return $dbImageArray;
+  		//return true;
+  		//print_r($dbImageArray);
+	} 
+
+	public function fhpxNav($feature, $userid, $obj){
+		if(!count($this->fhpxDbImageSelect($feature, $userid))){
+			$this->fhpxInsert($feature);
+		} else {
+			//print count($this->fhpxDbImageSelect($feature, $userid));
+			//dbarray first
+			//try defining the arrays in array_dif_assoc as public static fhpxDbImageSelect=array() and then calling the below using self::
+			return $difference = array_diff_assoc($this->fhpxDbImageSelect($feature, $userid), $this->fhpxApiArray($obj)); 
+			//print $difference = array_diff_assoc($this->fhpxDbImageSelect($feature, $userid), $this->fhpxApiArray()); 
+		}
+		
+	}
 
 	public function fhpxInsert($feature){
 		
