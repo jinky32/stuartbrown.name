@@ -90,6 +90,14 @@ class Fivehundredpx {
 	   	print_r($combined); 
 	}
 
+	public function fhpDbCategorySelect(){
+		$navRaw = $this->_db->get('categories',array('cat_id','>=',0))->results();
+ 		for ($i=0; $i < sizeof($navRaw); $i++) { 
+      		$nav[$navRaw[$i]->label]=$navRaw[$i]->cat_id;
+    	}
+    	return $nav;
+	}
+
 
 	public function fhpxDbUserSelect($fivehundredpx){
 		self::$dbUserId=$this->_db->get('users', array('username', '=', $fivehundredpx))->first()->id;
@@ -117,6 +125,7 @@ class Fivehundredpx {
     				} 
     		} 
 		}
+		$this->fhpxInsert($feature);
 		return $navItems = $this->fhpxDbImageSelect($feature, $userid);		
 		}
 
