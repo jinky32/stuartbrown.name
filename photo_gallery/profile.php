@@ -58,7 +58,8 @@ print 'HERE IT IS!!!!!' . $fivehundredpx->fhpxEndpoint(user_favourites);
 print '<h3>This is all the usernames</h3>';
 //print 'HERE IT THE USER!!!!!' . $fivehundredpx->fhpxDbUserSelect(jinky32);
 print '<h1>This is the array</h1>';
-//print_r($fivehundredpx->fhpxNav('user_favorites',$fivehundredpx->fhpxDbUserSelect(jinky32)),$this->fhpxApiConnect($this->fhpxEndpoint('user_favorites')));
+//print_r($fivehundredpx->fhpxNav('user_favorites',$fivehundredpx->fhpxDbUserSelect(jinky32),Fivehundredpx::fhpxApiConnect(Fivehundredpx::fhpxEndpoint(user_favourites))));
+print_r($fivehundredpx->fhpxNav('user_favorites',$fivehundredpx->fhpxDbUserSelect(jinky32),Fivehundredpx::fhpxApiConnect(Fivehundredpx::fhpxEndpoint(user_favourites))));
 
 
 
