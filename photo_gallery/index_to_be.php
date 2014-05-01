@@ -1,57 +1,20 @@
-<?php namespace Photo\DB;
-?>
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Bootstrap 101 STuart</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href='http://fonts.googleapis.com/css?family=Bree+Serif|Merriweather:400,300,700,400italic,700italic' rel='stylesheet' type='text/css'>
-    <!-- Bootstrap -->
-    <link href="_/css/bootstrap.css" rel="stylesheet">
-    <link href="_/css/mystyles.css" rel="stylesheet">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-    <![endif]-->
-
-  </head>
-  <body id="page2">
-    <?php 
+<?php 
        // require "_/components/php/functions.php";
         include "_/components/php/header.php";
         // include "_/components/php/youtubeapi.php";
         //$conn = connect($config);
 
         
-        if(isset($_GET['title'])){
-          $title=$_GET['title'];
-          $category=$_GET['category'];
-          print "<h1>$title - $category</h1>";
-        } else {
-          print "<h1>Hello World!</h1>";
-        }
+        // if(isset($_GET['title'])){
+        //   $title=$_GET['title'];
+        //   $category=$_GET['category'];
+        //   print "<h1>$title - $category</h1>";
+        // } else {
+        //   print "<h1>Hello World!</h1>";
+        // }
               
-        if ( $conn ) {
-          $image_category_query=query2("SELECT cat_id FROM categories WHERE label = '$category'", 
-          $conn);
-          $image_catid=$image_category_query[0][cat_id];
-        }
+  
 
-      // print_r($image_category_query);
-      // print $image_catid;
-
-        $arraykey=array_keys($photoname); 
-        // put the keys of $photoname (from 500pxapi.php) into $arraykey.  This will be used below to try and match $title (of image) to its array key.
-
-
-        foreach ($arraykey as $key => $value) { //break apart $arraykey to use the key
-          if($photoname[$key]==$title){ // playlist_combined if the value at position $photoname[key] is the same as current $title.  If it is we know the key of the array in $obj->photos that we want
-            $photoarray=$obj->photos[$key]; // the playlist_combined has returned true.  Now grab the whole array for that photo and put it in $photarray.
-          } 
-        }
 //MIGHT WANT TO ADD SOME MORE INFORMATION ON THE PHOTO - FOR EXAMPLE THE PHOTOGRAPHER, LINK BACK TO 500PX ETC ETC. ALL THIS IS IN $PHOTOARRAY()?
     ?>
     

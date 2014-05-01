@@ -85,6 +85,7 @@ class Fivehundredpx {
 	public function fhpxApiArray($obj){
 		foreach ($obj->photos as $photos_500px){ //loop through photos and set values of arrays
 			$combined[$photos_500px->name]=$photos_500px->category;
+			// $combined[$photos_500px->category]=$photos_500px->name;
 	    }
 	    return $combined;
 	   	print_r($combined); 
@@ -109,12 +110,14 @@ class Fivehundredpx {
 		 $images=$this->_db->get('images_'.$feature, array('user_id', '=', $userid))->results(); 
 		 for ($i=0; $i < sizeof($images); $i++) { 
 		  $dbImageArray[$images[$i]->photo_title]=$images[$i]->cat_id;
+		 	// $dbImageArray[cat_id]=$images[$i]->$images[$i]->photo_title;
   		}
   		return $dbImageArray;
 	} 
 
 
-	public function fhpxNav($feature, $userid, $obj){
+	public function fhpApiDbSync($feature, $userid, $obj){
+	//public function fhpxNav($feature, $userid, $obj){
 		if(!count($this->fhpxDbImageSelect($feature, $userid))){
 			$this->fhpxInsert($feature);
 		} else {
@@ -127,7 +130,16 @@ class Fivehundredpx {
 		}
 		$this->fhpxInsert($feature);
 		return $navItems = $this->fhpxDbImageSelect($feature, $userid);		
+		
 		}
+
+
+	public function fhpxNav(){
+		return $intersect = array_intersect($this->fhpDbCategorySelect(), 
+											$this->fhpApiDbSync('user_favorites',
+												$this->fhpxDbUserSelect(jinky32),
+												$this->fhpxApiConnect($this->fhpxEndpoint(user_favourites)))); 
+	}
 
 	
 	public function fhpxInsert($feature){

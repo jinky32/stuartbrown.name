@@ -1,3 +1,6 @@
+<?php
+  require_once '_/components/php/core/init.php';
+  ?>
 <!DOCTYPE html>
 <html>
   <head>
