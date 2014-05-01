@@ -1,25 +1,28 @@
-<?php 
-       // require "_/components/php/functions.php";
-        include "_/components/php/header.php";
-        include "_/components/php/500nav.php";
-        // include "_/components/php/youtubeapi.php";
-        //$conn = connect($config);
+<?php
+include "_/components/php/500nav.php";
 
-        
-        // if(isset($_GET['title'])){
-        //   $title=$_GET['title'];
-        //   $category=$_GET['category'];
-        //   print "<h1>$title - $category</h1>";
-        // } else {
-        //   print "<h1>Hello World!</h1>";
-        // }
-              
-  
+//THESE SWITCH STATEMENTS SHOULD GO INTO THE INPUT CLASS AS A METHOD AND BE REMOVED FROM THESE FILES 
 
-//MIGHT WANT TO ADD SOME MORE INFORMATION ON THE PHOTO - FOR EXAMPLE THE PHOTOGRAPHER, LINK BACK TO 500PX ETC ETC. ALL THIS IS IN $PHOTOARRAY()?
-    ?>
-    
-    <div class="container">
+if(Input::get('service') && !Input::get('feature')) {
+	  	print '<h1>'.Input::get('service').'</h1>';
+	} else {
+	  		print '<h1>'. Input::get('service').' '.Input::get('feature').'</h1>';
+	} 
+
+
+switch (Input::get('feature')) {
+	case 'user_favorites':
+		include "_/components/php/500px.php";
+		break;
+	
+	default:
+		print '<h2>this should appear on the 500px page but not user favorites</h2>';
+		break;
+} 
+
+?>
+
+<div class="container">
       <div class="jumbotron">
       <?php //print the selected image into the bootstrap jumbotron. str_replace to get larger iage
           print '<img src=\''.str_replace('/3.', '/4.', $photoarray->image_url).'\' class=\'img-responsive img-rounded img-centred\');>';
@@ -206,30 +209,6 @@
           }
         }
 
-              
-//here is a comment for testing github
-        //here is another git 
-        
-
-
-      // if ( $conn ) {
-      //       $youtube_video_database=query2("SELECT cat_id, photo_title FROM images", 
-      //       $conn);
-      // } else {
-      //       print "could not connect to the database";
-      // }
-
-      //print "<h2>this is embedvalue $embed_value</h2>";
-       // if(isset($_POST[$embed_value])){
-       //  print "<h2>HELLO</h2>"; 
-       //    print "<h2>here is ". $_POST['embed_value']. "</h2>";
-       //    print "<h2>".$_POST['$embed_value']."</h2>";
-       
-       // $insert_youtbe_comment=query("UPDATE vidpicjoin SET video_comment= :video_comment
-       //            WHERE video_url='$yt_embed_url' AND photo_title='$title'",
-       //            array('video_comment'=>$_POST['youtube_comment']), //bind the values
-       //            $conn);
-      // }
 
             ?>
 

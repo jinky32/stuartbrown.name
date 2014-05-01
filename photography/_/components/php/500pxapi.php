@@ -150,7 +150,7 @@ if ( $conn ) {
   }
 $photoarray_database2=array_unique($photoarray_database2);
 // print "photoarray_database2 " . sizeof($photoarray_database2)."<br />";
-// print_r($photoarray_database2);
+print_r($photoarray_database2);
 // print "photo_database2";
 // print_r($photo_database2);
 

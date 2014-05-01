@@ -1,7 +1,3 @@
-		<header class="clearfix">
-			<section id="branding">
-				<a href="index.php"><img src="http://www.open.ac.uk/oudigital/headerandfooter/assets/img/ou-logo.png" alt="Logo for Roux Conference"></a>
-			</section><!-- branding -->
 			<nav class="navbar navbar-default" role="navigation">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -53,4 +49,3 @@ $intersect = $fivehundredpx->fhpxNav();
 
         </div><!-- /.navbar-collapse -->
       </nav>
-		</header><!-- header -->

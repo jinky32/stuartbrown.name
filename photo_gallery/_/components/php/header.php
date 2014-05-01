@@ -24,11 +24,54 @@
 	<div class="col-lg-12">
   <?php
   require_once '_/components/php/core/init.php';
-  include "_/components/php/500nav.php";
   ?>
 
 	</div><!-- column -->
 </div><!-- content -->
+  <header class="clearfix">
+    <section id="branding">
+      <a href="index.php"><img src="http://www.open.ac.uk/oudigital/headerandfooter/assets/img/ou-logo.png" alt="Logo for Roux Conference"></a>
+    <?php
+require_once '_/components/php/core/init.php';
+
+if(Session::exists('home')){
+  echo '<p>' . Session::flash('home') .'</p>';
+}
+
+$user= new User();
+//echo $user->data()->username;  //this will get the username using the data method of the User class
+
+if($user->isLoggedIn()){
+?>
+
+<a href="profile.php?user=<?php echo escape($user->data()->username);?>" class="btn btn-default btn-success btn-lg"><span class="glyphicon glyphicon-user"></span> <?php echo escape($user->data()->username);?></a>
+<a href="update.php" class="btn btn-default btn-info btn-sm"><span class="glyphicon glyphicon-pencil"></span> Update details</a>
+<a href="changepassword.php" class="btn btn-default btn-info btn-sm"><span class="glyphicon glyphicon-pencil"></span> Change password</a>
+<a href="logout.php" class="btn btn-default btn-danger btn-sm"><span class="glyphicon glyphicon-off"></span> Logout</a>
+<div class="btn-group">
+<a href="profile.php?user=<?php echo escape($user->data()->username);?>&service=500px" class="btn btn-default btn-warning btn-sm"><span class="glyphicon glyphicon-camera"></span> 500px</a>
+  <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown">
+    <span class="caret"></span>
+    <span class="sr-only">Toggle Dropdown</span>
+  </button>
+  <ul class="dropdown-menu" role="menu">
+    <li><a href="profile.php?user=jinky32&service=500px&feature=user_favorites">User Favourites</a></li>
+  </ul>
+</div>
+<a href="profile.php?user=<?php echo escape($user->data()->username);?>&service=youtube" class="btn btn-default btn-warning btn-sm"><span class="glyphicon glyphicon-film"></span> YouTube</a>
+
+<?php
+} else {?>
+<a href="login.php" class="btn btn-default btn-success btn-sm"><span class="glyphicon glyphicon-ok"></span> Login</a>  <a href="register.php" class="btn btn-default btn-success btn-lg"><span class="glyphicon glyphicon-plus"></span> Register</a>
+
+<?php
+}
+?>
+
+
+
+    </section><!-- branding -->
+   </header><!-- header -->
 
 
 

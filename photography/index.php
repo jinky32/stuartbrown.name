@@ -1,4 +1,4 @@
-// <?php namespace Photo\DB;
+<?php namespace Photo\DB;
 // require "_/components/php/functions.php";
 // include "_/components/php/header.php";
 // $conn = connect($config);
