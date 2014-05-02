@@ -34,7 +34,9 @@ print 'HERE IT IS!!!!!' . Fivehundredpx::fhpxEndpoint(user);
 $fivehundredpx = new Fivehundredpx;
 Fivehundredpx::fhpxUser();
 print '<p>fhpxUser was called above but i don\'t think it prints anything</p><br />';
-
+print '<h1>This is the full API array</h1>';
+$obj = $fivehundredpx->fhpxApiConnect($fivehundredpx->fhpxEndpoint(user_favourites));
+print 'HERE IT IS!!!!!' . $fivehundredpx->newfhpxApiArray($obj);
 
 //$fivehundredpx->apiString();
 // $obj = $fivehundredpx->apiConnect($fivehundredpx->apiString());

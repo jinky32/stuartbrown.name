@@ -55,7 +55,8 @@ if($user->isLoggedIn()){
     <span class="sr-only">Toggle Dropdown</span>
   </button>
   <ul class="dropdown-menu" role="menu">
-    <li><a href="profile.php?user=jinky32&service=500px&feature=user_favorites">User Favourites</a></li>
+    <li><a href="profile.php?user=jinky32&service=500px&feature=user_favorites">User Favourites</a>
+    </li>
   </ul>
 </div>
 <a href="profile.php?user=<?php echo escape($user->data()->username);?>&service=youtube" class="btn btn-default btn-warning btn-sm"><span class="glyphicon glyphicon-film"></span> YouTube</a>

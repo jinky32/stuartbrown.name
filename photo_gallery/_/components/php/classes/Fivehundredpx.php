@@ -88,7 +88,33 @@ class Fivehundredpx {
 			// $combined[$photos_500px->category]=$photos_500px->name;
 	    }
 	    return $combined;
-	   	print_r($combined); 
+	   	//print_r($combined); 
+	}
+
+	public function newfhpxApiArray($obj){
+		$photos = $obj->photos;
+		for ($i=0; $i < sizeof($photos); $i++) { 
+			$photo[$photos[$i]->name] = array(
+				'id'=>$photos[$i]->id,
+				'height'=>$photos[$i]->height,
+				'user_id'=>$photos[$i]->user_id,
+				'username'=>$photos[$i]->user->username,
+				'fullname'=>$photos[$i]->user->fullname,
+				'userpic_url'=>$photos[$i]->user->userpic_url,
+				'description'=>$photos[$i]->description,
+				'times_viewed'=>$photos[$i]->times_viewed,
+				'rating'=>$photos[$i]->rating,
+				'category'=>$photos[$i]->category,
+				'votes_count'=>$photos[$i]->votes_count,
+				'favorites_count'=>$photos[$i]->favorites_count,
+				'comments_count'=>$photos[$i]->comments_count,
+				'image_url'=>$photos[$i]->image_url,
+				'url'=>'http://500px.com'.$photos[$i]->url
+				);
+      		//print 'this is photo name'. $photos[$i]->name . 'and this is photo ID' . $photos[$i]->id . '<br />';
+    	}
+    	return print_r($photo);
+		
 	}
 
 	public function fhpDbCategorySelect(){
