@@ -119,7 +119,7 @@ class Fivehundredpx {
 	}
 
 		public function fhpxInsert($feature){
-		print '<h1>This is the new way!</h1>';
+		//print '<h1>This is the new way!</h1>';
 		$combined=$this->newfhpxApiArray($this->fhpxApiConnect($this->fhpxEndpoint($feature)));
 		for ($i=0; $i < sizeof($combined); $i++) { 
 				foreach($combined as $key => $value){
@@ -154,7 +154,7 @@ class Fivehundredpx {
 					'fullname'=>$images[$i]->fullname,
 					'userpic_url'=>$images[$i]->userpic_url,
 					'description'=>$images[$i]->description,
-					'category'=>$images[$i]->category,
+					'cat_id'=>$images[$i]->cat_id,
 					'image_url'=>$images[$i]->image_url,
 					'url'=>$images[$i]->url
 		 			);
@@ -250,12 +250,10 @@ class Fivehundredpx {
 	// 	}
 
 
-	public function fhpxDbUserSelect($fivehundredpx){
-		$dbUserId=$this->_db->get('users', array('username', '=', $fivehundredpx))->first()->id;
+public function fhpxDbUserSelect($fivehundredpx){
+		self::$dbUserId=$this->_db->get('users', array('username', '=', $fivehundredpx))->first()->id;
 		return self::$dbUserId;
 	}
-
-
 
 
 

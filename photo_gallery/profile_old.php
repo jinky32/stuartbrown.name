@@ -34,9 +34,9 @@ print 'HERE IT IS!!!!!' . Fivehundredpx::fhpxEndpoint(user);
 $fivehundredpx = new Fivehundredpx;
 Fivehundredpx::fhpxUser();
 //print '<p>fhpxUser was called above but i don\'t think it prints anything</p><br />';
-						print '<h1>This is the full API array</h1>';
-						$obj = $fivehundredpx->fhpxApiConnect($fivehundredpx->fhpxEndpoint(user_favourites));
-						print 'HERE IT IS!!!!!' . print_r($fivehundredpx->newfhpxApiArray($obj));
+						// print '<h1>This is the full API array</h1>';
+						// $obj = $fivehundredpx->fhpxApiConnect($fivehundredpx->fhpxEndpoint(user_favourites));
+						// print 'HERE IT IS!!!!!' . print_r($fivehundredpx->newfhpxApiArray($obj));
 
 //$fivehundredpx->apiString();
 // $obj = $fivehundredpx->apiConnect($fivehundredpx->apiString());
@@ -49,9 +49,9 @@ Fivehundredpx::fhpxUser();
 // print_r(Fivehundredpx::fhpxApiArray($obj));
 
 // print_r(Fivehundredpx::fhpxDbImageSelect('user_favorites'));
-						print '<h3>Print-r fhpxDbImageSelect</h3>';
-						$fivehundredpx->fhpxDbImageSelect('user_favorites',$fivehundredpx->fhpxDbUserSelect(jinky32));
-						// // print '<h3>PInsert values to DB</h3>';
+						// print '<h3>Print-r fhpxDbImageSelect</h3>';
+						// print_r($fivehundredpx->fhpxDbImageSelect('user_favorites',$fivehundredpx->fhpxDbUserSelect(jinky32)));
+						// // // print '<h3>PInsert values to DB</h3>';
 //$fivehundredpx->fhpxInsert('user_favorites', 'photo_title');
 
 // print '<h3>This is the endpoint User</h3>';
@@ -62,10 +62,14 @@ print '<h3>This is all the usernames</h3>';
 print 'HERE IT THE USER!!!!!' . $fivehundredpx->fhpxDbUserSelect(jinky32);
 // print '<h1>This is the array</h1>';
 // print_r($fivehundredpx->fhpxNav('user_favorites',$fivehundredpx->fhpxDbUserSelect(jinky32),Fivehundredpx::fhpxApiConnect(Fivehundredpx::fhpxEndpoint(user_favourites))));
-
+//print_r($fivehundredpx->fhpxInsert('user_favorites'));
 //$fivehundredpx->fhpxApiDbSync('user_favorites', $fivehundredpx->fhpxDbUserSelect(jinky32),$fivehundredpx->fhpxApiConnect($fivehundredpx->fhpxEndpoint(user_favourites)));
+// print '<h1>Difference</h1>';
+// print_r($fivehundredpx->fhpApiDbSync('user_favorites', $fivehundredpx->fhpxDbUserSelect(jinky32),$fivehundredpx->fhpxApiConnect($fivehundredpx->fhpxEndpoint(user_favourites))));
 
-//$fivehundredpx->fhpxInsert('user_favorites');
+print '<h1>nav items</h1>';
+print_r($fivehundredpx->fhpApiDbSync('user_favorites', $fivehundredpx->fhpxDbUserSelect(jinky32),$fivehundredpx->fhpxApiConnect($fivehundredpx->fhpxEndpoint(user_favourites))));
+
 
 //print_r($fivehundredpx->fhpxNav('user_favorites',$fivehundredpx->fhpxDbUserSelect(jinky32),Fivehundredpx::fhpxApiConnect(Fivehundredpx::fhpxEndpoint(user_favourites))));
 
