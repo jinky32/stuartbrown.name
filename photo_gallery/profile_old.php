@@ -40,9 +40,9 @@ Fivehundredpx::fhpxUser();
 
 //$fivehundredpx->apiString();
 // $obj = $fivehundredpx->apiConnect($fivehundredpx->apiString());
-// print '<h3>Connect fhpxApiArray</h3>';
-// $obj = Fivehundredpx::fhpxApiConnect(Fivehundredpx::fhpxEndpoint(user_favourites));
-// Fivehundredpx::fhpxApiArray($obj);
+print '<h3>Connect fhpxApiArray</h3>';
+$obj = Fivehundredpx::fhpxApiConnect(Fivehundredpx::fhpxEndpoint(user_favourites));
+print_r(Fivehundredpx::fhpxApiArray($obj));
 // $obj = $fivehundredpx->fhpxApiConnect($fivehundredpx->fhpxEndpoint(user_favourites));
 // $fivehundredpx->fhpxApiArray($obj);
 // print '<h3>Print-r fhpxApiArray</h3>';
@@ -68,10 +68,10 @@ print 'HERE IT THE USER!!!!!' . $fivehundredpx->fhpxDbUserSelect(jinky32);
 // print_r($fivehundredpx->fhpApiDbSync('user_favorites', $fivehundredpx->fhpxDbUserSelect(jinky32),$fivehundredpx->fhpxApiConnect($fivehundredpx->fhpxEndpoint(user_favourites))));
 
 print '<h1>nav items</h1>';
-print_r($fivehundredpx->fhpApiDbSync('user_favorites', $fivehundredpx->fhpxDbUserSelect(jinky32),$fivehundredpx->fhpxApiConnect($fivehundredpx->fhpxEndpoint(user_favourites))));
+//print_r($fivehundredpx->fhpApiDbSync('user_favorites', $fivehundredpx->fhpxDbUserSelect(jinky32),$fivehundredpx->fhpxApiConnect($fivehundredpx->fhpxEndpoint(user_favourites))));
 
 
-//print_r($fivehundredpx->fhpxNav('user_favorites',$fivehundredpx->fhpxDbUserSelect(jinky32),Fivehundredpx::fhpxApiConnect(Fivehundredpx::fhpxEndpoint(user_favourites))));
+print_r($fivehundredpx->fhpxNav('user_favorites',$fivehundredpx->fhpxDbUserSelect(jinky32),Fivehundredpx::fhpxApiConnect(Fivehundredpx::fhpxEndpoint(user_favourites))));
 
 
 

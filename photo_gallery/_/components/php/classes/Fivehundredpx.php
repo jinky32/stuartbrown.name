@@ -90,17 +90,8 @@ class Fivehundredpx {
 		}
 
 
+
 	public function fhpxApiArray($obj){
-		foreach ($obj->photos as $photos_500px){ //loop through photos and set values of arrays
-			$combined[$photos_500px->name]=$photos_500px->category;
-			// $combined[$photos_500px->category]=$photos_500px->name;
-	    }
-	    return $combined;
-	   	//print_r($combined); 
-	}
-
-
-	public function newfhpxApiArray($obj){
 		$photos = $obj->photos;
 		for ($i=0; $i < sizeof($photos); $i++) { 
 			$photo[$photos[$i]->name] = array(
@@ -120,7 +111,7 @@ class Fivehundredpx {
 
 		public function fhpxInsert($feature){
 		//print '<h1>This is the new way!</h1>';
-		$combined=$this->newfhpxApiArray($this->fhpxApiConnect($this->fhpxEndpoint($feature)));
+		$combined=$this->fhpxApiArray($this->fhpxApiConnect($this->fhpxEndpoint($feature)));
 		for ($i=0; $i < sizeof($combined); $i++) { 
 				foreach($combined as $key => $value){
 					// print 'this is key' .$key .'<br />';
@@ -158,46 +149,10 @@ class Fivehundredpx {
 					'image_url'=>$images[$i]->image_url,
 					'url'=>$images[$i]->url
 		 			);
-		 		//$image[$images[$i]->photo_title] = $value[$key];
 		 	};
   		}
   		return $image;
-  		//return $images;
-
-  		// return $dbImageArray;
-
 	} 
-
-	
-      		//print 'this is photo name'. $photos[$i]->name . 'and this is photo ID' . $photos[$i]->id . '<br />';
-    	
-
-// for ($i=0; $i < sizeof($combined); $i++) { 
-// 				foreach($combined as $key => $value){
-// 					// print 'this is key' .$key .'<br />';
-// 					// print 'and this is value-category' .$value[category] .'<br />';
-// 			$this->_db->insert('images_'.$feature, array(
-// 								'photo_title'=>$key,
-// 								'photo_id'=>$value[id],
-// 								'500_user_id'=>$value[user_id],
-// 								'username'=>$value[username],
-// 								'fullname'=>$value[fullname],
-// 								'userpic_url'=>$value[userpic_url],
-// 								'description'=>$value[description],
-// 								'times_viewed'=>$value[times_viewed],
-// 								'rating'=>$value[rating],
-// 								'cat_id'=>$value[category],
-// 								'votes_count'=>$value[votes_count],
-// 								'favorites_count'=>$value[favorites_count],	
-// 								'comments_count'=>$value[comments_count],							
-// 								'user_id'=>self::$userid
-// 								)
-// 							);
-// 				}
-// 			}
-
-
-
 
 
 		public function fhpApiDbSync($feature, $userid, $obj){
@@ -205,7 +160,7 @@ class Fivehundredpx {
 		if(!count($this->fhpxDbImageSelect($feature, $userid))){
 			$this->fhpxInsert($feature);
 		} else {
-			 $difference = array_diff_assoc($this->fhpxDbImageSelect($feature, $userid), $this->newfhpxApiArray($obj)); 
+			 $difference = array_diff_assoc($this->fhpxDbImageSelect($feature, $userid), $this->fhpxApiArray($obj)); 
 			 if($difference){ // if there is a difference use that cat_id in a delete statement
     		foreach ($difference as $key => $value) { //break apart array to get cat_id value
       				$delete = $this->_db->delete('images_'.$feature, array('photo_title', '=', $key));
@@ -213,41 +168,13 @@ class Fivehundredpx {
     		} 
 		}
 		$this->fhpxInsert($feature);
-		return $navItems = $this->fhpxDbImageSelect($feature, $userid);		
-		
+		//$fhpxDbNavArray=array();
+		return $fhpxDbFullArray = $this->fhpxDbImageSelect($feature, $userid);	
+		//return $fhpxDbFullArray = $this->fhpxDbImageSelect($feature, $userid);	
+			
+
+
 		}
-
-
-
-//OLD INSERT METHOD
-	// public function fhpxInsert($feature){
-	// 	$combined=$this->fhpxApiArray($this->fhpxApiConnect($this->fhpxEndpoint($feature)));
-	// 	foreach($combined as $key => $value){
-	// 		$this->_db->insert('images_'.$feature, array(
-	// 							'photo_title'=>$key,
-	// 							'cat_id'=>$value,
-	// 							'user_id'=>self::$userid
-	// 							)
-	// 						);
-	// 	}
-	// }
-//OLD SYNC METHOD
-	// 	public function fhpApiDbSync($feature, $userid, $obj){
-	// //public function fhpxNav($feature, $userid, $obj){
-	// 	if(!count($this->fhpxDbImageSelect($feature, $userid))){
-	// 		$this->fhpxInsert($feature);
-	// 	} else {
-	// 		 $difference = array_diff_assoc($this->fhpxDbImageSelect($feature, $userid), $this->fhpxApiArray($obj)); 
-	// 		 if($difference){ // if there is a difference use that cat_id in a delete statement
- //    			foreach ($difference as $key => $value) { //break apart array to get cat_id value
- //      				$delete = $this->_db->delete('images_'.$feature, array('photo_title', '=', $key));
- //    				} 
- //    		} 
-	// 	}
-	// 	$this->fhpxInsert($feature);
-	// 	return $navItems = $this->fhpxDbImageSelect($feature, $userid);		
-		
-	// 	}
 
 
 public function fhpxDbUserSelect($fivehundredpx){
@@ -256,17 +183,19 @@ public function fhpxDbUserSelect($fivehundredpx){
 	}
 
 
-
 	public function fhpxNav(){
-		return $intersect = array_intersect($this->fhpDbCategorySelect(), 
-											$this->fhpApiDbSync('user_favorites',
-												$this->fhpxDbUserSelect(jinky32),
-												$this->fhpxApiConnect($this->fhpxEndpoint(user_favourites)))); 
+		$test = $this->fhpApiDbSync('user_favorites', $this->fhpxDbUserSelect(jinky32),$this->fhpxApiConnect($this->fhpxEndpoint(user_favourites)));
+
+		for ($i=0; $i < sizeof($test); $i++) { 
+		foreach($test as $key => $value){
+			$fhpxDbNavArray[$key] = $value[cat_id];
+			}
+		return $fhpxDbNavArray;
+		}
+
+		// return $intersect = array_intersect($this->fhpDbCategorySelect(), 
+		// 							$fhpxDbNavArray); 
 	}
-
-	
-	
-
 
 }
 ?>

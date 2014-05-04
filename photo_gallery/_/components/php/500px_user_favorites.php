@@ -2,11 +2,43 @@
 print '<h1>'. Input::get('service').' '.Input::get('feature').'</h1>';
 print '<h2>user favourites from stuart</h2>';
 
-?>
+if(Input::get('title')){
+	 print "<h1>" . Input::get('title')." - " . Input::get('category')."</h1>";
+        } else {
+          print "<h1>Hello World!</h1>";
+        }
+
+              
+        // if ( $conn ) {
+        //   $image_category_query=query2("SELECT cat_id FROM categories WHERE label = '$category'", 
+        //   $conn);
+        //   $image_catid=$image_category_query[0][cat_id];
+        // }
+
+      // print_r($image_category_query);
+      // print $image_catid;
+
+        // $arraykey=array_keys($photoname); 
+        // // put the keys of $photoname (from 500pxapi.php) into $arraykey.  This will be used below to try and match $title (of image) to its array key.
+
+
+        // foreach ($arraykey as $key => $value) { //break apart $arraykey to use the key
+        //   if($photoname[$key]==$title){ // playlist_combined if the value at position $photoname[key] is the same as current $title.  If it is we know the key of the array in $obj->photos that we want
+        //     $photoarray=$obj->photos[$key]; // the playlist_combined has returned true.  Now grab the whole array for that photo and put it in $photarray.
+        //   } 
+        // }
+//MIGHT WANT TO ADD SOME MORE INFORMATION ON THE PHOTO - FOR EXAMPLE THE PHOTOGRAPHER, LINK BACK TO 500PX ETC ETC. ALL THIS IS IN $PHOTOARRAY()?
+    ?>
 <div class="container">
       <div class="jumbotron">
       <?php //print the selected image into the bootstrap jumbotron. str_replace to get larger iage
-          print '<img src=\''.str_replace('/3.', '/4.', $photoarray->image_url).'\' class=\'img-responsive img-rounded img-centred\');>';
+      $images = $fivehundredpx->fhpxDbImageSelect('user_favorites',$fivehundredpx->fhpxDbUserSelect(jinky32));
+		foreach ($images as $key => $value) { 
+			if ($key ==Input::get('title')) {
+				$url = $value[image_url];
+			}
+		}
+          print '<img src=\''.str_replace('/3.', '/4.', $url).'\' class=\'img-responsive img-rounded img-centred\');>';
       ?>
       </div>
       <div class="content row">

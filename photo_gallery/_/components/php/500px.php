@@ -20,5 +20,7 @@ switch (Input::get('feature')) {
 		break;
 } 
 
+print 'hie' . $data->username;
+
 ?>
 

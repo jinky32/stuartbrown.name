@@ -14,15 +14,17 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav">
 <?php
-
-
 $fivehundredpx = new Fivehundredpx;
 Fivehundredpx::fhpxUser();
 $obj = $fivehundredpx->fhpxApiConnect($fivehundredpx->fhpxEndpoint(user_favourites));
 $fivehundredpx->fhpxApiArray($obj);
-$navigationImagesArray = $fivehundredpx->fhpApiDbSync('user_favorites',$fivehundredpx->fhpxDbUserSelect(jinky32),Fivehundredpx::fhpxApiConnect(Fivehundredpx::fhpxEndpoint(user_favourites)));
+$navigationImagesArray = $fivehundredpx->fhpApiDbSync(Input::get('feature'),$fivehundredpx->fhpxDbUserSelect(jinky32),Fivehundredpx::fhpxApiConnect(Fivehundredpx::fhpxEndpoint(user_favourites)));
 $navigationCategoriesArray = $fivehundredpx->fhpDbCategorySelect();
-$intersect = $fivehundredpx->fhpxNav();
+$fhpxDbNavArray = $fivehundredpx->fhpxNav();
+
+$intersect = array_intersect($fivehundredpx->fhpDbCategorySelect(), 
+                  $fhpxDbNavArray); 
+
 
 
 
@@ -33,11 +35,11 @@ $intersect = $fivehundredpx->fhpxNav();
                     </a><ul class='dropdown-menu'>";
       
             
-              foreach ($navigationImagesArray as $key => $value) {
+              foreach ($fhpxDbNavArray as $key => $value) {
                     if($id==$value){
                       $menu_item=urlencode($key);
                       //PERHAPS TRY URLENCODING WHEN INSERTING INTO DB AND THEN URLDECODE ON THE WAY OUT HERE.
-                      print "<li><a tabindex='-1' href='page2.php?category=$label&title=$menu_item'>$key</a></li>";
+                      print "<li><a tabindex='-1' href='profile.php?user=".Input::get(user)."&service=".Input::get(service)."&feature=".Input::get(feature)."&category=$label&title=$key'>$key</a></li>";
                     }
                     
                     }
