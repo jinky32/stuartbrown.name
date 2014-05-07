@@ -20,7 +20,7 @@ switch (Input::get('feature')) {
 		break;
 } 
 
-print 'hie' . $data->username;
+//print 'hie' . $data->username;
 
 ?>
 

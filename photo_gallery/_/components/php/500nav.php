@@ -1,4 +1,4 @@
-			<nav class="navbar navbar-default" role="navigation">
+      <nav class="navbar navbar-default" role="navigation">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -14,17 +14,23 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav">
 <?php
+if(!Input::get(feature)) {
+    $feature = 'user';
+} else {
+  $feature = Input::get(feature);
+}
 $fivehundredpx = new Fivehundredpx;
 Fivehundredpx::fhpxUser();
-$obj = $fivehundredpx->fhpxApiConnect($fivehundredpx->fhpxEndpoint(user_favourites));
+//print 'hello '. Fivehundredpx::$username . 'your userid is ' . Fivehundredpx::$userid;
+$obj = $fivehundredpx->fhpxApiConnect($fivehundredpx->fhpxEndpoint($feature));
 $fivehundredpx->fhpxApiArray($obj);
-$navigationImagesArray = $fivehundredpx->fhpApiDbSync(Input::get('feature'),$fivehundredpx->fhpxDbUserSelect(jinky32),Fivehundredpx::fhpxApiConnect(Fivehundredpx::fhpxEndpoint(user_favourites)));
+$navigationImagesArray = $fivehundredpx->fhpApiDbSync($feature,$fivehundredpx->fhpxDbUserSelect(Input::get(user)),
+                                                  Fivehundredpx::fhpxApiConnect(Fivehundredpx::fhpxEndpoint($feature)));
 $navigationCategoriesArray = $fivehundredpx->fhpDbCategorySelect();
-$fhpxDbNavArray = $fivehundredpx->fhpxNav();
+$fhpxDbNavArray = $fivehundredpx->fhpxNav($feature);
 
 $intersect = array_intersect($fivehundredpx->fhpDbCategorySelect(), 
                   $fhpxDbNavArray); 
-
 
 
 
@@ -39,7 +45,16 @@ $intersect = array_intersect($fivehundredpx->fhpDbCategorySelect(),
                     if($id==$value){
                       $menu_item=urlencode($key);
                       //PERHAPS TRY URLENCODING WHEN INSERTING INTO DB AND THEN URLDECODE ON THE WAY OUT HERE.
-                      print "<li><a tabindex='-1' href='profile.php?user=".Input::get(user)."&service=".Input::get(service)."&feature=".Input::get(feature)."&category=$label&title=$key'>$key</a></li>";
+                      switch ($feature) {
+                        case 'user_favorites':
+                          print "<li><a tabindex='-1' href='profile.php?user=".Input::get(user)."&service=".Input::get(service)."&feature=".Input::get(feature)."&category=$label&title=$key'>$key</a></li>";
+                          break;
+                        
+                        default:
+                          print "<li><a tabindex='-1' href='profile.php?user=".Input::get(user)."&service=".Input::get(service)."&category=$label&title=$key'>$key</a></li>";
+                          break;
+                      }
+                      
                     }
                     
                     }

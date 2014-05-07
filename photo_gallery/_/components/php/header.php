@@ -21,16 +21,16 @@
   </head>
   <body id="page2">
 <div class="content row">
-	<div class="col-lg-12">
-  <?php
-  require_once '_/components/php/core/init.php';
-  ?>
+  <div class="col-lg-12">
+<!--   <?php
+  //require_once '_/components/php/core/init.php';
+  ?> -->
 
-	</div><!-- column -->
+  </div><!-- column -->
 </div><!-- content -->
   <header class="clearfix">
     <section id="branding">
-      <a href="index.php"><img src="http://www.open.ac.uk/oudigital/headerandfooter/assets/img/ou-logo.png" alt="Logo for Roux Conference"></a>
+     
     <?php
 require_once '_/components/php/core/init.php';
 
@@ -39,8 +39,12 @@ if(Session::exists('home')){
 }
 
 $user= new User();
+$fivehundredpx = new Fivehundredpx;
 //echo $user->data()->username;  //this will get the username using the data method of the User class
-
+print '<a href="index.php"><img src="'.str_replace('/1.', '/3.', $user->data()->userpic_url).'" ></a>';
+print $user->data()->id . '<br />';
+// print $data->id . '<br />';
+// print Fivehundredpx::$userid . '<br />';
 if($user->isLoggedIn()){
 ?>
 
@@ -55,17 +59,19 @@ if($user->isLoggedIn()){
     <span class="sr-only">Toggle Dropdown</span>
   </button>
   <ul class="dropdown-menu" role="menu">
-    <li><a href="profile.php?user=jinky32&service=500px&feature=user_favorites">User Favourites</a>
+    <li><a href="profile.php?user=<?php echo Input::get(user);?>&service=500px&feature=user_favorites">User Favourites</a>
     </li>
   </ul>
 </div>
 <a href="profile.php?user=<?php echo escape($user->data()->username);?>&service=youtube" class="btn btn-default btn-warning btn-sm"><span class="glyphicon glyphicon-film"></span> YouTube</a>
+
 
 <?php
 } else {?>
 <a href="login.php" class="btn btn-default btn-success btn-sm"><span class="glyphicon glyphicon-ok"></span> Login</a>  <a href="register.php" class="btn btn-default btn-success btn-lg"><span class="glyphicon glyphicon-plus"></span> Register</a>
 
 <?php
+
 }
 ?>
 
@@ -73,14 +79,3 @@ if($user->isLoggedIn()){
 
     </section><!-- branding -->
    </header><!-- header -->
-
-
-
-
-
-
-
-
-
-
-

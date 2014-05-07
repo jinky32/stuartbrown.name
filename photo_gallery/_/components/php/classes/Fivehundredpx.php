@@ -110,9 +110,10 @@ class Fivehundredpx {
 	}
 
 		public function fhpxInsert($feature){
+		$user = new User;
 		//print '<h1>This is the new way!</h1>';
 		$combined=$this->fhpxApiArray($this->fhpxApiConnect($this->fhpxEndpoint($feature)));
-		for ($i=0; $i < sizeof($combined); $i++) { 
+		for ($i=0; $i < sizeof($combined); $i++) { 							
 				foreach($combined as $key => $value){
 					// print 'this is key' .$key .'<br />';
 					// print 'and this is value-category' .$value[category] .'<br />';
@@ -128,11 +129,35 @@ class Fivehundredpx {
 								'user_id'=>self::$userid
 								)
 							);
+	// $this->_db->update('users', $user->data()->id, array(
+			// $this->_db->update('users', $user->data()->id, array(
+			// 		'userpic_url'=>$value[userpic_url]
+			// 		));
 				}
+
 			}
 	
 		}
 
+
+		// public function fhpxInsertImage($feature){
+		// //print '<h1>This is the new way!</h1>';
+		// //$user = new User(self::$username);
+		// return print_r($combined=$this->fhpxApiArray($this->fhpxApiConnect($this->fhpxEndpoint($feature))));
+		// for ($i=0; $i < sizeof($combined); $i++) { 							
+		// 		foreach($combined as $key => $value){
+		// 			// print 'this is key' .$key .'<br />';
+		// 			// print 'and this is value-category' .$value[category] .'<br />';
+		// 	$user->update(array(
+		// 			'userpic_url'=>$value[userpic_url]
+		// 			));
+				
+
+		// 		}
+
+		// 	}
+	
+		// }
 
 		public function fhpxDbImageSelect($feature, $userid){
 		 $images=$this->_db->get('images_'.$feature, array('user_id', '=', $userid))->results(); 
@@ -177,14 +202,15 @@ class Fivehundredpx {
 		}
 
 
+ 
 public function fhpxDbUserSelect($fivehundredpx){
 		self::$dbUserId=$this->_db->get('users', array('username', '=', $fivehundredpx))->first()->id;
 		return self::$dbUserId;
 	}
 
 
-	public function fhpxNav(){
-		$test = $this->fhpApiDbSync('user_favorites', $this->fhpxDbUserSelect(jinky32),$this->fhpxApiConnect($this->fhpxEndpoint(user_favourites)));
+	public function fhpxNav($feature){
+		$test = $this->fhpApiDbSync($feature, $this->fhpxDbUserSelect(jinky32),$this->fhpxApiConnect($this->fhpxEndpoint($feature)));
 
 		for ($i=0; $i < sizeof($test); $i++) { 
 		foreach($test as $key => $value){

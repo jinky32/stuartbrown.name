@@ -1,6 +1,5 @@
 <?php
 print '<h1>'. Input::get('service').' '.Input::get('feature').'</h1>';
-print '<h2>user favourites from stuart</h2>';
 
 if(Input::get('title')){
 	 print "<h1>" . Input::get('title')." - " . Input::get('category')."</h1>";

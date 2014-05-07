@@ -13,7 +13,7 @@ if(!$username = Input::get('user')){
 		Redirect::to(404);
 	} else { //now we know it does exist set $data to User->data() which returns a users data
 		$data = $user->data();
-		print 'hie' . $data->username;
+		// print 'hie' . $data->username;
 	}}
 
 

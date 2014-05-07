@@ -11,7 +11,8 @@ if(!$username = Input::get('user')){
 		Redirect::to(404);
 	} else { //now we know it does exist set $data to User->data() which returns a users data
 		$data = $user->data();
-	}}
+	}
+}
 ?>
 <h3><?php echo escape($data->username); ?></h3>
 <p>Full Name: <?php echo escape($data->name);?></p>
@@ -74,7 +75,9 @@ print '<h1>nav items</h1>';
 print_r($fivehundredpx->fhpxNav('user_favorites',$fivehundredpx->fhpxDbUserSelect(jinky32),Fivehundredpx::fhpxApiConnect(Fivehundredpx::fhpxEndpoint(user_favourites))));
 
 
-
+if(this)  {
+	print '';
+}
 
 
  //print 'HERE IS USER'. print_r(Fivehundredpx::fhpxUser()->user);
