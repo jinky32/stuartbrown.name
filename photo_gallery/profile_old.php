@@ -92,8 +92,8 @@ if(this)  {
 
 
 //$fivehundredpx->api;
-
-
+print '<h1>here is the new method</h1>';
+print_r($fivehundredpx->fhpxInsertImage($fivehundredpx->fhpxDbUserSelect(Input::get(user))));
 
 echo '<p>Your 500px is: ' . $data->fivehundredpx .'</p>'; 
 echo '<p>Your 500px consumer key is: ' . $data->fivehundredpxconsumerkey .'</p>'; 

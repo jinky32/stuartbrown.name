@@ -140,24 +140,23 @@ class Fivehundredpx {
 		}
 
 
-		// public function fhpxInsertImage($feature){
-		// //print '<h1>This is the new way!</h1>';
-		// //$user = new User(self::$username);
-		// return print_r($combined=$this->fhpxApiArray($this->fhpxApiConnect($this->fhpxEndpoint($feature))));
-		// for ($i=0; $i < sizeof($combined); $i++) { 							
-		// 		foreach($combined as $key => $value){
-		// 			// print 'this is key' .$key .'<br />';
-		// 			// print 'and this is value-category' .$value[category] .'<br />';
-		// 	$user->update(array(
-		// 			'userpic_url'=>$value[userpic_url]
-		// 			));
-				
+		public function fhpxInsertImage($userid){
+			 if($profilePicture=$this->_db->get('images_user', array('user_id', '=', $userid))->results()){
+			 	if(empty($profilePicture[0]->userpic_url))
+					{
+						 //return $profilePicture[0]->userpic_url;
+						$this->_db->update('users', $profilePicture[0]->user_id, array(
+								'userpic_url'=>$profilePicture[0]->userpic_url
+								));
+					} else {
+						//print 'YOU ALREADY HAVE AN IMAGE SET';
+						$DBProfilePicture=$this->_db->get('users', array('id', '=', $userid))->results();
+						return $DBProfilePicture[0]->userpic_url;
+					}
 
-		// 		}
 
-		// 	}
-	
-		// }
+			}
+		}
 
 		public function fhpxDbImageSelect($feature, $userid){
 		 $images=$this->_db->get('images_'.$feature, array('user_id', '=', $userid))->results(); 
