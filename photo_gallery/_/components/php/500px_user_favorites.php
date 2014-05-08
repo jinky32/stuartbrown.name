@@ -31,7 +31,7 @@ if(Input::get('title')){
 <div class="container">
       <div class="jumbotron">
       <?php //print the selected image into the bootstrap jumbotron. str_replace to get larger iage
-      $images = $fivehundredpx->fhpxDbImageSelect('user_favorites',$fivehundredpx->fhpxDbUserSelect(jinky32));
+      $images = $fivehundredpx->fhpxDbImageSelect('user_favorites',$fivehundredpx->fhpxDbUserSelect(Input::get(user)));
 		foreach ($images as $key => $value) { 
 			if ($key ==Input::get('title')) {
 				$url = $value[image_url];

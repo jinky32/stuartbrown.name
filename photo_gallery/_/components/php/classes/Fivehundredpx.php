@@ -110,7 +110,7 @@ class Fivehundredpx {
 	}
 
 		public function fhpxInsert($feature){
-		$user = new User;
+		//$user = new User;
 		//print '<h1>This is the new way!</h1>';
 		$combined=$this->fhpxApiArray($this->fhpxApiConnect($this->fhpxEndpoint($feature)));
 		for ($i=0; $i < sizeof($combined); $i++) { 							
@@ -210,7 +210,7 @@ public function fhpxDbUserSelect($fivehundredpx){
 
 
 	public function fhpxNav($feature){
-		$test = $this->fhpApiDbSync($feature, $this->fhpxDbUserSelect(jinky32),$this->fhpxApiConnect($this->fhpxEndpoint($feature)));
+		$test = $this->fhpApiDbSync($feature, $this->fhpxDbUserSelect(Input::get(user)),$this->fhpxApiConnect($this->fhpxEndpoint($feature)));
 
 		for ($i=0; $i < sizeof($test); $i++) { 
 		foreach($test as $key => $value){

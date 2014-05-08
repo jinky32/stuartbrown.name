@@ -27,7 +27,7 @@ $fivehundredpx->fhpxApiArray($obj);
 $navigationImagesArray = $fivehundredpx->fhpApiDbSync($feature,$fivehundredpx->fhpxDbUserSelect(Input::get(user)),
                                                   Fivehundredpx::fhpxApiConnect(Fivehundredpx::fhpxEndpoint($feature)));
 $navigationCategoriesArray = $fivehundredpx->fhpDbCategorySelect();
-$fhpxDbNavArray = $fivehundredpx->fhpxNav($feature);
+if($fhpxDbNavArray = $fivehundredpx->fhpxNav($feature)){
 
 $intersect = array_intersect($fivehundredpx->fhpDbCategorySelect(), 
                   $fhpxDbNavArray); 
@@ -60,7 +60,9 @@ $intersect = array_intersect($fivehundredpx->fhpDbCategorySelect(),
                     }
                     print "</ul></li>";
                  } 
-
+} else {
+  print 'you haven\'t favourited anything on 500px yet';
+}
    
             ?>
 

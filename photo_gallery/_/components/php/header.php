@@ -30,7 +30,7 @@
 </div><!-- content -->
   <header class="clearfix">
     <section id="branding">
-     
+     <a href="index.php"><img src="http://www.open.ac.uk/oudigital/headerandfooter/assets/img/ou-logo.png" alt="Logo for Roux Conference"></a>
     <?php
 require_once '_/components/php/core/init.php';
 
@@ -39,10 +39,11 @@ if(Session::exists('home')){
 }
 
 $user= new User();
-$fivehundredpx = new Fivehundredpx;
+//$fivehundredpx = new Fivehundredpx;
 //echo $user->data()->username;  //this will get the username using the data method of the User class
 print '<a href="index.php"><img src="'.str_replace('/1.', '/3.', $user->data()->userpic_url).'" ></a>';
-print $user->data()->id . '<br />';
+// print $user->data()->id . '<br />';
+// print $user->data()->username . '<br />';
 // print $data->id . '<br />';
 // print Fivehundredpx::$userid . '<br />';
 if($user->isLoggedIn()){
