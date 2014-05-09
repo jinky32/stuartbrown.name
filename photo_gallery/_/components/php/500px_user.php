@@ -32,9 +32,10 @@ if(Input::get('title')){
             
           </div> <!-- end of sidebar -->
         </div><!-- end content -->
-        
-
       </div> <!-- end of container -->
+      <?php
+        include "_/components/php/500px_user_carousel.php";
+      ?>
 
     <!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="_/js/bootstrap.js"></script>
