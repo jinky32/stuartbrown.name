@@ -1,3 +1,4 @@
+  <a href="profile.php?user=<?php echo escape($user->data()->username);?>&service=500px&view=cards" class="btn btn-default btn-warning btn-sm"><span class="glyphicon glyphicon-camera"></span> Switch to Cards view</a>
 
 <!-- NAVBAR
 ================================================== -->
@@ -46,11 +47,11 @@
     ================================================== -->
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
       <!-- Indicators -->
-      <ol class="carousel-indicators">
+   <!--    <ol class="carousel-indicators">
         <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
         <li data-target="#myCarousel" data-slide-to="1" class=""></li>
         <li data-target="#myCarousel" data-slide-to="2" class=""></li>
-      </ol>
+      </ol> -->
       <div class="carousel-inner">  
        <?php
             $images = $fivehundredpx->fhpxDbImageSelect('user',$fivehundredpx->fhpxDbUserSelect(Input::get(user)));
@@ -58,25 +59,27 @@
              reset($images);
 $first_key = key($images);
 //print $first_key;
-print '<img src=\''.str_replace('/3.', '/4.', $url).'\' class=\'img-responsive img-rounded img-centred\');>';
+// print '<img src=\''.str_replace('/3.', '/4.', $url).'\' class=\'img-responsive img-rounded img-centred\');>';
 
 foreach($images as $key => $value) {
     if ($key === $first_key){
             print '<div class="item active">
-                    <img src ="'. str_replace('/3.', '/5.', $value[image_url]) .'" alt="" class ="img-responsive img-centred">
+                    <img src ="'. str_replace('/3.', '/5.', $value[image_url]) .'" width="100%" alt="" class ="img-responsive img-centred" >
                      <div class="carousel-caption"> 
-                      <h1>'.$key.'</h1>
+                      <h1>'.$key.'</h1><br />
+                      <p>By</p><h3>'.$value[username].'</h3>
                       <p>'. $value[description] .'</p>
-                      <p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>
+                      <p><a class="btn btn-lg btn-primary" href="http://www.500px.com'.$value[url].'" role="button">View original on 500px</a></p>
                     </div>
                   </div>'; 
           } else {
               print '<div class="item">
-                      <img src ="'. str_replace('/3.', '/5.', $value[image_url]) .'" alt="" class ="img-responsive img-centred">
+                      <img src ="'. str_replace('/3.', '/5.', $value[image_url]) .'" " width="100%" alt="" class ="img-responsive img-centred">
                       <div class="carousel-caption"> 
-                        <h1>'.$key.'</h1>
+                         <h1>'.$key.'</h1><br />
+                      <p>By</p><h3>'.$value[username].'</h3>
                         <p>'. $value[description] .'</p>
-                        <p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>
+                        <p><a class="btn btn-lg btn-primary" href="http://www.500px.com'.$value[url].'" role="button">View original on 500px</a></p>
                       </div>
                     </div>';  
                 }     
