@@ -44,6 +44,11 @@ Fivehundredpx::fhpxUser();
 print '<h3>Connect fhpxApiArray</h3>';
 $obj = Fivehundredpx::fhpxApiConnect(Fivehundredpx::fhpxEndpoint(user_favourites));
 print_r(Fivehundredpx::fhpxApiArray($obj));
+
+print '<h1> this is displayImage Test</h1><img src="'.$fivehundredpx->displayImage(Fivehundredpx::$userid).'" >';
+//$fivehundredpx->displayImage(Fivehundredpx::$userid);
+
+
 // $obj = $fivehundredpx->fhpxApiConnect($fivehundredpx->fhpxEndpoint(user_favourites));
 // $fivehundredpx->fhpxApiArray($obj);
 // print '<h3>Print-r fhpxApiArray</h3>';

@@ -173,24 +173,42 @@ sdjsdfjs
 	
 		}
 
+/**
+ * [displayImage description] test function to try and debug issues with getUserImage method
+ * @param  [type] $userid [description]
+ * @return [type]         [description]
+ */
+		// public function displayImage($userid){
+		// 	$userQuery = $this->_db->get('images_user', array('user_id', '=', $userid))->results();
+		// 	return $profilePicture = $userQuery[0]->userpic_url;
+		// }
 
-		public function fhpxInsertImage($userid){
-			 if($profilePicture=$this->_db->get('images_user', array('user_id', '=', $userid))->results()){ //query the database for a user image
-			 	if(empty($profilePicture[0]->userpic_url)) //if there is no user image then update the db to include the image
-					{
-						 //return $profilePicture[0]->userpic_url;
-						$this->_db->update('users', $profilePicture[0]->user_id, array( //THIS BIT IS WRONG. IT WANTS TO GO THE DB FOR THE IMAGE WHICH WE HAVE SAID IS EMPTY. IT SHOULD GO TO THE API
-								'userpic_url'=>$profilePicture[0]->userpic_url
-								));
-					} else {
-						//print 'YOU ALREADY HAVE AN IMAGE SET';
-						$DBProfilePicture=$this->_db->get('users', array('id', '=', $userid))->results();
-						return $DBProfilePicture[0]->userpic_url;
-					}
-
-
-			}
+		public function getUserImage($userid){ //IS THIS WRONG ALSO BECAUSE USERID NEEDS TO BE INTEGER RATHER THAN STRING OF USER?
+		 if($userQuery=$this->_db->get('images_user', array('user_id', '=', $userid))->results()){ //query the database for a user image
+		 	return $profilePicture = $userQuery[0]->userpic_url; //if there is no user image then update the db to include the image
+				} 
+		 else {
+			return false;
+				}
 		}
+
+		// public function getUserImage($userid){ //IS THIS WRONG ALSO BECAUSE USERID NEEDS TO BE INTEGER RATHER THAN STRING OF USER?
+		// 	 if($profilePicture=$this->_db->get('images_user', array('user_id', '=', $userid))->results()){ //query the database for a user image
+		// 	 	if(empty($profilePicture[0]->userpic_url)) //if there is no user image then update the db to include the image
+		// 			{
+		// 				 //return $profilePicture[0]->userpic_url;
+		// 				$this->_db->update('users', $profilePicture[0]->user_id, array( //THIS BIT IS WRONG. IT WANTS TO GO THE DB FOR THE IMAGE WHICH WE HAVE SAID IS EMPTY. IT SHOULD GO TO THE API
+		// 						'userpic_url'=>$profilePicture[0]->userpic_url
+		// 						));
+		// 			} else {
+		// 				//print 'YOU ALREADY HAVE AN IMAGE SET';
+		// 				$DBProfilePicture=$this->_db->get('users', array('id', '=', $userid))->results();
+		// 				return $DBProfilePicture[0]->userpic_url;
+		// 			}
+
+
+		// 	}
+		// }
 
 
 /**

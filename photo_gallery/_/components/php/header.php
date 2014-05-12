@@ -42,8 +42,11 @@ $user= new User();
 $fivehundredpx = new Fivehundredpx;
 //$fivehundredpx = new Fivehundredpx;
 //echo $user->data()->username;  //this will get the username using the data method of the User class
-if($fivehundredpx->fhpxInsertImage($fivehundredpx->fhpxDbUserSelect(Input::get(user)))){
-  $userPicURL=$fivehundredpx->fhpxInsertImage($fivehundredpx->fhpxDbUserSelect(Input::get(user)));
+// if($fivehundredpx->getUserImage($fivehundredpx->fhpxDbUserSelect(Input::get(user)))){
+// $fivehundredpx->displayImage(Fivehundredpx::$userid);
+//print '<h1> this is displayImage Test</h1><img src="'.$fivehundredpx->displayImage($fivehundredpx->fhpxDbUserSelect(Input::get(user))).'" >';
+if($fivehundredpx->getUserImage($fivehundredpx->fhpxDbUserSelect(Input::get(user)))){
+  $userPicURL=$fivehundredpx->getUserImage($fivehundredpx->fhpxDbUserSelect(Input::get(user)));
   print '<a href="index.php"><img src=\''.str_replace('/1.', '/3.', $userPicURL).'\' class=\'img-rounded\'></a>';
             //print '<img src=\''.str_replace('/3.', '/4.', $url).'\' class=\'img-responsive img-rounded img-centred\');>';
 } else {
@@ -82,8 +85,5 @@ if($user->isLoggedIn()){
 
 }
 ?>
-
-
-
     </section><!-- branding -->
    </header><!-- header -->
