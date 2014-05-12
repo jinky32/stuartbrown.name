@@ -239,9 +239,10 @@ sdjsdfjs
     		foreach ($difference as $key => $value) { // ...break apart array to get $key (image name) ...
       				$delete = $this->_db->delete('images_'.$feature, array('photo_title', '=', $key)); // ...and user that the delete rows from the db
      				} 
+     		$this->fhpxInsert($feature);
     		} 
 		}
-		$this->fhpxInsert($feature); // I THINK THIS SHOULD BE WITHIN THE ELSE STATEMENT ABOVE. OTHERWISE IT IS BEING RUN TWICE IF THE ORIGINAL IF STATEMENT IS TRUE
+		// $this->fhpxInsert($feature); // I THINK THIS SHOULD BE WITHIN THE ELSE STATEMENT ABOVE. OTHERWISE IT IS BEING RUN TWICE IF THE ORIGINAL IF STATEMENT IS TRUE
 		//$fhpxDbNavArray=array();
 		return $fhpxDbFullArray = $this->fhpxDbImageSelect($feature, $userid);	// go back to the database and get the (possibly) updated list of images
 		//return $fhpxDbFullArray = $this->fhpxDbImageSelect($feature, $userid);	
