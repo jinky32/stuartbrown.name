@@ -183,32 +183,20 @@ sdjsdfjs
 		// 	return $profilePicture = $userQuery[0]->userpic_url;
 		// }
 
-		public function getUserImage($userid){ //IS THIS WRONG ALSO BECAUSE USERID NEEDS TO BE INTEGER RATHER THAN STRING OF USER?
-		 if($userQuery=$this->_db->get('images_user', array('user_id', '=', $userid))->results()){ //query the database for a user image
-		 	return $profilePicture = $userQuery[0]->userpic_url; //if there is no user image then update the db to include the image
+
+/**
+ * [getUserImage description] Queries the images_user table reutrning items related to the current user and then returns their profile picture
+ * @param  [integer] $userid [description] called via $fivehundredpx->fhpxDbUserSelect(Input::get(user)) which gets the user id from the username
+ * @return [string / url]     $profilePicture    [description] a link to the profile picture which can be rendered in img src
+ */
+		public function getUserImage($userid){ 
+		 if($userQuery=$this->_db->get('images_user', array('user_id', '=', $userid))->results()){ 
+		 	return $profilePicture = $userQuery[0]->userpic_url; 
 				} 
 		 else {
 			return false;
 				}
 		}
-
-		// public function getUserImage($userid){ //IS THIS WRONG ALSO BECAUSE USERID NEEDS TO BE INTEGER RATHER THAN STRING OF USER?
-		// 	 if($profilePicture=$this->_db->get('images_user', array('user_id', '=', $userid))->results()){ //query the database for a user image
-		// 	 	if(empty($profilePicture[0]->userpic_url)) //if there is no user image then update the db to include the image
-		// 			{
-		// 				 //return $profilePicture[0]->userpic_url;
-		// 				$this->_db->update('users', $profilePicture[0]->user_id, array( //THIS BIT IS WRONG. IT WANTS TO GO THE DB FOR THE IMAGE WHICH WE HAVE SAID IS EMPTY. IT SHOULD GO TO THE API
-		// 						'userpic_url'=>$profilePicture[0]->userpic_url
-		// 						));
-		// 			} else {
-		// 				//print 'YOU ALREADY HAVE AN IMAGE SET';
-		// 				$DBProfilePicture=$this->_db->get('users', array('id', '=', $userid))->results();
-		// 				return $DBProfilePicture[0]->userpic_url;
-		// 			}
-
-
-		// 	}
-		// }
 
 
 /**
@@ -270,13 +258,23 @@ sdjsdfjs
 		}
 
 
- 
+ /**
+  * [fhpxDbUserSelect description] Get the numeric user ID from the string of the username
+  * @param  [string] $fivehundredpx [description] a username string
+  * @return [integer]    self::$dbUserId            [description] the userid available without instantiating a class
+  */
 public function fhpxDbUserSelect($fivehundredpx){
 		self::$dbUserId=$this->_db->get('users', array('username', '=', $fivehundredpx))->first()->id;
 		return self::$dbUserId;
 	}
 
-
+/**
+ * [fhpxNav description] uses the fhpApiDbSync method to comare the API data to the DB data.  Once the fhpApiDbSync method has
+ * syncronised the data the fhpxNav method returns an array of category label and ID to be used in the primay nav.
+ * @param  [string] $feature [description] user or user_favorites
+ * @return [array]    $fhpxDbNavArray      [description] an associative array of category label and ID to be used in the
+ * site primary navigation.
+ */
 	public function fhpxNav($feature){
 		$test = $this->fhpApiDbSync($feature, $this->fhpxDbUserSelect(Input::get(user)),$this->fhpxApiConnect($this->fhpxEndpoint($feature)));
 
