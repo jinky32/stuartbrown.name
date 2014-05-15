@@ -41,7 +41,7 @@ sdjsdfjs
 		} else {
 			$username=$userid;
 		}
-		$username = Input::get('user');
+		$username = Input::get('user');  //I THINK THIS LINE NEEDS TO COME OUT COS DEALT WITH ABOVE
 		$user = new User($username);
 		$data=$user->data(); 
 		//print_r($data);

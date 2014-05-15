@@ -9,6 +9,15 @@ $url="https://gdata.youtube.com/feeds/api/users/jinky32/playlists";
 //$url="https://gdata.youtube.com/feeds/api/playlists/PLEtmlR7ubZ2nf5OYTqGws_vTKCQYwSj6e";
 $xml=simplexml_load_file($url);
 
+/*
+$playlist_title=array();
+  $playlist_id=array();
+  for ($i=0; $i < sizeof($xml->entry); $i++) { 
+  $array[(string)$xml->entry[$i]->title]=(string)$xml->entry[$i]->id;
+  }
+  print_r($array
+ */
+
 $playlist_title=array();
 $playlist_id=array();
 foreach ($xml->entry as $playlists) {
