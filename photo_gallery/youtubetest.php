@@ -2,18 +2,22 @@
 require_once '_/components/php/core/init.php';
 $name='jinky32';
 $db =  DB::getInstance();
-$user = new User('jinky32');
-$youtube= new Youtube($user, $db);
-//print $youtube->getUserName();
+//$user = new User('jinky32');
+$youtube= new Youtube($db);
+$youtube->create('User','jinky32');
+print $youtube->getUserName();
 //print_r($youtube->getUser()->data()->id);
 //var_dump($youtube->youtubeApiConnect());
+//var_dump($youtube->youtubeApiConnect());
 //$youtube->youtubeApiConnect();
-//$youtube->youtubeApiConnect()->getPlaylist();
-//$youtube->getPlaylist();
+//print_r($youtube->youtubeApiConnect()->getPlaylist());
+//var_dump($youtube->getPlaylist());
 //$youtube->youtubeApiConnect()->youtubeInsert();
-$youtube->youtubeApiConnect();
-//var_dump($youtube->youtubeDbVideoSelect()) ;
+//$youtube->youtubeApiConnect();
+//print_r($youtube->youtubeDbPlaylistSelect()) ;
 //var_dump($youtube->testName());
+//$youtube->testName();
+//print_r($youtube->youtubeApiConnect());
 //$youtube->youtubeApiDbSync();
 //$youtube->youtubeApiConnect()->youtubeApiDbSync();
 //var_dump($youtube->youtubeVideoInsert());
@@ -24,5 +28,10 @@ $youtube->youtubeApiConnect();
 //if(preg_match_all('/\=(.*?)\&/',$str,$match)) {            
 //        var_dump($match[1]);            
 //}
-print $youtube->findImage();
+//$youtube->findImage();
+//http://gdata.youtube.com/feeds/api/users/jinky32/playlists/PLEtmlR7ubZ2mDq0IEd8z1IqfvnKegSeT9
+//https://gdata.youtube.com/feeds/api/playlists/PLEtmlR7ubZ2mDq0IEd8z1IqfvnKegSeT9
+print_r($youtube->youtubeDbPlaylistImageSelect());
 ?>
+
+

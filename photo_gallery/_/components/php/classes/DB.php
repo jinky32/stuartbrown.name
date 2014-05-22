@@ -124,8 +124,8 @@ class DB {
 			$x++;
 		}
 
-//the below will only work with an ID at the moment, may need to update int he future to update other columsn
-		$sql ="UPDATE {$table} SET {$set} WHERE {$field}={$id}";
+//the below will only work with an ID at the moment, may need to update int he future to update other columsn - DONE
+		$sql ="UPDATE {$table} SET {$set} WHERE {$field}='{$id}'";
 		print $sql;
 		if(!$this->query($sql, $fields)->error()){ //pass the query and bindings to the query
 			return true;
