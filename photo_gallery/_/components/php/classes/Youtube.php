@@ -119,43 +119,42 @@ print_r($difference);
 
 
 public function youtubeVideoInsert(){ 
-	foreach ($playlists=$this->youtubeDbPlaylistSelect() as $title => $url) {
+	$playlists=$this->youtubeDbPlaylistSelect();
+	foreach ($playlists as $title => $url) {
+		print $title .' ! ';
 		
 		//$chosen_playlist="https://gdata.youtube.com/feeds/api/playlists/PLEtmlR7ubZ2kwggwNSmTfcAHx-0BRKNOw";
 		//$specific_playlist=simplexml_load_file($chosen_playlist);
 		$specific_playlist=simplexml_load_file($url);
 		
-		if(preg_match_all('/\=(.*?)\&/',(string)$specific_playlist->entry[0]->link->attributes()->href,$match)) {            
-		        $match = "https://i1.ytimg.com/vi/".$match[1][0]."/mqdefault.jpg";
-				$var = 'http://www.open.ac.uk';
-				$id='To watch - Web';
-		}
-		//print $match;
-		//return "https://i1.ytimg.com/vi/".$match."/mqdefault.jpg";
-							$this->_db->update('playlists','playlist_url',$url, (array(
-												//'playlist_image' => $match
-												'playlist_image'=>$match
-												//'playlist_url' => $chosen_playlist
-												))
-							);
+		 if(preg_match_all('/\=(.*?)\&/',(string)$specific_playlist->entry[0]->link->attributes()->href,$match)) {            
+		         $match = "https://i1.ytimg.com/vi/".$match[1][0]."/mqdefault.jpg";
+				
+		 		$this->_db->update('playlists','playlist_url',$url, (array(
+		 							//'playlist_image' => $match
+	 								'playlist_image'=>$match
+		 							//'playlist_url' => $chosen_playlist
+		 							))
+		 		);
+		 }
 
 
 		for ($i=0; $i<sizeof($specific_playlist->entry); $i++) {
+	print (string)$specific_playlist->entry[$i]->title.'<br />';
 			$videos[(string)$specific_playlist->entry[$i]->title]=str_replace("&feature=youtube_gdata", "", (string)$specific_playlist->entry[$i]->link->attributes()->href);
-		}
-
-		foreach ($videos as $video_label => $video_url) {
-			$this->_db->insert('videos', array(
-											'video_label'=>$video_label,
-											'video_url'=>$video_url,
-											'pid'=>$url,
-											'video_embed'=>str_replace("watch?v=", "embed/", $video_url),
-											'user_id'=>$this->getUser()->data()->id
-											)
-										);
-		}
 		
-	}
+		}
+		}
+		foreach ($videos as $video_label => $video_url) {
+				$this->_db->insert('videos', array(
+												'video_label'=>$video_label,
+												'video_url'=>$video_url,
+												'pid'=>$url,
+												'video_embed'=>str_replace("watch?v=", "embed/", $video_url),
+												'user_id'=>$this->getUser()->data()->id
+												)
+											);
+			}
 
 return $this;
 }
