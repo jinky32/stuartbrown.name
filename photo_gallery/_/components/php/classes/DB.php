@@ -113,7 +113,7 @@ class DB {
 	return false;
 	}
 	
-	public function update($table, $id, $fields){ // this requires an $id too to identfy which row to update
+	public function update($table, $field, $id, $fields){ // this requires an $id too to identfy which row to update
 		$set=''; // set as empty string
 		$x=1;
 		foreach ($fields as $name => $value) {
@@ -125,7 +125,8 @@ class DB {
 		}
 
 //the below will only work with an ID at the moment, may need to update int he future to update other columsn
-		$sql ="UPDATE {$table} SET {$set} WHERE id={$id}";
+		$sql ="UPDATE {$table} SET {$set} WHERE {$field}={$id}";
+		print $sql;
 		if(!$this->query($sql, $fields)->error()){ //pass the query and bindings to the query
 			return true;
 		} else {

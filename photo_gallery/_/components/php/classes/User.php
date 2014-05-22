@@ -40,7 +40,7 @@ class User {
 			$id=$this->data()->id;
 		}
 
-		if(!$this->_db->update('users', $id, $fields)){
+		if(!$this->_db->update('users', 'id', $id, $fields)){
 			throw new Exception('There was an error updating'); 
 		}
 	}

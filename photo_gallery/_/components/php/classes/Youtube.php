@@ -136,13 +136,14 @@ $specific_playlist=simplexml_load_file($chosen_playlist);
 
 //$str = "https://www.youtube.com/watch?v=p5hgXck7KP0&feature=youtube_gdata";    
 if(preg_match_all('/\=(.*?)\&/',(string)$specific_playlist->entry[0]->link->attributes()->href,$match)) {            
-        return $match = "https://i1.ytimg.com/vi/".$match[1][0]."/mqdefault.jpg";
+        $match = "https://i1.ytimg.com/vi/".$match[1][0]."/mqdefault.jpg";
 }
+//print $match;
 //return "https://i1.ytimg.com/vi/".$match."/mqdefault.jpg";
-//					$this->_db->update('playlists', (array(
-//										'playlist_image' => $match
-//										))
-//					);
+					$this->_db->update('playlists','playlist_url',$chosen_playlist, (array(
+										'playlist_image' => $match
+										))
+					);
 }
 
 
