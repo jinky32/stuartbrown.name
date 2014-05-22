@@ -19,10 +19,13 @@ if(!$username = Input::get('user')){
 
   switch (Input::get('service')) {
    	case '500px':
-   		include "_/components/php/500px.php";
-	   	
-   		
+   		// include "_/components/php/500px.php";
+    include "500px.php";
    		break;
+
+       case 'youtube':
+    include "youtube.php";
+    break;
    	
    	default:
    		# code...

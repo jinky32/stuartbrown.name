@@ -128,6 +128,22 @@ foreach ($videos as $video_label => $video_url) {
 return $this;
 }
 
+public function findImage(){ //USER ID NEEDS TO GO INTO THE DB TOO.
+$chosen_playlist="https://gdata.youtube.com/feeds/api/playlists/PLEtmlR7ubZ2mDq0IEd8z1IqfvnKegSeT9";
+$specific_playlist=simplexml_load_file($chosen_playlist);
+//return (string)$specific_playlist->entry[0]->link->attributes()->href;
+
+
+//$str = "https://www.youtube.com/watch?v=p5hgXck7KP0&feature=youtube_gdata";    
+if(preg_match_all('/\=(.*?)\&/',(string)$specific_playlist->entry[0]->link->attributes()->href,$match)) {            
+        return $match = "https://i1.ytimg.com/vi/".$match[1][0]."/mqdefault.jpg";
+}
+//return "https://i1.ytimg.com/vi/".$match."/mqdefault.jpg";
+//					$this->_db->update('playlists', (array(
+//										'playlist_image' => $match
+//										))
+//					);
+}
 
 
 
