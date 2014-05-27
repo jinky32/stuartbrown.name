@@ -1,3 +1,13 @@
 .jumbotron .img-centred {
   margin: 0 auto;
 }
+
+input[type=checkbox]{
+	-webkit-transform: scale(1.6,1.6);
+	-moz-transform: scale(1.6,1.6);
+	-o-transform: scale(1.6,1.6);
+}
+
+div.thumbnail.checked {
+	background-color: rgb(219, 236, 181);
+}

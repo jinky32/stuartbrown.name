@@ -39,7 +39,6 @@ Class Youtube{
 		}
 
 	
-	
 	public function youtubeApiConnect() {
 
 			$html ="";
@@ -141,6 +140,7 @@ public function youtubeVideoInsert(){
 	$playlists=$this->youtubeDbPlaylistSelect();
 	//$playlists=$this->youtubeGetUserSelectedPlaylist($selection);
 	foreach ($playlists as $title => $url) {
+		$urls[]=$url;
 		//print $title .' ! ';
 		
 		//$chosen_playlist="https://gdata.youtube.com/feeds/api/playlists/PLEtmlR7ubZ2kwggwNSmTfcAHx-0BRKNOw";
@@ -161,20 +161,30 @@ public function youtubeVideoInsert(){
 
 		for ($i=0; $i<sizeof($specific_playlist->entry); $i++) {
 	print (string)$specific_playlist->entry[$i]->title.'<br />';
-			$videos[(string)$specific_playlist->entry[$i]->title]=str_replace("&feature=youtube_gdata", "", (string)$specific_playlist->entry[$i]->link->attributes()->href);
+			// $videos[(string)$specific_playlist->entry[$i]->title]=str_replace("&feature=youtube_gdata", "", (string)$specific_playlist->entry[$i]->link->attributes()->href);
+		$videos[(string)$specific_playlist->entry[$i]->title]=array('rewritten-url'=>str_replace("&feature=youtube_gdata", "", (string)$specific_playlist->entry[$i]->link->attributes()->href),
+																	'url'=>$url	);
+		//print $videos[(string)$specific_playlist->entry[$i]->title]["rewritten-url"];
+		}
+//print_r($videos);
+
+		}
 		
-		}
-		}
-		foreach ($videos as $video_label => $video_url) {
+		foreach ($videos as $video_label => $video_urls) {
+			// print $urls[$i];
 				$this->_db->insert('videos', array(
 												'video_label'=>$video_label,
-												'video_url'=>$video_url,
-												'pid'=>$url,
-												'video_embed'=>str_replace("watch?v=", "embed/", $video_url),
+												// 'video_url'=>$video_url,
+												'video_url'=>$video_urls["rewritten-url"],
+												'pid'=>$video_urls["url"],
+												'video_embed'=>str_replace("watch?v=", "embed/", $video_urls["rewritten-url"]),
 												'user_id'=>$this->getUser()->data()->id
 												)
 											);
 			}
+			
+
+
 
 return $this;
 }
