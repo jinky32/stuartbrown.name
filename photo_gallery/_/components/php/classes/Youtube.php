@@ -64,7 +64,7 @@ Class Youtube{
 
 
 	public function youtubeInsert(){  
-		foreach($this->_apiArray as $key => $value){
+		foreach($this->youtubeApiConnect()->getPlaylist() as $key => $value){
 //			print 'this is ' .$key . ' and this is value ' .$value. \n;
 			$this->_db->insert('playlists', array(
 												'playlist_title'=>$key,
@@ -80,20 +80,43 @@ Class Youtube{
 	
 	public function youtubeDbPlaylistSelect(){ //I THINK I SHOULD NOT RETURN THE ARRAY COS IT MAKES IT HARDER TO GET OTHER THINGS FORM DB WITHOUT
 	//WRITING A NEW METHOD
-		$playlists=$this->_db->get('playlists', array('user_id', '=', $this->_user->data()->id))->results(); 					 for ($i=0; $i < sizeof($playlists); $i++) { 
+	
+		if(!count($this->_db->get('playlists', array('user_id', '=', $this->_user->data()->id))->results()))
+			{
+			$this->youtubeInsert();
+
+			} 
+			
+			$playlists=$this->_db->get('playlists', array('user_id', '=', $this->_user->data()->id))->results(); 					 
+			for ($i=0; $i < sizeof($playlists); $i++) { 
 						$playlistArray[$playlists[$i]->playlist_title]=$playlists[$i]->playlist_url;
-		      } 	
+		 
+		}
+
 		return $playlistArray;
 		
 		}
 		
 	public function youtubeDbPlaylistImageSelect(){ 
-			$playlists=$this->_db->get('playlists', array('user_id', '=', $this->_user->data()->id))->results(); 					 for ($i=0; $i < sizeof($playlists); $i++) { 
+			$playlists=$this->_db->get('playlists', array('user_id', '=', $this->_user->data()->id))->results(); 					 
+			for ($i=0; $i < sizeof($playlists); $i++) { 
 							$playlistImageArray[$i]=$playlists[$i]->playlist_image;
 			      } 	
 			return $playlistImageArray;
 			
 			}
+
+	public function youtubeGetUserSelectedPlaylist($selection){ // THIS METHOD SHOULD ONLY BE USED TO SELECT WHICH LISTS THE VIDEOS UNDERTHE IMAGES ARE TAKEN FROM
+		foreach ($selection as $key => $value) {
+			$pieces[] = explode(" - ", $key);	
+			// $pieces = explode(" - ", $key);		
+			}
+			return $pieces;
+
+		//      1) split assoc array key from form into key value. 2) get everything from playlists table in db and put into a array that matches 1
+		//      3) use array_intersect_assoc() to find the user's selctions that match the db array
+		//      4) the checkbox value array needs to be changed in youtube.php so that it contains [playlist]$title .'-'.$url.  Then need to split the bit after [playlist]
+	}
 		
 		
 		public function youtubeApiDbSync(){
@@ -112,16 +135,13 @@ print_r($difference);
 	
 		}
 		
-
-
 //NOW I NEED TO KEEP THE API AND DB IN SYNC AS IN 500PX CLASS - BUT THIS NEEDS TO BE DONE LESS FREQUENTLY?  DO I ALSO NEED TO GO BACK ADN GET THE SYNCHRONISD DB ARRAY AND USE THAT RATHER THAN THE VALUES FROM youtubeDbPlaylistSelect WHICH IS JUST USED FOR SPOTTING THE DIFFERENCE BTW IT AND API ARRAY???
-
-
 
 public function youtubeVideoInsert(){ 
 	$playlists=$this->youtubeDbPlaylistSelect();
+	//$playlists=$this->youtubeGetUserSelectedPlaylist($selection);
 	foreach ($playlists as $title => $url) {
-		print $title .' ! ';
+		//print $title .' ! ';
 		
 		//$chosen_playlist="https://gdata.youtube.com/feeds/api/playlists/PLEtmlR7ubZ2kwggwNSmTfcAHx-0BRKNOw";
 		//$specific_playlist=simplexml_load_file($chosen_playlist);
