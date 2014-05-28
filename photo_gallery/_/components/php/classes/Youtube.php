@@ -124,9 +124,24 @@ Class Youtube{
 			$difference = array_diff($this->youtubeDbVideoSelect($selection), $this->youtubePlaylistSync($selection));
 			print_r($difference);
 
+			$this->deleteFromPlaylist($selection, $difference);
+
 			$this->updatePlaylist($selection);
 			//if something is in the api array and not the db i want to insert it
 			//if something is in the db aray and not hte api i want to delete it
+		}
+
+		public function deleteFromPlaylist($selection, $difference){
+			foreach ($selection as $key => $value) {
+			$pieces[] = explode(" - ", $key);		
+			}
+			for ($i=0; $i < sizeof($pieces); $i++) { 
+				$url = $pieces[$i][1];
+			}
+			foreach ($difference as $key => $value) { // ...break apart array to get $key (image name) ...
+  				$delete = $this->_db->delete('videos', array('video_label', '=', $value)); // ...and user that the delete rows from 							the db
+			}
+
 		}
 
 		public function updatePlaylist($selection){
