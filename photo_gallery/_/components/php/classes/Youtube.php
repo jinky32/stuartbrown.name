@@ -122,23 +122,41 @@ Class Youtube{
 // I WANT TO DO THIS TO TRY AND KEEP THE TWO IN SYNC
 // i have the problem on line 127 that the db-> method wont wrap strings in '' so the query only works if i hardcode it.
 
+//THE BELOW TWO METHODS NEED A NEW ONE THAT DOES A DIFF ON THE ARRAYS OF EACH.  THEY ALSO CURRENTLY ONLY WORK FOR SINGLE ITEMS AND
+//NEED TO BE EXTENDED TO WORK WITH AN ARRAY
+//
+		public function videoDiff($selection){
+			//print_r($this->youtubePlaylistSync($selection));
+			//$test = $this->youtubePlaylistSync($selection);
+			print_r($this->youtubePlaylistSync($selection)) ;
+    print '<br /> here <br />';
+			print_r($this->youtubeDbVideoSelect($selection));
+			$difference = array_diff($this->youtubeDbVideoSelect($selection), $this->youtubePlaylistSync($selection));
+			print_r($difference);
+		}
 
-		public function youtubeDbVideoSelect($youtubePlaylistSyncVar){  
-		$dbVideoArray=$this->_db->get('videos', array('pid', '=', $youtubePlaylistSyncVar))->results();
+		public function youtubeDbVideoSelect($selection){  
+			foreach ($selection as $key => $value) {
+			$pieces[] = explode(" - ", $key);		
+			}
+			for ($i=0; $i < sizeof($pieces); $i++) { 
+				$url = $pieces[$i][1];
+			}
+		$dbVideoArray=$this->_db->get('videos', array('pid', '=', $url))->results();
 		for ($i=0; $i < sizeof($dbVideoArray); $i++) { 
-						$dbVideos[]=$dbVideoArray[$i]->video_label;
-		 
+						$dbVideos[]=$dbVideoArray[$i]->video_label;		 
 		}
 		return $dbVideos;
 
 		}
 		
+
 		public function youtubePlaylistSync($selection){ //this is receiving an array
 			foreach ($selection as $key => $value) {
 			$pieces[] = explode(" - ", $key);		
 			}
 			for ($i=0; $i < sizeof($pieces); $i++) { 
-				$this->youtubeDbVideoSelect($pieces[$i][1]);
+				//$this->youtubeDbVideoSelect($pieces[$i][1]);
 				//print $pieces[$i][1];
 				$playlist=simplexml_load_file($pieces[$i][1]); //an uri such as https://gdata.youtube.com/feeds/api/playlists/PLEtmlR7ubZ2nMk96rueTBP4np_EhzxD7c
 				for ($i=0; $i < sizeof($playlist->entry); $i++) { 
@@ -149,8 +167,8 @@ Class Youtube{
 				// $this->youtubeDbVideoSelect($selection);
 				// $this->youtubeDbVideoSelect($selection);
 			}
-
 			return $video;
+		
 		}
 
 
