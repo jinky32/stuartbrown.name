@@ -24,12 +24,12 @@ $image_url = $youtube->youtubeDbPlaylistImageSelect();
 $i=0;
 foreach($playlists as $key => $value) {
               print '<div class="col-sm-6 col-md-4">
-              <div class="thumbnail'?><?php if(isset($_POST['playlist'][$youtube->getUser()->data()->id.' - '.$value])) print ' checked';?>
+              <div class="thumbnail'?><?php if(isset($_POST['playlist'][$value])) print ' checked';?>
               
-               <?php print '"><label> <input type="checkbox" id="'.$youtube->getUser()->data()->id.' - '.$value.'" 
-        value="'.$youtube->getUser()->data()->id.' - '.$value.'" 
-        name="playlist['.$youtube->getUser()->data()->id.' - '.$value.']"
-        title="Select this Playlist"'?> <?php if(isset($_POST['playlist'][$youtube->getUser()->data()->id.' - '.$value])) print 'checked="checked"';?><?php print ' />   Select this Playlist.  You need to submit the form at the bottom of the page. </label>
+               <?php print '"><label> <input type="checkbox" id="'.$value.'" 
+        value="'.$value.'" 
+        name="playlist['.$value.']"
+        title="Select this Playlist"'?> <?php if(isset($_POST['playlist'][$value])) print 'checked="checked"';?><?php print ' />   Select this Playlist.  You need to submit the form at the bottom of the page. </label>
       <img src="'.$image_url[$i].'" alt="..." class="img-responsive img-rounded img-centred">
       <div class="caption">
          <h4>'.$key.'</h4>
