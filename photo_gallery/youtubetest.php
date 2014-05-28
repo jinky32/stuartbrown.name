@@ -23,7 +23,8 @@ $youtube->create('User','jinky32');
 //var_dump($youtube->youtubeVideoInsert());
 //$youtube->youtubeVideoInsert();
 //print_r($youtube->youtubeDbPlaylistSelect());
-			print_r($youtube->youtubeVideoInsert());
+			//print_r($youtube->youtubeVideoInsert());
+			//$youtube->youtubeVideoInsert();
 //print_r($youtube->getUser()->data()->id);
 //var_dump($youtube->findImage());
 //$str = "https://www.youtube.com/watch?v=p5hgXck7KP0&feature=youtube_gdata";    
@@ -34,6 +35,9 @@ $youtube->create('User','jinky32');
 //http://gdata.youtube.com/feeds/api/users/jinky32/playlists/PLEtmlR7ubZ2mDq0IEd8z1IqfvnKegSeT9
 //https://gdata.youtube.com/feeds/api/playlists/PLEtmlR7ubZ2mDq0IEd8z1IqfvnKegSeT9
 //print_r($youtube->youtubeDbPlaylistImageSelect());
+$youtube->youtubeDbVideoSelect(fQDOCBD6y8dLDNtd);
+//$var = fQDOCBD6y8dLDNtd;
+//print $youtube->addQuotes($var);
 ?>
 
 

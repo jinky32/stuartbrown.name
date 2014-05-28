@@ -116,8 +116,45 @@ Class Youtube{
 		//      3) use array_intersect_assoc() to find the user's selctions that match the db array
 		//      4) the checkbox value array needs to be changed in youtube.php so that it contains [playlist]$title .'-'.$url.  Then need to split the bit after [playlist]
 	}
+
+
+//IN THE BELOW 2 methods I AM TRYING TO TAKE THE VALUE OF THE URI OF SELECTED PLAYLIST ON THE FORM AND USE THEM TO QUERY THE API AND DB
+// I WANT TO DO THIS TO TRY AND KEEP THE TWO IN SYNC
+// i have the problem on line 127 that the db-> method wont wrap strings in '' so the query only works if i hardcode it.
+
+
+		public function youtubeDbVideoSelect($youtubePlaylistSyncVar){  
+		$dbVideoArray=$this->_db->get('videos', array('pid', '=', $youtubePlaylistSyncVar))->results();
+		for ($i=0; $i < sizeof($dbVideoArray); $i++) { 
+						$dbVideos[]=$dbVideoArray[$i]->video_label;
+		 
+		}
+		return $dbVideos;
+
+		}
 		
-		
+		public function youtubePlaylistSync($selection){ //this is receiving an array
+			foreach ($selection as $key => $value) {
+			$pieces[] = explode(" - ", $key);		
+			}
+			for ($i=0; $i < sizeof($pieces); $i++) { 
+				$this->youtubeDbVideoSelect($pieces[$i][1]);
+				//print $pieces[$i][1];
+				$playlist=simplexml_load_file($pieces[$i][1]); //an uri such as https://gdata.youtube.com/feeds/api/playlists/PLEtmlR7ubZ2nMk96rueTBP4np_EhzxD7c
+				for ($i=0; $i < sizeof($playlist->entry); $i++) { 
+					$video[] = (string)$playlist->entry[$i]->title;
+				}
+
+				//$difference = array_diff_assoc($this->youtubeDbPlaylistSelect(),  $this->youtubeApiConnect());
+				// $this->youtubeDbVideoSelect($selection);
+				// $this->youtubeDbVideoSelect($selection);
+			}
+
+			return $video;
+		}
+
+
+
 		public function youtubeApiDbSync(){
 		if(!count($this->youtubeDbPlaylistSelect())){ // if nothing is returned from the query...
 			$this->youtubeInsert(); // ...then go ahead and insert the API data (most likely first load of the page)

@@ -11,3 +11,7 @@ input[type=checkbox]{
 div.thumbnail.checked {
 	background-color: rgb(219, 236, 181);
 }
+
+.thumbnail { 
+	min-height:400px; 
+} 

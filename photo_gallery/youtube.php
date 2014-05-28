@@ -50,7 +50,9 @@ $i++;
 
 
 if(Input::get('youtube_playlists')){
-  print_r(Input::get('playlist'));
+  //print_r(Input::get('playlist'));
+  $youtube->youtubePlaylistSync(Input::get('playlist'));
+  //print $youtube->addQuotes(Input::get('playlist'));
   //$youtube->youtubeGetUserSelectedPlaylist(Input::get('playlist'));
 }
 
