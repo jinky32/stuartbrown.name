@@ -111,20 +111,10 @@ Class Youtube{
 			// $pieces = explode(" - ", $key);		
 			}
 			return $pieces;
-
-		//      1) split assoc array key from form into key value. 2) get everything from playlists table in db and put into a array that matches 1
-		//      3) use array_intersect_assoc() to find the user's selctions that match the db array
-		//      4) the checkbox value array needs to be changed in youtube.php so that it contains [playlist]$title .'-'.$url.  Then need to split the bit after [playlist]
 	}
 
 
-//IN THE BELOW 2 methods I AM TRYING TO TAKE THE VALUE OF THE URI OF SELECTED PLAYLIST ON THE FORM AND USE THEM TO QUERY THE API AND DB
-// I WANT TO DO THIS TO TRY AND KEEP THE TWO IN SYNC
-// i have the problem on line 127 that the db-> method wont wrap strings in '' so the query only works if i hardcode it.
 
-//THE BELOW TWO METHODS NEED A NEW ONE THAT DOES A DIFF ON THE ARRAYS OF EACH.  THEY ALSO CURRENTLY ONLY WORK FOR SINGLE ITEMS AND
-//NEED TO BE EXTENDED TO WORK WITH AN ARRAY
-//
 		public function videoDiff($selection){
 			//print_r($this->youtubePlaylistSync($selection));
 			//$test = $this->youtubePlaylistSync($selection);
@@ -133,6 +123,42 @@ Class Youtube{
 			print_r($this->youtubeDbVideoSelect($selection));
 			$difference = array_diff($this->youtubeDbVideoSelect($selection), $this->youtubePlaylistSync($selection));
 			print_r($difference);
+
+			$this->updatePlaylist($selection);
+			//if something is in the api array and not the db i want to insert it
+			//if something is in the db aray and not hte api i want to delete it
+		}
+
+		public function updatePlaylist($selection){
+			foreach ($selection as $key => $value) {
+			$pieces[] = explode(" - ", $key);		
+			}
+			for ($i=0; $i < sizeof($pieces); $i++) { 
+				$url = $pieces[$i][1];
+				$specific_playlist=simplexml_load_file($pieces[$i][1]);
+			}
+				//$specific_playlist=simplexml_load_file($url);
+	
+		for ($i=0; $i<sizeof($specific_playlist->entry); $i++) {
+	//print (string)$specific_playlist->entry[$i]->title.'<br />';
+			// $videos[(string)$specific_playlist->entry[$i]->title]=str_replace("&feature=youtube_gdata", "", (string)$specific_playlist->entry[$i]->link->attributes()->href);
+		$videos[(string)$specific_playlist->entry[$i]->title]=array('rewritten-url'=>str_replace("&feature=youtube_gdata", "", (string)$specific_playlist->entry[$i]->link->attributes()->href),
+																	'url'=>$url	);
+		//print $videos[(string)$specific_playlist->entry[$i]->title]["rewritten-url"];
+		}
+
+				foreach ($videos as $video_label => $video_urls) {
+			// print $urls[$i];
+				$this->_db->insert('videos', array(
+									'video_label'=>$video_label,
+									// 'video_url'=>$video_url,
+									'video_url'=>$video_urls["rewritten-url"],
+									'pid'=>$video_urls["url"],
+									'video_embed'=>str_replace("watch?v=", "embed/", $video_urls["rewritten-url"]),
+									'user_id'=>$this->getUser()->data()->id
+									)
+								);
+			}
 		}
 
 		public function youtubeDbVideoSelect($selection){  
