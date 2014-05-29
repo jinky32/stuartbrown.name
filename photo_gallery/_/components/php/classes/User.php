@@ -60,6 +60,7 @@ class User {
 			$field=(is_numeric($user)) ? 'id' : 'username'; //if the value passed ($user) is numeric then assume it is the user id otherwise assume tht its the username
 			//$data represnts what we get back from the db via the DB instance createed n the __construct
 			$data=$this->_db->get('users', array($field, '=', $user));
+			//$data=$this->_db->get('users', array(array($field), array('='), array($user)));
 
 			if($data->count()){
 				$this->_data = $data->first(); //now $_data contains all of the user's data (first record retrned)
