@@ -35,9 +35,19 @@ $youtube->create('User','jinky32');
 //http://gdata.youtube.com/feeds/api/users/jinky32/playlists/PLEtmlR7ubZ2mDq0IEd8z1IqfvnKegSeT9
 //https://gdata.youtube.com/feeds/api/playlists/PLEtmlR7ubZ2mDq0IEd8z1IqfvnKegSeT9
 //print_r($youtube->youtubeDbPlaylistImageSelect());
-$youtube->youtubeDbVideoSelect(fQDOCBD6y8dLDNtd);
+//$youtube->youtubeDbVideoSelect(fQDOCBD6y8dLDNtd);
 //$var = fQDOCBD6y8dLDNtd;
 //print $youtube->addQuotes($var);
+//$youtube->videoDiff('https://gdata.youtube.com/feeds/api/playlists/PLEtmlR7ubZ2nvUC9qz_xMnzw6Qv-_Duzt');
+
+$youtube->_db->delete('videos', array(array('username', 'pid', 'name'), array('=','<=', '='), array('alex',2, 'james')));
+
+// if(is_array($where[0])){
+//	        $sql = 'SELECT * FROM table WHERE';
+//	for($i = 0; $i < sizeof($where[0]); $i++){
+//	    $sql .= " {$where[0][$i]} {$where[1][$i]} ? AND";
+//	}
+//	print $sql = substr($sql, 0, strlen($sql) - 4);	}
 ?>
 
 

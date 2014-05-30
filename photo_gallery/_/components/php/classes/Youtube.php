@@ -112,7 +112,8 @@ Class Youtube{
 			}
 			return $pieces;
 	}
-
+// $this->_db->delete('user', array(array('username', 'name'),array('=','='),array('alex','james')));
+// 	$where=                array(array('username',  'pid'),array('=','='),array('alex','james'));
 
 
 		public function videoDiff($selection){
@@ -134,18 +135,16 @@ Class Youtube{
 
 		public function deleteFromPlaylist($selection, $difference){ //NEED TO SET THIS UP SO THAT IT CAN ALSO TAKE USERID AND PID SO
 			//THAT THE VIDEO REMAINS FOR OTHER USERS AND DIFFERENT PLAYLISTS
-			// foreach ($selection as $key => $urlstring) {
-			// 	$url = $urlstring;
-			// }
-			// foreach ($selection as $key => $value) {
-			// $pieces[] = explode(" - ", $key);		
-			// }
-			// for ($i=0; $i < sizeof($pieces); $i++) { 
-			// 	$url = $pieces[$i][1];
-			// }
-			foreach ($difference as $key => $value) { // ...break apart array to get $key (image name) ...
-  				$delete = $this->_db->delete('videos', array('video_label', '=', $value)); // ...and user that the delete rows from 							the db
+			foreach ($selection as $key => $value) {
+				$url = $value;
 			}
+			//$select ='https://gdata.youtube.com/feeds/api/playlists/PLEtmlR7ubZ2nvUC9qz_xMnzw6Qv-_Duzt';
+			foreach ($difference as $key => $value) { // ...break apart array to get $key (image name) ...
+  				$title=$value;
+  			}
+  				//$delete = $this->_db->delete('videos', array(array('video_label','pid'), array('=','='), array($value, $url))); // ...and user that the delete rows from 							the db
+			$delete = $this->_db->delete('videos', array('video_label', '<', $value)); 
+			
 
 		}
 
@@ -153,13 +152,7 @@ Class Youtube{
 			foreach ($selection as $key => $value) {
 				$url = $value;
 			}
-			// foreach ($selection as $key => $value) {
-			// $pieces[] = explode(" - ", $key);		
-			// }
-			// for ($i=0; $i < sizeof($pieces); $i++) { 
-			// 	$url = $pieces[$i][1];
-			// 	$specific_playlist=simplexml_load_file($pieces[$i][1]);
-			//}
+		
 				$specific_playlist=simplexml_load_file($url);
 	
 		for ($i=0; $i<sizeof($specific_playlist->entry); $i++) {
@@ -188,12 +181,7 @@ Class Youtube{
 			foreach ($selection as $key => $value) {
 				$url = $value;
 			}
-			// foreach ($selection as $key => $value) {
-			// $pieces[] = explode(" - ", $key);		
-			// }
-			// for ($i=0; $i < sizeof($pieces); $i++) { 
-			// 	$url = $pieces[$i][1];
-			// }
+		
 		$dbVideoArray=$this->_db->get('videos', array('pid', '=', $url))->results();
 		for ($i=0; $i < sizeof($dbVideoArray); $i++) { 
 						$dbVideos[]=$dbVideoArray[$i]->video_label;		 
@@ -207,12 +195,7 @@ Class Youtube{
 			foreach ($selection as $key => $value) {
 				$url = $value;
 			}
-			// foreach ($selection as $key => $value) {
-			// $pieces[] = explode(" - ", $key);		
-			// }
-			// for ($i=0; $i < sizeof($pieces); $i++) { 
-				//$this->youtubeDbVideoSelect($pieces[$i][1]);
-				//print $pieces[$i][1];
+		
 				$playlist=simplexml_load_file($url); //an uri such as https://gdata.youtube.com/feeds/api/playlists/PLEtmlR7ubZ2nMk96rueTBP4np_EhzxD7c
 				for ($i=0; $i < sizeof($playlist->entry); $i++) { 
 					$video[] = (string)$playlist->entry[$i]->title;

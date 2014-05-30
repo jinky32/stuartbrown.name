@@ -48,54 +48,75 @@ class DB {
 		return $this;  // return the object we are working with
 	}
 	
-		//START OF  REWRITTEN ACTION METHOD
+		//START OF  ORIGINAL ACTION METHOD
 
 
-     public function action($action, $table, $where=array()){
-        if(sizeof($where)===3 || count($where)===3) { //check if value is 3 cos we need a field an opertor and a value (e.g. 'username', '=', 'alex')
-            $operators = array('=', '>', '<', '>=', '<='); //define the list of operators
-            //set the variables for the sql query. taken from the $where array
-            if (is_array($where[0])){
-                            for ($i=0; $i < sizeof($where[0]); $i++) {  //sizeof wher is wring cos i know that is 3 from the above
-                                $field = $where[0][$i]; //for example 'username'
-                                $operator = $where[1][$i]; //for example '='
-                                $value= $where[2][$i]; //for example 'alex'
-                            }
-            } else {
-                $field = $where[0]; //for example 'username'
-                $operator = $where[1]; //for example '='
-                $value= $where[2]; //for example 'alex'
-            }
-           
-//$where=array(array('username', 'pid'), array('=','='), array('alex','blah'));
-//so if there was an AND the things from where array to be used would be 
+// public function action($action, $table, $where=array()){
+// 		if(count($where)===3) { //check if value is 3 cos we need a field an opertor and a value (e.g. 'username', '=', 'alex')
+// 			$operators = array('=', '>', '<', '>=', '<='); //define the list of operators
+// 			//set the variables for the sql query. taken from the $where array
+// 			$field = $where[0]; //for example 'username'
+// 			$operator = $where[1]; //for example '='
+// 			$value= $where[2]; //for example 'alex'
 
-            if(in_array($operator, $operators)) { //check if the operator (from $where[1] is present in the $operators array) before contructing the query
-                if(count($where)===3)
-                {
-                    $sql= "{$action} FROM {$table} WHERE {$field} {$operator} ? "; //construct the query. first two vars from method params, last two split out of the $where array.  The ? allows us to bind the value
-                } 
-                 
-		    if(is_array($where[0])){
-			    $sql = '{$action} * FROM {$table} WHERE';
+// 			if(in_array($operator, $operators)) { //check if the operator (from $where[1] is present in the $operators array) before contructing the query
+// 				$sql= "{$action} FROM {$table} WHERE {$field} {$operator} ? "; //construct the query. first two vars from method params, last two split out of the $where array.  The ? allows us to bind the value
+// 				//print $sql;
+// 				if(!$this->query($sql, array($value))->error()){ // send $sql to the query method in this class along with the $value array
+// 					return $this;  //return the object we are in
+
+// 				}
+// 			}
+// 		}
+// 		return false;
+// 	}
+
+
+
+	//END OF  ORIGINAL ACTION METHOD
+	//
+	//
+	//REWRITTEN  ACTION METHOD
+		public function action($action, $table, $where=array()){
+		if(count($where)===3) { //check if value is 3 cos we need a field an opertor and a value (e.g. 'username', '=', 'alex')
+		// print '<h1>here is where</h1>';
+			//print_r($where);
+			$operators = array('=', '>', '<', '>=', '<='); //define the list of operators
+			//set the variables for the sql query. taken from the $where array
+			$field = $where[0]; //for example 'username'
+			$operator = $where[1]; //for example '='
+			$operatorArray = $where[1][1]; //for example '='
+			$value= $where[2]; //for example 'alex'
+
+			if(in_array($operator, $operators) || in_array($operatorArray, $operators)) { //check if the operator (from $where[1] is present in the $operators array) before contructing the query
+				// print '<h1>here is where</h1>';
+				 print_r($where);
+				if(is_array($where[0])){
+					//print '<h1>ARRAY!</h1>';
+			    $sql = "{$action} FROM {$table} WHERE";
 				for($i = 0; $i < sizeof($where[0]); $i++){
-			    $sql .= " {$field[0][$i]} {$operator[1][$i]} ? AND";
+				
+				$sql .= " {$where[0][$i]} {$where[1][$i]} {$where[2][$i]} AND";
+			    //$sql .= " {$field[0][$i]} {$operator[1][$i]} ? AND";
 				}
-				$sql = substr($sql, 0, strlen($sql) - 4);	
+				$sql = substr($sql, 0, strlen($sql) - 4);
+				print $sql;	
+			} else {
+				$sql= "{$action} FROM {$table} WHERE {$field} {$operator} ? "; //construct the query. first two vars from method params, last two split out of the $where array.  The ? allows us to bind the value
+				print $sql;
 			}
-                //print $sql;
-                if(!$this->query($sql, array($value))->error()){ // send $sql to the query method in this class along with the $value array
-                    return $this;  //return the object we are in
 
-                }
-            }
-        }
-        return false;
-    }
+				if(!$this->query($sql, array($value))->error()){ // send $sql to the query method in this class along with the $value array
+					return $this;  //return the object we are in
 
+				}
+			}
+		} 
 
-
-	//END OF  REWRITTEN ACTION METHOD
+		return false;
+	}
+	
+//END OF  REWRITTEN ACTION METHOD
 
 
 	//makes it easy to select.  Hooks into action method above
