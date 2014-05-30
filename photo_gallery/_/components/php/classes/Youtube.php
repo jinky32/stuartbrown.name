@@ -124,11 +124,15 @@ Class Youtube{
     print '<br /> here <br />';
 			print_r($this->youtubeDbVideoSelect($selection));
 			$difference = array_diff($this->youtubeDbVideoSelect($selection), $this->youtubePlaylistSync($selection));
-			print_r($difference);
-
-			$this->deleteFromPlaylist($selection, $difference);
-
+			if($difference){
+				print_r($difference);
+				$this->deleteFromPlaylist($selection, $difference);
+			}
+			
 			$this->updatePlaylist($selection);
+			
+
+			
 			//if something is in the api array and not the db i want to insert it
 			//if something is in the db aray and not hte api i want to delete it
 		}
