@@ -121,23 +121,21 @@ class DB {
 			//set the variables for the sql query. taken from the $where array
 			$field = $where[0]; //for example 'username'
 			$operator = $where[1]; //for example '='
+			if(is_array($where[0])){
 			$operatorArray = $where[1][1]; //for example '='
+			}
 			$value= $where[2]; //for example 'alex'
 
 			if(in_array($operator, $operators) || in_array($operatorArray, $operators)) { //check if the operator (from $where[1] is present in the $operators array) before contructing the query
-				// print '<h1>here is where</h1>';
-				// print_r($where);
 				if(is_array($where[0])){
 					// print '<h1>ARRAY!</h1>';
 					// print_r($where[0]);
 			    $sql = "{$action} FROM {$table} WHERE";
 				for($i = 0; $i < sizeof($where[0]); $i++){
-				
-				//$sql .= " {$where[0][$i]} {$where[1][$i]} {$where[2][$i]} AND";
 			    $sql .= " {$field[$i]} {$operator[$i]} ? AND";
 				}
 				$sql = substr($sql, 0, strlen($sql) - 4);
-				print $sql;	
+				//print $sql;	
 				if(!$this->query($sql, array($value))->error()){ // send $sql to the query method in this class along with the $value array
 					return $this;  //return the object we are in
 				}

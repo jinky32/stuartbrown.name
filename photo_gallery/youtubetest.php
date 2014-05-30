@@ -4,8 +4,11 @@ $name='jinky32';
 $db =  DB::getInstance();
 //$user = new User('jinky32');
 $youtube= new Youtube($db);
-$youtube->create('User','jinky32');
+$youtube->createUser('User','jinky32');
 //print $youtube->getUserName();
+//print_r($youtube->testName());
+//$youtube->testName()->fivehundredpx;
+//print $youtube->getUser()->joined;
 //print_r($youtube->getUser()->data()->id);
 //var_dump($youtube->youtubeApiConnect());
 //var_dump($youtube->youtubeApiConnect());
@@ -17,7 +20,8 @@ $youtube->create('User','jinky32');
 //print_r($youtube->youtubeDbPlaylistSelect()) ;
 //var_dump($youtube->testName());
 //$youtube->testName();
-//print_r($youtube->youtubeApiConnect());
+print_r($youtube->youtubeDbPlaylistSelect()->getYoutubeDbPlaylist());
+//print_r($youtube->getYoutubeDbPlaylist());
 //$youtube->youtubeApiDbSync();
 //$youtube->youtubeApiConnect()->youtubeApiDbSync();
 //var_dump($youtube->youtubeVideoInsert());
@@ -40,7 +44,7 @@ $youtube->create('User','jinky32');
 //print $youtube->addQuotes($var);
 //$youtube->videoDiff('https://gdata.youtube.com/feeds/api/playlists/PLEtmlR7ubZ2nvUC9qz_xMnzw6Qv-_Duzt');
 
-$youtube->_db->delete('videos', array(array('username', 'pid', 'name'), array('=','<=', '='), array('alex',2, 'james')));
+//$youtube->_db->delete('videos', array(array('username', 'pid', 'name'), array('=','<=', '='), array('alex',2, 'james')));
 
 // if(is_array($where[0])){
 //	        $sql = 'SELECT * FROM table WHERE';

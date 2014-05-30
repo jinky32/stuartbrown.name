@@ -6,11 +6,12 @@ $name='jinky32';
 $db =  DB::getInstance();
 //$user = new User('jinky32');
 $youtube= new Youtube($db);
-$youtube->create('User','jinky32');
+$youtube->createUser('User','jinky32');
 
 //var_dump($youtube->youtubeDbVideoSelect()) ;
-$playlists = $youtube->youtubeDbPlaylistSelect();
+$playlists = $youtube->youtubeDbPlaylistSelect()->getYoutubeDbPlaylist();
 $image_url = $youtube->youtubeDbPlaylistImageSelect();
+//print_r($playlists);
 
 
 ?>

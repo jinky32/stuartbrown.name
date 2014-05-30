@@ -1,99 +1,134 @@
 <?php
 
 Class Youtube{
-	private $_apiArray;
+	private $_youtubeApiArray;
+	private $_youtubeDbArray;
 	private $_user;
 	private $_db;
 	
+	/**
+	 * Construct takes a database connection (typehinted to DB class)
+	 * @param DB $db [description] This is a database connection.  Better than doing DB::getInstance
+	 * inside the constructor so it is more obvious what is going on (dependancy injection).
+	 */
 	public function __construct(DB $db){
 		//$this->_user = $user;
 		$this->_db = $db;
 		//return print_r($user->data()->username);
 		}
 		
-		public function create($var, $name){
-					if($var=='User'){
+	/**
+	 * [createUser description] Creates an instance of User class.  Again makes it more obvious that doing User::create
+	 * inside the constructor
+	 * @param  User class $class  [description] the type of class to be created
+	 * @param  string $name [description] the name of the User that you want to instantiate. or the values for which user you want the 
+	 * User class to return
+	 * @return [object] this (Youtube object.)       [description]
+	 */
+		public function createUser($class, $name){
+					if($class=='User'){
 						$this->_user = new User($name); 
 					} else {
 						print 'no';
 					}
 					return $this;
 				}
-		
+	/**
+	 * [getUser description]Provides a way to get to a users data as provided by the User class
+	 * @return array [description] An array of the users data from the database
+	 */
 		public function getUser()
 			{
-			    return $this->_user;
-			}
-			
-			public function testName(){
-						//return $this->_user()->_db()->_results()->name;
-			//$name= $this->_user->_db()->_results()->name;
-			$name= $this->_user->data()->name;
-			
-			return $this;
-			}
+			    return $this->_user->data();
+			}		
 
-	public function getUserName()
-		{
-		    return $this->_user->data()->username;
-		}
-
-	
+	/**
+	 * [youtubeApiConnect description] Builds the YouTube API URI for the signed in user and gets the title and 
+	 * URI of all the playlists created by that user - these are saved to the $_youtubeApiArray private class variable.  
+	 * THe URI has to be modified (below) before inserted into database and used in subsequent API calls.
+	 * @return YouTube object [description] Returns the whole object so more specific helper methods
+	 * can be chained on.
+	 */
 	public function youtubeApiConnect() {
-
-			$html ="";
-				$url="https://gdata.youtube.com/feeds/api/users/".$this->_user->data()->username."/playlists";
+				$url="https://gdata.youtube.com/feeds/api/users/".$this->getUser()->username."/playlists";
 				$xml=simplexml_load_file($url);
 				//print_r($xml);
 				for ($i=0; $i < sizeof($xml->entry); $i++) { 
 					 $array[(string)$xml->entry[$i]->title]=(string)$xml->entry[$i]->id;
 				}
-				$this->_apiArray = $array;
-				//print_r($array);
-				//return $array;
-			//print_r($this->_apiArray);
-			//return $this->_apiArray;
+				$this->_youtubeApiArray = $array;
 			return $this;
 		}
 	
-	
-	public function getPlaylist(){
-			return $this->_apiArray;
+	/**
+	 * [getYoutubeApiPlaylist description] Provides access to the $_youtubeApiArray private class variable
+	 * @return array [description] An array of all of the users YouTube playlists
+	 */
+	public function getYoutubeApiPlaylist(){
+			return $this->_youtubeApiArray;
 		}
 
-
+	/**
+	 * [youtubeInsert description] Takes the array from youtubeApiConnect method and inserts each one into the playlists table of the database.
+	 * It manipulates the URI to make them usable in other API keys. Also adds in the playlist title and the user ID
+	 */
 	public function youtubeInsert(){  
-		foreach($this->youtubeApiConnect()->getPlaylist() as $key => $value){
-//			print 'this is ' .$key . ' and this is value ' .$value. \n;
+		foreach($this->youtubeApiConnect()->getYoutubeApiPlaylist() as $key => $value){
 			$this->_db->insert('playlists', array(
-												'playlist_title'=>$key,
-												//'playlist_url'=>str_replace("users/jinky32/", "", $value),
-												'playlist_url'=>preg_replace("/^http:/i", "https:", str_replace("users/".$this->_user->data()
-												->username."/", "", $value)),
-												'user_id'=>$this->_user->data()->id
-												)
-											);	
+							'playlist_title'=>$key,
+							//'playlist_url'=>str_replace("users/jinky32/", "", $value),
+							'playlist_url'=>preg_replace("/^http:/i", "https:", str_replace("users/".$this->getUser()
+							->username."/", "", $value)),
+							'user_id'=>$this->getUser()->id
+							)
+						);	
 		}
 	}
 	
 	
-	public function youtubeDbPlaylistSelect(){ //I THINK I SHOULD NOT RETURN THE ARRAY COS IT MAKES IT HARDER TO GET OTHER THINGS FORM DB WITHOUT
+	// public function youtubeDbPlaylistSelect(){ //I THINK I SHOULD NOT RETURN THE ARRAY COS IT MAKES IT HARDER TO GET OTHER THINGS FORM DB WITHOUT
+	// //WRITING A NEW METHOD
+	
+	// 	if(!count($this->_db->get('playlists', array('user_id', '=', $this->_user->data()->id))->results()))
+	// 		{
+	// 		$this->youtubeInsert();
+
+	// 		} 
+			
+	// 		$playlists=$this->_db->get('playlists', array('user_id', '=', $this->_user->data()->id))->results(); 					 
+	// 		for ($i=0; $i < sizeof($playlists); $i++) { 
+	// 					$playlistArray[$playlists[$i]->playlist_title]=$playlists[$i]->playlist_url;
+		 
+	// 	}
+
+	// 	return $playlistArray;
+		
+	// 	}
+	// 	
+	
+		public function youtubeDbPlaylistSelect(){ //I THINK I SHOULD NOT RETURN THE ARRAY COS IT MAKES IT HARDER TO GET OTHER THINGS FORM DB WITHOUT
 	//WRITING A NEW METHOD
 	
-		if(!count($this->_db->get('playlists', array('user_id', '=', $this->_user->data()->id))->results()))
+		if(!count($this->_db->get('playlists', array('user_id', '=', $this->getUser()->id))->results()))
 			{
 			$this->youtubeInsert();
 
 			} 
 			
-			$playlists=$this->_db->get('playlists', array('user_id', '=', $this->_user->data()->id))->results(); 					 
+			$playlists=$this->_db->get('playlists', array('user_id', '=', $this->getUser()->id))->results(); 					 
 			for ($i=0; $i < sizeof($playlists); $i++) { 
 						$playlistArray[$playlists[$i]->playlist_title]=$playlists[$i]->playlist_url;
 		 
 		}
 
-		return $playlistArray;
+		$this->_youtubeDbArray=$playlistArray;
+		return $this;
 		
+		}
+
+
+		public function getYoutubeDbPlaylist(){
+			return $this->_youtubeDbArray;
 		}
 		
 	public function youtubeDbPlaylistImageSelect(){ 
@@ -175,7 +210,7 @@ Class Youtube{
 									'video_url'=>$video_urls["rewritten-url"],
 									'pid'=>$video_urls["url"],
 									'video_embed'=>str_replace("watch?v=", "embed/", $video_urls["rewritten-url"]),
-									'user_id'=>$this->getUser()->data()->id
+									'user_id'=>$this->getUser()->id
 									)
 								);
 			}
@@ -205,7 +240,7 @@ Class Youtube{
 					$video[] = (string)$playlist->entry[$i]->title;
 				//}
 
-				//$difference = array_diff_assoc($this->youtubeDbPlaylistSelect(),  $this->youtubeApiConnect());
+				//$difference = array_diff_assoc($this->getYoutubeDbPlaylist(),  $this->youtubeApiConnect());
 				// $this->youtubeDbVideoSelect($selection);
 				// $this->youtubeDbVideoSelect($selection);
 			}
@@ -216,10 +251,10 @@ Class Youtube{
 
 
 		public function youtubeApiDbSync(){
-		if(!count($this->youtubeDbPlaylistSelect())){ // if nothing is returned from the query...
+		if(!count($this->getYoutubeDbPlaylist())){ // if nothing is returned from the query...
 			$this->youtubeInsert(); // ...then go ahead and insert the API data (most likely first load of the page)
 		} else {
-		 	$difference = array_diff_assoc($this->youtubeDbPlaylistSelect(),  $this->youtubeApiConnect()); // if there is a result then 				compare the two arrays and store the difference in a variable
+		 	$difference = array_diff_assoc($this->getYoutubeDbPlaylist(),  $this->youtubeApiConnect()); // if there is a result then 				compare the two arrays and store the difference in a variable
  		if($difference){ // if there is a difference ...
 print_r($difference);
 			foreach ($difference as $key => $value) { // ...break apart array to get $key (image name) ...
@@ -231,10 +266,10 @@ print_r($difference);
 	
 		}
 		
-//NOW I NEED TO KEEP THE API AND DB IN SYNC AS IN 500PX CLASS - BUT THIS NEEDS TO BE DONE LESS FREQUENTLY?  DO I ALSO NEED TO GO BACK ADN GET THE SYNCHRONISD DB ARRAY AND USE THAT RATHER THAN THE VALUES FROM youtubeDbPlaylistSelect WHICH IS JUST USED FOR SPOTTING THE DIFFERENCE BTW IT AND API ARRAY???
+//NOW I NEED TO KEEP THE API AND DB IN SYNC AS IN 500PX CLASS - BUT THIS NEEDS TO BE DONE LESS FREQUENTLY?  DO I ALSO NEED TO GO BACK ADN GET THE SYNCHRONISD DB ARRAY AND USE THAT RATHER THAN THE VALUES FROM getYoutubeDbPlaylist WHICH IS JUST USED FOR SPOTTING THE DIFFERENCE BTW IT AND API ARRAY???
 
 public function youtubeVideoInsert(){ 
-	$playlists=$this->youtubeDbPlaylistSelect();
+	$playlists=$this->getYoutubeDbPlaylist();
 	//$playlists=$this->youtubeGetUserSelectedPlaylist($selection);
 	foreach ($playlists as $title => $url) {
 		$urls[]=$url;
@@ -275,7 +310,7 @@ public function youtubeVideoInsert(){
 												'video_url'=>$video_urls["rewritten-url"],
 												'pid'=>$video_urls["url"],
 												'video_embed'=>str_replace("watch?v=", "embed/", $video_urls["rewritten-url"]),
-												'user_id'=>$this->getUser()->data()->id
+												'user_id'=>$this->getUser()->id
 												)
 											);
 			}
