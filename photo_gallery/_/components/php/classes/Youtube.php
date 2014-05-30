@@ -142,8 +142,8 @@ Class Youtube{
 			foreach ($difference as $key => $value) { // ...break apart array to get $key (image name) ...
   				$title=$value;
   			}
-  				//$delete = $this->_db->delete('videos', array(array('video_label','pid'), array('=','='), array($value, $url))); // ...and user that the delete rows from 							the db
-			$delete = $this->_db->delete('videos', array('video_label', '<', $value)); 
+  				$delete = $this->_db->delete('videos', array(array('video_label','pid'), array('=','='), array($value, $url))); // ...and user that the delete rows from 							the db
+			//$delete = $this->_db->delete('videos', array('video_label', '<', $value)); 
 			
 
 		}

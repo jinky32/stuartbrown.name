@@ -24,6 +24,32 @@ class DB {
 		}
 		return self::$_instance;  //return 
 	}
+		//START OF  ORIGINAL QUERY METHOD
+	// public function query($sql, $params=array()){ //first arg is the query string and the second is an array of bound params
+	// 	$this->_error=false;  //reset to false incase a previous query had returned false
+	// 	if($this->_query = $this->_pdo->prepare($sql)){  //check if the query has been prepared properly.  $_pdo has been set in the contstructor
+	// 		$x=1; //set a counter
+	// 		if(count($params)){  //check if there were any params passed and loop through them
+	// 			foreach ($params as $param) {
+	// 				$this->_query->bindValue($x, $param); //update $_query to include bound values for the prepared statement, according tothe counter
+	// 				//print (string)$this->_query;
+	// 				$x++;
+	// 			}
+	// 		}
+	// 		//regardless of whehter there are any parameters we still want to execute the query
+	// 		if($this->_query->execute()){ //if this is true then we have successfully queried and can get some results
+	// 			$this->_results = $this->_query->fetchAll(PDO::FETCH_OBJ); //set the value of $_results to the results of the query returned as an object
+	// 			$this->_count = $this->_query->rowCount();  //set the $_count
+	// 		} else {
+	// 			$this->_error = true;
+	// 		}
+	// 	}
+
+	// 	return $this;  // return the object we are working with
+	// }
+	// 
+	// 	//END OF  ORIGINAL QUERY METHOD
+	
 
 	public function query($sql, $params=array()){ //first arg is the query string and the second is an array of bound params
 		$this->_error=false;  //reset to false incase a previous query had returned false
@@ -31,9 +57,17 @@ class DB {
 			$x=1; //set a counter
 			if(count($params)){  //check if there were any params passed and loop through them
 				foreach ($params as $param) {
-					$this->_query->bindValue($x, $param); //update $_query to include bound values for the prepared statement, according tothe counter
-					//print (string)$this->_query;
+					if(is_array($param)){
+						foreach ($param as $paramitem) {
+							$this->_query->bindValue($x, $paramitem); //update $_query to include bound values for the prepared statement, according tothe counter
 					$x++;
+						}
+					} else {
+						$this->_query->bindValue($x, $param); //update $_query to include bound values for the prepared statement, according tothe counter
+						//print (string)$this->_query;
+						$x++;
+					}
+					
 				}
 			}
 			//regardless of whehter there are any parameters we still want to execute the query
@@ -47,7 +81,9 @@ class DB {
 
 		return $this;  // return the object we are working with
 	}
-	
+
+
+
 		//START OF  ORIGINAL ACTION METHOD
 
 
@@ -90,26 +126,28 @@ class DB {
 
 			if(in_array($operator, $operators) || in_array($operatorArray, $operators)) { //check if the operator (from $where[1] is present in the $operators array) before contructing the query
 				// print '<h1>here is where</h1>';
-				 print_r($where);
+				// print_r($where);
 				if(is_array($where[0])){
-					//print '<h1>ARRAY!</h1>';
+					// print '<h1>ARRAY!</h1>';
+					// print_r($where[0]);
 			    $sql = "{$action} FROM {$table} WHERE";
 				for($i = 0; $i < sizeof($where[0]); $i++){
 				
-				$sql .= " {$where[0][$i]} {$where[1][$i]} {$where[2][$i]} AND";
-			    //$sql .= " {$field[0][$i]} {$operator[1][$i]} ? AND";
+				//$sql .= " {$where[0][$i]} {$where[1][$i]} {$where[2][$i]} AND";
+			    $sql .= " {$field[$i]} {$operator[$i]} ? AND";
 				}
 				$sql = substr($sql, 0, strlen($sql) - 4);
 				print $sql;	
-			} else {
-				$sql= "{$action} FROM {$table} WHERE {$field} {$operator} ? "; //construct the query. first two vars from method params, last two split out of the $where array.  The ? allows us to bind the value
-				print $sql;
-			}
-
 				if(!$this->query($sql, array($value))->error()){ // send $sql to the query method in this class along with the $value array
 					return $this;  //return the object we are in
-
 				}
+				} else {
+					$sql= "{$action} FROM {$table} WHERE {$field} {$operator} ? "; //construct the query. first two vars from method params, last two split out of the $where array.  The ? allows us to bind the value
+					print $sql;
+					if(!$this->query($sql, array($value))->error()){ // send $sql to the query method in this class along with the $value array
+					return $this;  //return the object we are in
+				}
+				}	
 			}
 		} 
 
