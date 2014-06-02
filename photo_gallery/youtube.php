@@ -12,6 +12,7 @@ $youtube->createUser('User','jinky32');
 $playlists = $youtube->youtubeDbPlaylistSelect()->getYoutubeDbPlaylist();
 $image_url = $youtube->youtubeDbPlaylistImageSelect();
 //print_r($playlists);
+//print_r($youtube->youtubeApiConnect()->getYoutubeApiPlaylist());
 
 
 ?>

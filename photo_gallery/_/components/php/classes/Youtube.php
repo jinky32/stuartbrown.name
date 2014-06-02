@@ -42,14 +42,32 @@ Class Youtube{
 			    return $this->_user->data();
 			}		
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////TASKS:
+/////////// GIVEN AN ARRAY OF PLAYLIST URI:
+///QUERY THE DB FOR VIDEOS -youtubeDbVideoSelect()
+///QUERY THE DB FOR PLAYLISTS - youtubeDbPlaylistSelect()
+///QUERY THE API FOR VIDEOS - youtubeAPIVideoSelect() 
+///QUERY THE API FOR PLAYLISTS - youtubeApiConnect()
+///RETURN THE API PLAYLISTS - getYoutubeApiPlaylist()
+///INSERT VIDEOS INTO THE DB - youtubeVideoInsert() 
+///INSERT PLAYLISTS INTO THE DB - youtubeInsert()
+//////COMPARE THE DB AND API PLAYLISTS - youtubePlaylistCompare()
+//////COMPARE THE DB AND API FOR VIDEOS IN APLAYLISTS
+///DELETE VIDEOS INTO THE DB - deleteFromPlaylist()
+///DELETE PLAYLISTS INTO THE DB
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////THIS IS THE START OF A SERIES OF METHODS THAT DEAL WITH PLAYLISTS////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
-	 * [youtubeApiConnect description] Builds the YouTube API URI for the signed in user and gets the title and 
-	 * URI of all the playlists created by that user - these are saved to the $_youtubeApiArray private class variable.  
-	 * THe URI has to be modified (below) before inserted into database and used in subsequent API calls.
-	 * @return YouTube object [description] Returns the whole object so more specific helper methods
-	 * can be chained on.
+	 * GET A LIST OF USERS PLAYLISTS FROM THE API
 	 */
-	public function youtubeApiConnect() {
+	public function youtubeApiConnect() { //I THINK THAT USERNAME SHOULD BE PASSED AS A PARAMETER TO MAKE IT MORE OBVIOUS
 				$url="https://gdata.youtube.com/feeds/api/users/".$this->getUser()->username."/playlists";
 				$xml=simplexml_load_file($url);
 				//print_r($xml);
@@ -61,11 +79,13 @@ Class Youtube{
 		}
 	
 	/**
-	 * [getYoutubeApiPlaylist description] Provides access to the $_youtubeApiArray private class variable
-	 * @return array [description] An array of all of the users YouTube playlists
+	 * RETURN A LIST OF USERS PLAYLISTS FROM THE API
 	 */
 	public function getYoutubeApiPlaylist(){
 			return $this->_youtubeApiArray;
+			// Array ( [To watch - data] => http://gdata.youtube.com/feeds/api/users/jinky32/playlists/PLEtmlR7ubZ2mWeLTu_7PHvfhB4szenjC9 
+			// [To watch - 3d] => http://gdata.youtube.com/feeds/api/users/jinky32/playlists/PLEtmlR7ubZ2nk-186lNJRFJ8pfrmMnVNz 
+			// [Symfony] => http://gdata.youtube.com/feeds/api/users/jinky32/playlists/PLEtmlR7ubZ2nMk96rueTBP4np_EhzxD7c
 		}
 
 	/**
@@ -94,7 +114,7 @@ Class Youtube{
 	 * which is then assigned to the private class variable $_youtubeDbArray (seemed like a good idea at the time, not sure now!) 
 	 * @return [Youtube object] [description] The whole object so that the helper method getYoutubeDbPlaylist() can be used to get the values.
 	 */
-		public function youtubeDbPlaylistSelect(){ 
+		public function youtubeDbPlaylistSelect(){ //I THINK THAT USERNAME SHOULD BE PASSED AS A PARAMETER TO MAKE IT MORE OBVIOUS
 			if(!count($this->_db->get('playlists', array('user_id', '=', $this->getUser()->id))->results())){
 				$this->youtubeInsert();
 				} 
@@ -106,6 +126,7 @@ Class Youtube{
 			return $this;	
 		}
 
+
 	/**
 	 * [getYoutubeDbPlaylist description] Returns the $_youtubeDbArray private class method.
 	 * @return array [description] an array of all the users playlists in the database as title=>url
@@ -113,6 +134,24 @@ Class Youtube{
 		public function getYoutubeDbPlaylist(){
 			return $this->_youtubeDbArray;
 		}
+
+		public function youtubePlaylistCompare(){
+			print_r($this->youtubeDbPlaylistSelect()->getYoutubeDbPlaylist());
+			print_r($this->youtubeApiConnect()->getYoutubeApiPlaylist());
+			$difference = array_diff_key($this->getYoutubeApiPlaylist(), $this->getYoutubeDbPlaylist());
+			if($difference) {
+				print 'nope they are different';
+				print_r($difference);
+				
+			} else {
+				print 'they are the same';
+			}
+
+				
+
+					
+		}
+
 
 	/**
 	 * [youtubeDbPlaylistImageSelect description] Gets the images associated with playlists
@@ -126,31 +165,95 @@ Class Youtube{
 			return $playlistImageArray;
 			}
 
-	// public function youtubeGetUserSelectedPlaylist($selection){ // THIS METHOD SHOULD ONLY BE USED TO SELECT WHICH LISTS THE VIDEOS UNDERTHE IMAGES ARE TAKEN FROM
-	// 	foreach ($selection as $key => $value) {
-	// 		$pieces[] = explode(" - ", $key);	
-	// 		// $pieces = explode(" - ", $key);		
-	// 		}
-	// 		return $pieces;
-	// }
-// $this->_db->delete('user', array(array('username', 'name'),array('=','='),array('alex','james')));
-// 	$where=                array(array('username',  'pid'),array('=','='),array('alex','james'));
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////THIS IS THE END OF A SERIES OF METHODS THAT DEAL WITH PLAYLISTS////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////THIS IS THE START OF A SERIES OF METHODS THAT DEAL WITH VIDEOS////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////THIS IS THE START OF A SERIES OF METHODS THAT INTERACT WITH A USERS CHOSEN YOUTUBE PLAYLISTS ON youtube.php////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	public function videoDiff($selection){
-		print_r($this->youtubePlaylistSync($selection)) ;
-		print '<br /> here <br />';
-		print_r($this->youtubeDbVideoSelect($selection));
-		$difference = array_diff($this->youtubeDbVideoSelect($selection), $this->youtubePlaylistSync($selection));
-		if($difference){
-			print_r($difference);
-			$this->deleteFromPlaylist($selection, $difference);
+
+
+	/**
+	 * [QUERY THE DB FOR VIDEOS
+	 */
+	public function youtubeDbVideoSelect($selection){  
+		foreach ($selection as $key => $value) {
+			$url = $value;
 		}
-		$this->updatePlaylist($selection);
+		$dbVideoArray=$this->_db->get('videos', array('pid', '=', $url))->results();
+		for ($i=0; $i < sizeof($dbVideoArray); $i++) { 
+						$dbVideos[]=$dbVideoArray[$i]->video_label;		 
+		}
+		return $dbVideos;
 	}
+
+	
+
+
+
+	/**
+	 * QUERY THE API FOR VIDEOS  
+	 */
+	public function youtubeAPIVideoSelect($selection){ 
+		//$selection=$this->youtubeDbPlaylistSelect()->getYoutubeDbPlaylist();
+		//$playlists=$this->youtubeGetUserSelectedPlaylist($selection);
+		foreach ($selection as $title => $url) {
+			print 'this is title '.$title . 'and this is url '.$url;
+			//$urls[]=$url;
+			$specific_playlist=simplexml_load_file($url);
+			 if(preg_match_all('/\=(.*?)\&/',(string)$specific_playlist->entry[0]->link->attributes()->href,$match)) {            
+			     $match = "https://i1.ytimg.com/vi/".$match[1][0]."/mqdefault.jpg";
+			     $this->_db->update('playlists','playlist_url',$url, (array(
+			 							//'playlist_image' => $match
+		 								'playlist_image'=>$match
+			 							//'playlist_url' => $chosen_playlist
+			 							))
+			 		);
+			 }
+
+			 for ($i=0; $i<sizeof($specific_playlist->entry); $i++) {
+				//print (string)$specific_playlist->entry[$i]->title.'<br />';
+			$videos[(string)$specific_playlist->entry[$i]->title]=array(
+											'rewritten-url'=>str_replace("&feature=youtube_gdata", "", (string)$specific_playlist->entry[$i]->link->attributes()->href),
+											'url'=>$url
+											);
+			//print $videos[(string)$specific_playlist->entry[$i]->title]["rewritten-url"];
+			}
+			//print_r($videos);
+			 return $videos;
+			 //return $this;
+		}
+	}
+
+/**
+	 * INSERT VIDEOS INTO THE DB
+	 */
+
+
+public function youtubeVideoInsert($selection){ 
+	$videos = $this->youtubeAPIVideoSelect($selection);
+			foreach ($videos as $video_label => $video_urls) {
+				// print $urls[$i];
+					$this->_db->insert('videos', array(
+													'video_label'=>$video_label,
+													// 'video_url'=>$video_url,
+													'video_url'=>$video_urls["rewritten-url"],
+													'pid'=>$video_urls["url"],
+													'video_embed'=>str_replace("watch?v=", "embed/", $video_urls["rewritten-url"]),
+													'user_id'=>$this->getUser()->id
+													)
+												);
+			}
+		return $this;
+		}
+
+
+
+			
+
 
 	/**
 	 * [youtubePlaylistSync description] Takes an URI from the selected playlist (at the moment it can't handle an array of these) and gets a list of 
@@ -169,27 +272,14 @@ Class Youtube{
 	return $video;
 
 }
+
+
+
+
+
+
 	/**
-	 * [youtubeDbVideoSelect description] Takes an URI from the selected playlist and queries the videos table for videos associated with that 
-	 * playlist URI.
-	 * @param  string URI $selection [description] an indexed array of videos from the database in a youtube playlist 
-	 * @return [type]            [description]
-	 */
-	public function youtubeDbVideoSelect($selection){  
-		foreach ($selection as $key => $value) {
-			$url = $value;
-		}
-		$dbVideoArray=$this->_db->get('videos', array('pid', '=', $url))->results();
-		for ($i=0; $i < sizeof($dbVideoArray); $i++) { 
-						$dbVideos[]=$dbVideoArray[$i]->video_label;		 
-		}
-		return $dbVideos;
-	}
-	/**
-	 * [deleteFromPlaylist description] Called from the videoDiff method above this method deletes videos that are no longer in the API for a playlist 
-	 * but are in the database
-	 * @param  string URI $selection  [description] The value passed (via videoDiff) from the users selection on youtube.php
-	 * @param  [array] $difference [description] an array of the difference between whats in the database and whats in the api for a praticular playlist
+	 * DELETE VIDEOS INTO THE DB 
 	 */
 	public function deleteFromPlaylist($selection, $difference){ 
 		foreach ($selection as $key => $value) {
@@ -201,126 +291,63 @@ Class Youtube{
 		$delete = $this->_db->delete('videos', array(array('video_label','pid'), array('=','='), array($value, $url))); // ...and user that the delete rows from the db
 	}
 
-	/**
-	 * [updatePlaylist description] Called from videoDiff() method it takes an URI from a playlist a user has selected on youtube.php.  
-	 * From this it constructs a multidimensional array called videos.  The values in this are then inserted into the videos table.
-	 * @param  [string URI] $selection [description] the URi of the video selected by the use on youtube.php
-	 */
-	public function updatePlaylist($selection){
-		foreach ($selection as $key => $value) {
-			$url = $value;
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////THIS IS THE START OF A SERIES OF METHODS THAT INTERACT WITH A USERS CHOSEN YOUTUBE PLAYLISTS ON youtube.php////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	public function videoDiff($selection){
+		print_r($this->youtubePlaylistSync($selection)) ;
+		print '<br /> here <br />';
+		print_r($this->youtubeDbVideoSelect($selection));
+		$difference = array_diff($this->youtubeDbVideoSelect($selection), $this->youtubePlaylistSync($selection));
+		if($difference){
+			print_r($difference);
+			$this->deleteFromPlaylist($selection, $difference);
 		}
-		$specific_playlist=simplexml_load_file($url);
-		for ($i=0; $i<sizeof($specific_playlist->entry); $i++) {
-			$videos[(string)$specific_playlist->entry[$i]->title]=array(
-																'rewritten-url'=>str_replace("&feature=youtube_gdata", "", 
-																(string)$specific_playlist->entry[$i]->link->attributes()->href),
-																'url'=>$url	
-																);
+		//$this->updatePlaylist($selection);
+		$this->youtubeVideoInsert($selection);
 	}
-		foreach ($videos as $video_label => $video_urls) {
-			$this->_db->insert('videos', array(
-								'video_label'=>$video_label,
-								// 'video_url'=>$video_url,
-								'video_url'=>$video_urls["rewritten-url"],
-								'pid'=>$video_urls["url"],
-								'video_embed'=>str_replace("watch?v=", "embed/", $video_urls["rewritten-url"]),
-								'user_id'=>$this->getUser()->id
-								)
-							);
-		}
-	}
+
+
+
+
+
 	
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////THIS IS THE END OF A SERIES OF METHODS THAT INTERACT WITH A USERS CHOSEN YOUTUBE PLAYLISTS ON youtube.php////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// 		public function youtubeApiDbSync(){
-// 		if(!count($this->getYoutubeDbPlaylist())){ // if nothing is returned from the query...
-// 			$this->youtubeInsert(); // ...then go ahead and insert the API data (most likely first load of the page)
-// 		} else {
-// 		 	$difference = array_diff_assoc($this->getYoutubeDbPlaylist(),  $this->youtubeApiConnect()); // if there is a result then 				compare the two arrays and store the difference in a variable
-//  		if($difference){ // if there is a difference ...
-// print_r($difference);
-// 			foreach ($difference as $key => $value) { // ...break apart array to get $key (image name) ...
-//   				$delete = $this->_db->delete('playlists', array('playlist_url', '=', $value)); // ...and user that the delete rows from 							the db
-// 			}
-// 				} 
-//     		$this->youtubeInsert();
-//   		} 
-	
-// 		}
-	/**
-	 * [youtubeVideoInsert description] I think this method may rely on playlists already being in the database (via youtubeInsert).
-	 * This method takes an array of all a users playlists (via $this->youtubeDbPlaylistSelect()->getYoutubeDbPlaylist())
-	 * from these it 1) constructs the path to the playlists image and inserts into playlists table. 2) goes through each playlist URI and 
-	 * queries the API for the videos in each playlist.  It then inserts these into the video table. 
-	 * @return [Youtube Object] [description] returns the YouTube object
+/**
+	 *QUERY THE API FOR VIDEOS  - - INSERT VIDEOS INTO THE DB
 	 */
-	public function youtubeVideoInsert(){ 
-		$playlists=$this->youtubeDbPlaylistSelect()->getYoutubeDbPlaylist();
-		//$playlists=$this->youtubeGetUserSelectedPlaylist($selection);
-		foreach ($playlists as $title => $url) {
-			$urls[]=$url;
-			$specific_playlist=simplexml_load_file($url);
-			 if(preg_match_all('/\=(.*?)\&/',(string)$specific_playlist->entry[0]->link->attributes()->href,$match)) {            
-			     $match = "https://i1.ytimg.com/vi/".$match[1][0]."/mqdefault.jpg";
-			     $this->_db->update('playlists','playlist_url',$url, (array(
-			 							//'playlist_image' => $match
-		 								'playlist_image'=>$match
-			 							//'playlist_url' => $chosen_playlist
-			 							))
-			 		);
-			 }
-			for ($i=0; $i<sizeof($specific_playlist->entry); $i++) {
-				//print (string)$specific_playlist->entry[$i]->title.'<br />';
-			$videos[(string)$specific_playlist->entry[$i]->title]=array(
-											'rewritten-url'=>str_replace("&feature=youtube_gdata", "", 
-											(string)$specific_playlist->entry[$i]->link->attributes()->href),
-											'url'=>$url	
-											);
-			//print $videos[(string)$specific_playlist->entry[$i]->title]["rewritten-url"];
-			}
-			//print_r($videos);
-			}
-			foreach ($videos as $video_label => $video_urls) {
-				// print $urls[$i];
-					$this->_db->insert('videos', array(
-													'video_label'=>$video_label,
-													// 'video_url'=>$video_url,
-													'video_url'=>$video_urls["rewritten-url"],
-													'pid'=>$video_urls["url"],
-													'video_embed'=>str_replace("watch?v=", "embed/", $video_urls["rewritten-url"]),
-													'user_id'=>$this->getUser()->id
-													)
-												);
-			}
-		return $this;
-		}
-
-
-	
-	
-	// public function youtubeDbPlaylistSelect(){ //I THINK I SHOULD NOT RETURN THE ARRAY COS IT MAKES IT HARDER TO GET OTHER THINGS FORM DB WITHOUT
-	// //WRITING A NEW METHOD
-	
-	// 	if(!count($this->_db->get('playlists', array('user_id', '=', $this->_user->data()->id))->results()))
-	// 		{
-	// 		$this->youtubeInsert();
-
-	// 		} 
-			
-	// 		$playlists=$this->_db->get('playlists', array('user_id', '=', $this->_user->data()->id))->results(); 					 
-	// 		for ($i=0; $i < sizeof($playlists); $i++) { 
-	// 					$playlistArray[$playlists[$i]->playlist_title]=$playlists[$i]->playlist_url;
-		 
+	// public function updatePlaylist($selection){
+	// 	foreach ($selection as $key => $value) {
+	// 		$url = $value;
 	// 	}
-
-	// 	return $playlistArray;
-		
+	// 	$specific_playlist=simplexml_load_file($url);
+	// 	for ($i=0; $i<sizeof($specific_playlist->entry); $i++) {
+	// 		$videos[(string)$specific_playlist->entry[$i]->title]=array(
+	// 															'rewritten-url'=>str_replace("&feature=youtube_gdata", "", 
+	// 															(string)$specific_playlist->entry[$i]->link->attributes()->href),
+	// 															'url'=>$url	
+	// 															);
+	// }
+	// 	foreach ($videos as $video_label => $video_urls) {
+	// 		$this->_db->insert('videos', array(
+	// 							'video_label'=>$video_label,
+	// 							// 'video_url'=>$video_url,
+	// 							'video_url'=>$video_urls["rewritten-url"],
+	// 							'pid'=>$video_urls["url"],
+	// 							'video_embed'=>str_replace("watch?v=", "embed/", $video_urls["rewritten-url"]),
+	// 							'user_id'=>$this->getUser()->id
+	// 							)
+	// 						);
 	// 	}
-	// 	
+	// }
+
+
+
 
 }
 	
