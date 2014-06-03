@@ -53,9 +53,9 @@ Class Youtube{
 ///INSERT VIDEOS INTO THE DB - youtubeVideoInsert() 
 ///INSERT PLAYLISTS INTO THE DB - youtubeInsert()
 //////COMPARE THE DB AND API PLAYLISTS - youtubePlaylistCompare()
-//////COMPARE THE DB AND API FOR VIDEOS IN APLAYLISTS
-///DELETE VIDEOS INTO THE DB - deleteFromPlaylist()
-///DELETE PLAYLISTS INTO THE DB
+//////COMPARE THE DB AND API FOR VIDEOS IN A PLAYLISTS youtubePlaylistVideosCompare()
+///DELETE VIDEOS FROM THE DB - deleteFromPlaylist()
+///DELETE PLAYLISTS FROM THE DB
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -68,7 +68,7 @@ Class Youtube{
 	 * GET A LIST OF USERS PLAYLISTS FROM THE API
 	 */
 	public function youtubeApiConnect() { //I THINK THAT USERNAME SHOULD BE PASSED AS A PARAMETER TO MAKE IT MORE OBVIOUS
-				$url="https://gdata.youtube.com/feeds/api/users/".$this->getUser()->username."/playlists";
+				$url="https://gdata.youtube.com/feeds/api/users/".$this->getUser()->username."/playlists?max-results=50";
 				$xml=simplexml_load_file($url);
 				//print_r($xml);
 				for ($i=0; $i < sizeof($xml->entry); $i++) { 
@@ -136,21 +136,31 @@ Class Youtube{
 		}
 
 		public function youtubePlaylistCompare(){
-			print_r($this->youtubeDbPlaylistSelect()->getYoutubeDbPlaylist());
-			print_r($this->youtubeApiConnect()->getYoutubeApiPlaylist());
-			$difference = array_diff_key($this->getYoutubeApiPlaylist(), $this->getYoutubeDbPlaylist());
+			//print_r($this->youtubeDbPlaylistSelect()->getYoutubeDbPlaylist());
+			//print_r($this->youtubeApiConnect()->getYoutubeApiPlaylist());
+			$difference = array_diff_key($this->getYoutubeDbPlaylist(), $this->getYoutubeApiPlaylist());
 			if($difference) {
 				print 'nope they are different';
 				print_r($difference);
-				
+				$this->deletePlaylist($difference);	
 			} else {
-				print 'they are the same';
-			}
-
-				
-
-					
+				$this->youtubeInsert();
+			}		
 		}
+
+
+	/**
+	 * DELETE VIDEOS FROM THE DB 
+	 */
+	public function deletePlaylist($difference){ 
+	foreach ($difference as $key => $value) { // ...break apart array to get $key (image name) ...
+			$delete = $this->_db->delete('playlists', array('playlist_url','=',$value)); // ...and user that the delete rows from the db
+			}
+		//$delete = $this->_db->delete('videos', array('playlist_url'), array('='), array($value)); // ...and user that the delete rows from the db
+	}
+
+
+
 
 
 	/**
@@ -184,15 +194,12 @@ Class Youtube{
 			$url = $value;
 		}
 		$dbVideoArray=$this->_db->get('videos', array('pid', '=', $url))->results();
+		//print_r($dbVideoArray);
 		for ($i=0; $i < sizeof($dbVideoArray); $i++) { 
-						$dbVideos[]=$dbVideoArray[$i]->video_label;		 
+						$dbVideos[$dbVideoArray[$i]->video_label]=$dbVideoArray[$i]->pid;		 
 		}
 		return $dbVideos;
 	}
-
-	
-
-
 
 	/**
 	 * QUERY THE API FOR VIDEOS  
@@ -201,7 +208,7 @@ Class Youtube{
 		//$selection=$this->youtubeDbPlaylistSelect()->getYoutubeDbPlaylist();
 		//$playlists=$this->youtubeGetUserSelectedPlaylist($selection);
 		foreach ($selection as $title => $url) {
-			print 'this is title '.$title . 'and this is url '.$url;
+			//print 'this is title '.$title . 'and this is url '.$url;
 			//$urls[]=$url;
 			$specific_playlist=simplexml_load_file($url);
 			 if(preg_match_all('/\=(.*?)\&/',(string)$specific_playlist->entry[0]->link->attributes()->href,$match)) {            
@@ -227,6 +234,29 @@ Class Youtube{
 			 //return $this;
 		}
 	}
+
+
+		public function youtubePlaylistVideosCompare($selection){
+			 // print '<h2>this is from the databse</h2>';
+			 // print_r($this->youtubeDbVideoSelect($selection));
+			 // print '<h2>this is from the API</h2>';
+			 // print_r($this->youtubeAPIVideoSelect($selection));
+
+			$difference = array_diff_key($this->youtubeAPIVideoSelect($selection), $this->youtubeDbVideoSelect($selection));
+			if($difference) {
+				print 'nope they are different';
+				print_r($difference);
+				
+			} else {
+				print 'they are the same';
+			}		
+		}
+
+
+
+
+
+
 
 /**
 	 * INSERT VIDEOS INTO THE DB
@@ -279,7 +309,7 @@ public function youtubeVideoInsert($selection){
 
 
 	/**
-	 * DELETE VIDEOS INTO THE DB 
+	 * DELETE VIDEOS FROM THE DB 
 	 */
 	public function deleteFromPlaylist($selection, $difference){ 
 		foreach ($selection as $key => $value) {
@@ -290,6 +320,10 @@ public function youtubeVideoInsert($selection){
 			}
 		$delete = $this->_db->delete('videos', array(array('video_label','pid'), array('=','='), array($value, $url))); // ...and user that the delete rows from the db
 	}
+
+
+
+
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

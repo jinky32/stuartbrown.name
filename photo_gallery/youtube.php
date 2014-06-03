@@ -53,10 +53,12 @@ $i++;
 
 if(Input::get('youtube_playlists')){
   //print_r(Input::get('playlist'));
+ // $youtube->youtubePlaylistVideosCompare(Input::get('playlist'));
+$youtube->youtubePlaylistCompare(Input::get('playlist'));
     //$youtube->youtubePlaylistSync(Input::get('playlist'));
     //print '<br /> here <br />';
-    //$youtube->youtubeDbVideoSelect(Input::get('playlist'));
-$youtube->videoDiff(Input::get('playlist'));
+    //print_r($youtube->youtubeDbVideoSelect(Input::get('playlist')));
+//$youtube->videoDiff(Input::get('playlist'));
 
   //print $youtube->addQuotes(Input::get('playlist'));
   //$youtube->youtubeGetUserSelectedPlaylist(Input::get('playlist'));
