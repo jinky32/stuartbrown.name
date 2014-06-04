@@ -28,7 +28,7 @@ $youtube->createUser('User','jinky32');
 //$youtube->youtubeVideoInsert();
 //print_r($youtube->youtubeDbPlaylistSelect());
 			//print_r($youtube->youtubeVideoInsert());
-			//$youtube->youtubeVideoInsert();
+			$youtube->youtubeInsert();
 			//print_r($youtube->youtubeApiConnect()->getYoutubeApiPlaylist());
 			//print_r($youtube->youtubeDbPlaylistImageSelect());
 //print_r($youtube->getUser()->data()->id);
@@ -48,8 +48,8 @@ $youtube->createUser('User','jinky32');
 //print_r($youtube->youtubeApiConnect()->getYoutubeApiPlaylist());
 //print_r($youtube->youtubeDbPlaylistSelect()->getYoutubeDbPlaylist());
 //$youtube->youtubePlaylistCompare();
-$var = Array ( ['https://gdata.youtube.com/feeds/api/playlists/PLEtmlR7ubZ2mKz0KrAzV836KOcS6I5zfx'] => 'https://gdata.youtube.com/feeds/api/playlists/PLEtmlR7ubZ2mKz0KrAzV836KOcS6I5zfx' ) ;
-$youtube->youtubeDbVideoSelect($var);
+//$var = Array ( ['https://gdata.youtube.com/feeds/api/playlists/PLEtmlR7ubZ2mKz0KrAzV836KOcS6I5zfx'] => 'https://gdata.youtube.com/feeds/api/playlists/PLEtmlR7ubZ2mKz0KrAzV836KOcS6I5zfx' ) ;
+//$youtube->youtubeDbVideoSelect($var);
 ?>
 
 
