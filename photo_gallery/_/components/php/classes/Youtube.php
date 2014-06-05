@@ -216,31 +216,22 @@ Class Youtube{
 	 * QUERY THE API FOR VIDEOS  
 	 */
 	public function youtubeAPIVideoSelect($selection){ 
-		//$selection=$this->youtubeDbPlaylistSelect()->getYoutubeDbPlaylist();
-		//$playlists=$this->youtubeGetUserSelectedPlaylist($selection);
-	//	foreach ($selection as $title => $url) {
-			//print 'this is title '.$title . 'and this is url '.$url;
-			//$urls[]=$url;
-			$specific_playlist=simplexml_load_file($selection);
-			 // if(preg_match_all('/\=(.*?)\&/',(string)$specific_playlist->entry[0]->link->attributes()->href,$match)) {            
-			 //     $match = "https://i1.ytimg.com/vi/".$match[1][0]."/mqdefault.jpg";
-			 //     $this->_db->update('playlists','playlist_url',$url, (array(
-			 // 							//'playlist_image' => $match
-		 	// 							'playlist_image'=>$match
-			 // 							//'playlist_url' => $chosen_playlist
-			 // 							))
-			 // 		);
-			 // }
+		
+		foreach ($selection as $title => $url) {
+			
+			$specific_playlist=simplexml_load_file($url);
+		
 
 			 for ($i=0; $i<sizeof($specific_playlist->entry); $i++) {
 				//print (string)$specific_playlist->entry[$i]->title.'<br />';
 			$videos[(string)$specific_playlist->entry[$i]->title]=array(
 											'rewritten-url'=>str_replace("&feature=youtube_gdata", "", (string)$specific_playlist->entry[$i]->link->attributes()->href),
-											'url'=>$selection
+											'url'=>$url
 											);
 			//print $videos[(string)$specific_playlist->entry[$i]->title]["rewritten-url"];
 			}
-			//print_r($videos);
+		}
+			//return print_r($videos);
 			 return $videos;
 			 //return $this;
 		//}
@@ -251,14 +242,14 @@ Class Youtube{
 	 * [QUERY THE DB FOR VIDEOS
 	 */
 	public function youtubeDbVideoSelect($selection){  
-		// foreach ($selection as $key => $value) {
-		// 	$url = $value;
-		// }
-		$dbVideoArray=$this->_db->get('videos', array('pid', '=', $selection))->results();
+		foreach ($selection as $key => $value) {
+			$dbVideoArray=$this->_db->get('videos', array('pid', '=', $value))->results();
 		//print_r($dbVideoArray);
-		for ($i=0; $i < sizeof($dbVideoArray); $i++) { 
-						$dbVideos[$dbVideoArray[$i]->video_label]=$dbVideoArray[$i]->pid;		 
+			for ($i=0; $i < sizeof($dbVideoArray); $i++) { 
+							$dbVideos[$dbVideoArray[$i]->video_label]=$dbVideoArray[$i]->pid;		 
+			}
 		}
+		
 		return $dbVideos;
 	}
 
@@ -267,11 +258,13 @@ Class Youtube{
 	public function youtubePlaylistVideosCompare($selection){
 		$this->selected = $selection;
 		foreach ($selection as $key => $value) {
+			$value = (array)$value;
 			print $value . '<br />';
-				 // print '<h2>this is from the databse</h2>';
-		 //print_r($this->youtubeDbVideoSelect($selection));
-		 // print '<h2>this is from the API</h2>';
-		//print_r($this->youtubeAPIVideoSelect($selection));
+			//foreach ($value as $index => $url) {
+						 print '<h2>this is from the databse</h2>';
+		 print_r($this->youtubeDbVideoSelect($value));
+		 print '<h2>this is from the API</h2>';
+		print_r($this->youtubeAPIVideoSelect($value));
 		if(count($this->youtubeDbVideoSelect($value))) {
 			$difference = array_diff_key($this->youtubeAPIVideoSelect($value), $this->youtubeDbVideoSelect($value));
 			if($difference) {
@@ -284,6 +277,8 @@ Class Youtube{
 					//$this->youtubeVideoInsert($value);
 				}	
 		}
+		//	}
+		
 		
 		$this->youtubeVideoInsert($value);	
 		}
