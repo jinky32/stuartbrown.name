@@ -266,10 +266,11 @@ Class Youtube{
 		 print '<h2>this is from the API</h2>';
 		print_r($this->youtubeAPIVideoSelect($value));
 		if(count($this->youtubeDbVideoSelect($value))) {
-			$difference = array_diff_key($this->youtubeAPIVideoSelect($value), $this->youtubeDbVideoSelect($value));
+			$difference = array_diff_key($this->youtubeDbVideoSelect($value), $this->youtubeAPIVideoSelect($value));
 			if($difference) {
-				//print 'nope they are different';
-				//print_r($difference);
+				print 'nope they are different';
+				print_r($difference);
+				$this->deleteFromPlaylist($difference);
 				// I NEED TO HERE CALL THE DELETE METHOD TO REMOVE THOSE ITEMS THAT ARE DIFFERENT
 				
 				} else {
@@ -315,15 +316,16 @@ Class Youtube{
 	/**
 	 * DELETE VIDEOS FROM THE DB 
 	 */
-	public function deleteFromPlaylist($selection, $difference){ 
-		foreach ($selection as $key => $value) {
-			$url = $value;
-		}
+	// public function deleteFromPlaylist($selection, $difference){ 
+		public function deleteFromPlaylist($difference){ 
+		// foreach ($selection as $key => $value) {
+		// 	$url = $value;
+		// }
 		foreach ($difference as $key => $value) { // ...break apart array to get $key (image name) ...
-				$title=$value;
+				//$title=$key;
+				$delete = $this->_db->delete('videos', array(array('video_label','pid'), array('=','='), array($key, $value))); // ...and user that the delete rows from the db
 			}
-		$delete = $this->_db->delete('videos', array(array('video_label','pid'), array('=','='), array($value, $url))); // ...and user that the delete rows from the db
-	}
+			}
 
 			
 
