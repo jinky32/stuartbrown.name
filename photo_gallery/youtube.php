@@ -31,18 +31,18 @@ foreach($playlists as $key => $value) {
                <?php print '"><label> <input type="checkbox" id="'.$value.'" 
         value="'.$value.'" 
         name="playlist['.$value.']"
-        title="Select this Playlist"'?> <?php if(isset($_POST['playlist'][$value])) print 'checked="checked"';?><?php print ' />   Select this Playlist.  You need to submit the form at the bottom of the page. </label>
+        title="Select this Playlist"'?> <?php if(isset($_POST['playlist'][$value])) print 'checked="checked"';?><?php print ' />   <a href="'. str_replace("gdata.youtube.com/feeds/api/playlists/", "www.youtube.com/playlist?list=", $value).'"><h4>'.$key.'</h4></a>  </label>
       <img src="'.$image_url[$i].'" alt="..." class="img-responsive img-rounded img-centred">
       <div class="caption">
-         <h4>'.$key.'</h4>
-        <p>some text</p>
-        <a href="#" class="btn btn-default" role="button">Synchronise Playlist</a></p>
+        <a href="'. str_replace("gdata.youtube.com/feeds/api/playlists/", "www.youtube.com/playlist?list=", $value).'"><h4>'.$key.'</h4></a> 
+        <!--<p>some text</p>
+        <a href="#" class="btn btn-default" role="button">Synchronise Playlist</a></p>-->
       </div>
     </div>
   </div>';
 $i++;     
           }
-          print '<input type="submit" class="btn btn-default" name="youtube_playlists" id="youtube_playlists" value="submit">';
+          print '<input type="submit" class="btn btn-default" name="youtube_playlists" id="youtube_playlists" value="Import or Synchronise selected playlists">';
  ?>  
      
 

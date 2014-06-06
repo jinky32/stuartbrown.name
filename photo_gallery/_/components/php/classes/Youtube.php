@@ -6,6 +6,8 @@ Class Youtube{
 	private $_user;
 	private $_db;
 	public $selected;
+	public $v3UserId;
+	public $playlists;
 	
 	/**
 	 * Construct takes a database connection (typehinted to DB class)
@@ -69,6 +71,56 @@ Class Youtube{
 ///////////////////THIS IS THE START OF A SERIES OF METHODS THAT DEAL WITH PLAYLISTS////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public function youtubev3($apiString){
+		$ch = curl_init();
+	   	curl_setopt($ch, CURLOPT_URL,$apiString);
+	    curl_setopt($ch , CURLOPT_HEADER, 0);
+	    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
+
+		$json = curl_exec($ch);
+		if(curl_errno($ch))
+		   {
+		       // echo 'Curl error: ' . curl_error($ch);
+		   }
+		 	curl_close($ch);
+		   $channel = array();
+
+	//decode json response
+		 if($json){
+		      $channel = json_decode($json); 
+		          }
+		 else {
+		      print "<p>Currently, No Service Available.</p>";
+		        } 
+		 return $channel;   
+		 //return $this;             
+		}
+
+		public function youtubev3UserId($channel){
+		$this->v3UserId = $channel->items[0]->id;
+		//return $stuff;		
+	}
+
+public function youtubev3ApiPlaylistSelect($url) { //I THINK THAT USERNAME SHOULD BE PASSED AS A PARAMETER TO MAKE IT MORE OBVIOUS
+				$this->playlists = $this->youtubev3($url);
+				//print_r($this->playlists);
+				for ($i=0; $i < sizeof($this->playlists->items) ; $i++) { 
+					//print $this->playlists->items[$i]->snippet->title . '<br />';
+					$array[$this->playlists->items[$i]->snippet->title]=$this->playlists->items[$i]->id;
+				}
+				return $array;
+			// 	$url="https://gdata.youtube.com/feeds/api/users/".$this->getUser()->username."/playlists?max-results=50";
+			// 	$xml=simplexml_load_file($url);
+			// 	//print_r($xml);
+			// 	for ($i=0; $i < sizeof($xml->entry); $i++) { 
+			// 		 $array[(string)$xml->entry[$i]->title]=(string)$xml->entry[$i]->id;
+			// 	}
+			// 	$this->_youtubeApiArray = $array;
+			// return $this;
+		}
+
+
+
 	/**
 	 * GET A LIST OF USERS PLAYLISTS FROM THE API
 	 */
@@ -131,8 +183,8 @@ Class Youtube{
 			//print_r($this->youtubeApiPlaylistSelect()->getYoutubeApiPlaylist());
 			$difference = array_diff_key($this->getYoutubeDbPlaylist(), $this->getYoutubeApiPlaylist());
 			if($difference) {
-				print 'nope they are different';
-				print_r($difference);
+				// print 'nope they are different';
+				// print_r($difference);
 				$this->deletePlaylist($difference);	
 			} else {
 				$this->youtubeInsert();
@@ -259,24 +311,25 @@ Class Youtube{
 		$this->selected = $selection;
 		foreach ($selection as $key => $value) {
 			$value = (array)$value;
-			print $value . '<br />';
-			//foreach ($value as $index => $url) {
-						 print '<h2>this is from the databse</h2>';
-		 print_r($this->youtubeDbVideoSelect($value));
-		 print '<h2>this is from the API</h2>';
-		print_r($this->youtubeAPIVideoSelect($value));
+		// 	print $value . '<br />';
+		// 	//foreach ($value as $index => $url) {
+		// 				 print '<h2>this is from the databse</h2>';
+		//  print_r($this->youtubeDbVideoSelect($value));
+		//  print '<h2>this is from the API</h2>';
+		// print_r($this->youtubeAPIVideoSelect($value));
 		if(count($this->youtubeDbVideoSelect($value))) {
 			$difference = array_diff_key($this->youtubeDbVideoSelect($value), $this->youtubeAPIVideoSelect($value));
 			if($difference) {
-				print 'nope they are different';
-				print_r($difference);
+				// print 'nope they are different';
+				// print_r($difference);
 				$this->deleteFromPlaylist($difference);
 				// I NEED TO HERE CALL THE DELETE METHOD TO REMOVE THOSE ITEMS THAT ARE DIFFERENT
 				
-				} else {
-					print 'they are the same';
-					//$this->youtubeVideoInsert($value);
-				}	
+				 } 
+				 //else {
+				// 	print 'they are the same';
+				// 	//$this->youtubeVideoInsert($value);
+				// }	
 		}
 		//	}
 		
