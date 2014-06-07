@@ -6,7 +6,7 @@ Class Youtube{
 	private $_user;
 	private $_db;
 	public $selected;
-	public $v3UserId;
+	public $ytUserId;
 	public $playlists;
 	
 	/**
@@ -49,7 +49,7 @@ Class Youtube{
 ///////////////////TASKS:
 /////////// GIVEN AN ARRAY OF PLAYLIST URI:
 ///QUERY THE API FOR PLAYLISTS - youtubeApiPlaylistSelect()
-///RETURN THE API PLAYLISTS - getYoutubeApiPlaylist()
+///RETURN THE API PLAYLISTS - getYoutubeApiPlaylist()  -THIS IS GOING TO BE DELETED
 ///QUERY THE DB FOR PLAYLISTS - youtubeDbPlaylistSelect()
 ///COMPARE THE DB AND API PLAYLISTS - youtubePlaylistCompare()
 ///INSERT PLAYLISTS INTO THE DB - youtubeInsert()
@@ -83,40 +83,43 @@ Class Youtube{
 		       // echo 'Curl error: ' . curl_error($ch);
 		   }
 		 	curl_close($ch);
-		   $channel = array();
+		   $obj = array();
 
 	//decode json response
 		 if($json){
-		      $channel = json_decode($json); 
+		      $obj = json_decode($json); 
 		          }
 		 else {
 		      print "<p>Currently, No Service Available.</p>";
 		        } 
-		 return $channel;   
+		 return $obj;   
 		 //return $this;             
 		}
 
-		public function youtubev3UserId($channel){
-		$this->v3UserId = $channel->items[0]->id;
-		//return $stuff;		
-	}
+		//public function youtubev3UserId($name){
+			public function youtubev3UserId(){
+		$apicall="https://www.googleapis.com/youtube/v3/channels?part=id,snippet,contentDetails&forUsername=jinky32&key=AIzaSyCkLQdmPsuH_Ce3qXbMkX6z-p_t4EX4aoM";
+		//$apicall='https://www.googleapis.com/youtube/v3/channels?part=id,snippet,contentDetails&forUsername='.$name.'&key=AIzaSyCkLQdmPsuH_Ce3qXbMkX6z-p_t4EX4aoM';
+		$this->ytUserId = $this->youtubev3($apicall)->items[0]->id;
+		//return $this->youtubev3($apicall)->items[0]->id;	
+		}
 
-public function youtubev3ApiPlaylistSelect($url) { //I THINK THAT USERNAME SHOULD BE PASSED AS A PARAMETER TO MAKE IT MORE OBVIOUS
-				$this->playlists = $this->youtubev3($url);
+/**
+	 * GET A LIST OF USERS PLAYLISTS FROM THE API
+	 */
+public function youtubeApiPlaylistSelect() { //I THINK THAT USERNAME SHOULD BE PASSED AS A PARAMETER TO MAKE IT MORE OBVIOUS
+				//$this->playlists = $this->youtubev3($url)
+				$this->youtubev3UserId();
+$playlists_url="https://www.googleapis.com/youtube/v3/playlists?part=id,snippet&fields=items(id,snippet(channelId,title,thumbnails))&channelId=".$this->ytUserId."&key=AIzaSyCkLQdmPsuH_Ce3qXbMkX6z-p_t4EX4aoM&maxResults=50";
+				$playlists = $this->youtubev3($playlists_url);
 				//print_r($this->playlists);
-				for ($i=0; $i < sizeof($this->playlists->items) ; $i++) { 
+				for ($i=0; $i < sizeof($playlists->items) ; $i++) { 
 					//print $this->playlists->items[$i]->snippet->title . '<br />';
-					$array[$this->playlists->items[$i]->snippet->title]=$this->playlists->items[$i]->id;
+					$array[$playlists->items[$i]->snippet->title]=array('playlist_id'=>$playlists->items[$i]->id,'playlist_image'=>$playlists->items[$i]->snippet->thumbnails->medium->url);
 				}
 				return $array;
-			// 	$url="https://gdata.youtube.com/feeds/api/users/".$this->getUser()->username."/playlists?max-results=50";
-			// 	$xml=simplexml_load_file($url);
-			// 	//print_r($xml);
-			// 	for ($i=0; $i < sizeof($xml->entry); $i++) { 
-			// 		 $array[(string)$xml->entry[$i]->title]=(string)$xml->entry[$i]->id;
-			// 	}
-			// 	$this->_youtubeApiArray = $array;
-			// return $this;
+				//$this->_youtubeApiArray = $array;
+				// return $this;
 		}
 
 
@@ -124,16 +127,16 @@ public function youtubev3ApiPlaylistSelect($url) { //I THINK THAT USERNAME SHOUL
 	/**
 	 * GET A LIST OF USERS PLAYLISTS FROM THE API
 	 */
-	public function youtubeApiPlaylistSelect() { //I THINK THAT USERNAME SHOULD BE PASSED AS A PARAMETER TO MAKE IT MORE OBVIOUS
-				$url="https://gdata.youtube.com/feeds/api/users/".$this->getUser()->username."/playlists?max-results=50";
-				$xml=simplexml_load_file($url);
-				//print_r($xml);
-				for ($i=0; $i < sizeof($xml->entry); $i++) { 
-					 $array[(string)$xml->entry[$i]->title]=(string)$xml->entry[$i]->id;
-				}
-				$this->_youtubeApiArray = $array;
-			return $this;
-		}
+	// public function youtubeApiPlaylistSelect() { //I THINK THAT USERNAME SHOULD BE PASSED AS A PARAMETER TO MAKE IT MORE OBVIOUS
+	// 			$url="https://gdata.youtube.com/feeds/api/users/".$this->getUser()->username."/playlists?max-results=50";
+	// 			$xml=simplexml_load_file($url);
+	// 			//print_r($xml);
+	// 			for ($i=0; $i < sizeof($xml->entry); $i++) { 
+	// 				 $array[(string)$xml->entry[$i]->title]=(string)$xml->entry[$i]->id;
+	// 			}
+	// 			$this->_youtubeApiArray = $array;
+	// 		return $this;
+	// 	}
 	
 	/**
 	 * RETURN A LIST OF USERS PLAYLISTS FROM THE API
@@ -181,7 +184,7 @@ public function youtubev3ApiPlaylistSelect($url) { //I THINK THAT USERNAME SHOUL
 		public function youtubePlaylistCompare(){
 			//print_r($this->youtubeDbPlaylistSelect()->getYoutubeDbPlaylist());
 			//print_r($this->youtubeApiPlaylistSelect()->getYoutubeApiPlaylist());
-			$difference = array_diff_key($this->getYoutubeDbPlaylist(), $this->getYoutubeApiPlaylist());
+			$difference = array_diff_key($this->getYoutubeDbPlaylist(), $this->youtubeApiPlaylistSelect());
 			if($difference) {
 				// print 'nope they are different';
 				// print_r($difference);
@@ -196,18 +199,19 @@ public function youtubev3ApiPlaylistSelect($url) { //I THINK THAT USERNAME SHOUL
 	 * It manipulates the URI to make them usable in other API keys. Also adds in the playlist title and the user ID
 	 */
 	public function youtubeInsert(){  // I SHOULD PERHAPS CALL THE FUNCTION THAT INSERTS THE PLAYLIST IMAGE FROM WITHIN THIS FUNCTION
-		foreach($this->youtubeApiPlaylistSelect()->getYoutubeApiPlaylist() as $key => $value){
+		foreach($this->youtubeApiPlaylistSelect() as $key => $value){
 			$this->_db->insert('playlists', array(
 							'playlist_title'=>$key,
 							//'playlist_url'=>str_replace("users/jinky32/", "", $value),
-							'playlist_url'=>preg_replace("/^http:/i", "https:", str_replace("users/".$this->getUser()
-							->username."/", "", $value)),
+							'playlist_url'=>'https://www.youtube.com/playlist?list='.$value["playlist_id"],
+							'playlist_id'=>$value["playlist_id"],
+							'playlist_image'=>$value["playlist_image"],
 							'user_id'=>$this->getUser()->id
 							)
 						);	
-			$url = preg_replace("/^http:/i", "https:", str_replace("users/".$this->getUser()
-							->username."/", "", $value));
-			$this->youtubeDbPlaylistImageInsert($url);	
+			// $url = preg_replace("/^http:/i", "https:", str_replace("users/".$this->getUser()
+			// 				->username."/", "", $value));
+			// $this->youtubeDbPlaylistImageInsert($url);	
 		}
 		//$this->youtubeDbPlaylistImageInsert($selection);	
 		//return print_r($this->youtubeApiPlaylistSelect()->getYoutubeApiPlaylist());
@@ -239,20 +243,20 @@ public function youtubev3ApiPlaylistSelect($url) { //I THINK THAT USERNAME SHOUL
 			}
 
 
-		public function youtubeDbPlaylistImageInsert($url){
-		//	foreach ($selection as $title => $url) {
-				$specific_playlist=simplexml_load_file($url);
-				 if(preg_match_all('/\=(.*?)\&/',(string)$specific_playlist->entry[0]->link->attributes()->href,$match)) {            
-				     $match = "https://i1.ytimg.com/vi/".$match[1][0]."/mqdefault.jpg";
-				     $this->_db->update('playlists','playlist_url',$url, (array(
-				 							//'playlist_image' => $match
-			 								'playlist_image'=>$match
-				 							//'playlist_url' => $chosen_playlist
-				 							))
-				 		);
-				 }
-		//	}
-		}
+		// public function youtubeDbPlaylistImageInsert($url){
+		// //	foreach ($selection as $title => $url) {
+		// 		$specific_playlist=simplexml_load_file($url);
+		// 		 if(preg_match_all('/\=(.*?)\&/',(string)$specific_playlist->entry[0]->link->attributes()->href,$match)) {            
+		// 		     $match = "https://i1.ytimg.com/vi/".$match[1][0]."/mqdefault.jpg";
+		// 		     $this->_db->update('playlists','playlist_url',$url, (array(
+		// 		 							//'playlist_image' => $match
+		// 	 								'playlist_image'=>$match
+		// 		 							//'playlist_url' => $chosen_playlist
+		// 		 							))
+		// 		 		);
+		// 		 }
+		// //	}
+		// }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////THIS IS THE END OF A SERIES OF METHODS THAT DEAL WITH PLAYLISTS////////
@@ -267,17 +271,19 @@ public function youtubev3ApiPlaylistSelect($url) { //I THINK THAT USERNAME SHOUL
 	/**
 	 * QUERY THE API FOR VIDEOS  
 	 */
-	public function youtubeAPIVideoSelect($selection){ 
-		
+	public function youtubeAPIVideoSelect($selection){ 		
 		foreach ($selection as $title => $url) {
-			
-			$specific_playlist=simplexml_load_file($url);
+
+$videourl="https://www.googleapis.com/youtube/v3/playlistItems?part=id,snippet&fields=items(id,snippet(channelId,title,playlistId,resourceId))&playlistId=".$url."&key=AIzaSyCkLQdmPsuH_Ce3qXbMkX6z-p_t4EX4aoM";		
+			$specific_playlist=$this->youtubev3($videourl);
+
+			//$specific_playlist=simplexml_load_file($url);
 		
 
-			 for ($i=0; $i<sizeof($specific_playlist->entry); $i++) {
+			 for ($i=0; $i<sizeof($specific_playlist->items); $i++) {
 				//print (string)$specific_playlist->entry[$i]->title.'<br />';
-			$videos[(string)$specific_playlist->entry[$i]->title]=array(
-											'rewritten-url'=>str_replace("&feature=youtube_gdata", "", (string)$specific_playlist->entry[$i]->link->attributes()->href),
+			$videos[(string)$specific_playlist->items[$i]->snippet->title]=array(
+											'rewritten-url'=>$specific_playlist->items[$i]->snippet->resourceId->videoId,
 											'url'=>$url
 											);
 			//print $videos[(string)$specific_playlist->entry[$i]->title]["rewritten-url"];
@@ -353,8 +359,9 @@ public function youtubev3ApiPlaylistSelect($url) { //I THINK THAT USERNAME SHOUL
 						$this->_db->insert('videos', array(
 												'video_label'=>$video_label,
 												// 'video_url'=>$video_url,
-												'video_url'=>$video_urls["rewritten-url"],
+												'video_url'=>'https://www.youtube.com/watch?v='.$video_urls["rewritten-url"],
 												'pid'=>$video_urls["url"],
+												'vid'=>$video_urls["rewritten-url"],
 												'video_embed'=>str_replace("watch?v=", "embed/", $video_urls["rewritten-url"]),
 												'user_id'=>$this->getUser()->id
 												)
