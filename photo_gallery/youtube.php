@@ -9,6 +9,7 @@ $youtube= new Youtube($db);
 $youtube->createUser('User','jinky32');
 
 //var_dump($youtube->youtubeDbVideoSelect()) ;
+$youtube->youtubePlaylistCompare();
 $playlists = $youtube->youtubeDbPlaylistSelect()->getYoutubeDbPlaylist();
 $image_url = $youtube->youtubeDbPlaylistImageSelect();
 //print_r($playlists);
