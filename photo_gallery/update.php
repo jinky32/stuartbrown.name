@@ -6,6 +6,7 @@ require_once '_/components/php/core/init.php';
 
 //instantiate a new user - from this you can tell if they are logged in or not
 $user = new User();
+var_dump($user);
 
 if(!$user->isLoggedIn()){
 	Redirect::to('index.php');

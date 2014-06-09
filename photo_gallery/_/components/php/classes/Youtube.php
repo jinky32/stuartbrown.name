@@ -8,6 +8,7 @@ Class Youtube{
 	public $selected;
 	public $ytUserId;
 	public $playlists;
+	public $test;
 	
 	/**
 	 * Construct takes a database connection (typehinted to DB class)
@@ -44,6 +45,11 @@ Class Youtube{
 			{
 			    return $this->_user->data();
 			}		
+
+		public function User()
+		{
+		    return $this->_user->isLoggedIn();
+		}	
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////TASKS:
@@ -161,8 +167,8 @@ $playlists_url="https://www.googleapis.com/youtube/v3/playlists?part=id,snippet&
 
 
 		public function youtubePlaylistCompare(){
-			print_r($this->youtubeDbPlaylistSelect()->getYoutubeDbPlaylist());
-			print_r($this->youtubeApiPlaylistSelect());
+			// print_r($this->youtubeDbPlaylistSelect()->getYoutubeDbPlaylist());
+			// print_r($this->youtubeApiPlaylistSelect());
 			//print_r($this->youtubeApiPlaylistSelect()->getYoutubeApiPlaylist());
 			$difference = array_diff_key($this->getYoutubeDbPlaylist(), $this->youtubeApiPlaylistSelect());
 			if($difference) {
@@ -297,6 +303,9 @@ $videourl="https://www.googleapis.com/youtube/v3/playlistItems?part=id,snippet&f
 												'user_id'=>$this->getUser()->id
 												)
 											);
+						// $sql ="UPDATE {$table} SET {$set} WHERE {$field}='{$id}'";
+						 $this->_db->update('playlists', 'playlist_id', $video_urls["url"], array('selected'=> TRUE));
+						
 				}
 			return $this;
 			}

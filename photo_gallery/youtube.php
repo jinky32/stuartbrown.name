@@ -4,11 +4,28 @@
 require_once '_/components/php/core/init.php';
 $name='jinky32';
 $db =  DB::getInstance();
-//$user = new User('jinky32');
+//$user2 = new User('jinky32');
 $youtube= new Youtube($db);
-$youtube->createUser('User','jinky32');
+$user = $youtube->createUser('User','jinky32');
+var_dump($user);
+//var_dump($youtube->createUser('User'));
+//print_r($user->getUser()) ;
+//var_dump($user2) ;
+//$user = $youtube->createUser('User','jinky32');
+//var_dump($youtube->test);
 
+//$test = new User();
+// $test = $youtube->createUser('User','jinky32')->User();
+// var_dump($test);
 //var_dump($youtube->youtubeDbVideoSelect()) ;
+ //print_r($youtube->getUser());
+ //var_dump($youtube->User());
+// if($user->isLoggedIn()){
+//   print '<h1> YEAH!</h1>';
+//   //print_r($user->data());
+// } else {
+//     print '<h1> NOPE!</h1>';
+// };
 $youtube->youtubePlaylistCompare();
 $playlists = $youtube->youtubeDbPlaylistSelect()->getYoutubeDbPlaylist();
 $image_url = $youtube->youtubeDbPlaylistImageSelect();
@@ -44,6 +61,7 @@ foreach($playlists as $key => $value) {
 $i++;     
           }
           print '<input type="submit" class="btn btn-default" name="youtube_playlists" id="youtube_playlists" value="Import or Synchronise selected playlists">';
+          print '<input type="submit" class="btn btn-default" name="delete_youtube_playlists" id="delete_youtube_playlists" value="Remove This Playlist">';
  ?>  
      
 
@@ -65,6 +83,9 @@ $youtube->youtubePlaylistVideosCompare(Input::get('playlist'));
   //print $youtube->addQuotes(Input::get('playlist'));
   //$youtube->youtubeGetUserSelectedPlaylist(Input::get('playlist'));
 }
+if(Input::get('delete_youtube_playlists')){
+  print_r(Input::get('playlist'));
+  }
 
 ?>
 </div>      

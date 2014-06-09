@@ -29,6 +29,7 @@ class User {
 			}
 		} else {
 			$this->find($user);
+			$this->_isLoggedIn = true;
 		}
 	}
 
