@@ -4,9 +4,10 @@ class Fivehundredpx {
 	private $_db,
 			$_userFavourites,
 			$_userFavouritesEnd,
+			$_user,
 			$_results;
 	public static $consumer_key;
-	public static $fivehundredpx;
+	public $fivehundredpx;
 	public static $username;
 	public static $userid;
 	public static $dbUserId;
@@ -24,9 +25,23 @@ sdjsdfjs
  * Connects to the database and stores the connection in the private variable $_db (above)
  * @param string $user by default set to null but will take a username. 
  */
-	public function __construct($user = null){//define if we want to pass in a user value or not.
+	public function __construct(User $user){//define if we want to pass in a user value or not.
 			$this->_db = DB::getInstance();  //set db to getInstance e.g. connect to db
+			$this->_user = $user->data();
+			$this->userid = $user->data()->id;
+			$this->fivehundredpx = $user->data()->fivehundredpx;
+			$this->username = $user->data()->username;
 		}
+
+
+// 		public function userData(){
+// 	//print 'hello '. print $class->youtube;
+// 	//print_r($this->_class->data());
+// 	print 'hello '. $this->_user->data()->id;
+// 	//var_dump($this->_user->data());
+// 	$data=$this->_user->data(); 
+// 	//var_dump($data);
+// }
 /**
  * Will take a username but if one is not set it will look for username in the url.  
  * Using this it will create an instance of User and return an array of all the data related to that user in 
@@ -35,21 +50,26 @@ sdjsdfjs
  * @param  string $userid is the name of a user (the name they sign up with ratehr than their 500px handle)
  * MIGHT WANT TO CONSIDER WHETHER THE STATIC VARIABLES NEED TO BE SET STILL.  at least two do i think
  */
-	public function fhpxUser($userid=null){
-		if(!$userid){
-			$username = Input::get('user');
-		} else {
-			$username=$userid;
-		}
-		$username = Input::get('user');  //I THINK THIS LINE NEEDS TO COME OUT COS DEALT WITH ABOVE
-		$user = new User($username);
-		$data=$user->data(); 
-		//print_r($data);
-		self::$consumer_key = $data->fivehundredpxconsumerkey;
-		self::$username = $data->username;
-		self::$userid = $data->id;
-		self::$fivehundredpx=$data->fivehundredpx;	
-	}
+	// public function fhpxUser(){
+	// 	// if(!$userid){
+	// 	// 	$username = Input::get('user');
+	// 	// } else {
+	// 	// 	$username=$userid;
+	// 	// }
+	// 	//print_r($this->_user);
+	// 	$username = Input::get('user');  //I THINK THIS LINE NEEDS TO COME OUT COS DEALT WITH ABOVE
+	// 	//$user = new User($username);
+	// 	//$data=$this->_user->data(); 
+	// 	//print_r($data);
+	// 	// self::$consumer_key = $data->fivehundredpxconsumerkey;
+	// 	// self::$username = $data->username;
+	// 	// self::$userid = $data->id;
+	// 	// self::$fivehundredpx=$data->fivehundredpx;	
+	// 	self::$consumer_key = $this->_user->fivehundredpxconsumerkey;
+	// 	self::$username = $this->_user->username;
+	// 	self::$userid = $this->_user->id;
+	// 	self::$fivehundredpx=$this->_user->fivehundredpx;	
+	// }
 
 
 // see https://github.com/500px/api-documentation/blob/master/endpoints/photo/GET_photos.md for the list of phot-related endpints
@@ -80,13 +100,13 @@ sdjsdfjs
 	public function fhpxEndpoint($endpoint){
 		switch ($endpoint) {
 			case 'user_favourites':
-				return $apistring = 'https://api.500px.com/v1/photos?feature=user_favorites&username=' .self::$fivehundredpx . '&sort=rating&image_size=3&include_store=store_download&include_states=voted&consumer_key=I9CDYnaxrFxLTEvYxTmsDKZQlgStyLNQkmtOKGKb';
+				return $apistring = 'https://api.500px.com/v1/photos?feature=user_favorites&username=' .$fivehundredpx . '&sort=rating&image_size=3&include_store=store_download&include_states=voted&consumer_key=I9CDYnaxrFxLTEvYxTmsDKZQlgStyLNQkmtOKGKb';
 				break;
 			case 'user':
-				return $apistring = 'https://api.500px.com/v1/photos?feature=user&username=' .self::$fivehundredpx . '&sort=rating&image_size=3&include_store=store_download&include_states=voted&consumer_key=I9CDYnaxrFxLTEvYxTmsDKZQlgStyLNQkmtOKGKb';
+				return $apistring = 'https://api.500px.com/v1/photos?feature=user&username=' .$fivehundredpx . '&sort=rating&image_size=3&include_store=store_download&include_states=voted&consumer_key=I9CDYnaxrFxLTEvYxTmsDKZQlgStyLNQkmtOKGKb';
 				break;		
 			default:
-				return $apistring = 'https://api.500px.com/v1/photos?feature=user_favorites&username=' .self::$fivehundredpx . '&sort=rating&image_size=3&include_store=store_download&include_states=voted&consumer_key=I9CDYnaxrFxLTEvYxTmsDKZQlgStyLNQkmtOKGKb';
+				return $apistring = 'https://api.500px.com/v1/photos?feature=user_favorites&username=' .$fivehundredpx . '&sort=rating&image_size=3&include_store=store_download&include_states=voted&consumer_key=I9CDYnaxrFxLTEvYxTmsDKZQlgStyLNQkmtOKGKb';
 				break;
 		}
 	}

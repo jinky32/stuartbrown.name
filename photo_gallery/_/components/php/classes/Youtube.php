@@ -15,9 +15,10 @@ Class Youtube{
 	 * @param DB $db [description] This is a database connection.  Better than doing DB::getInstance
 	 * inside the constructor so it is more obvious what is going on (dependancy injection).
 	 */
-	public function __construct(DB $db){
+	public function __construct(DB $db, User $user){
 		//$this->_user = $user;
 		$this->_db = $db;
+		$this->_user = $user;
 		//return print_r($user->data()->username);
 		}
 		
@@ -29,14 +30,14 @@ Class Youtube{
 	 * User class to return
 	 * @return [object] this (Youtube object.)       [description]
 	 */
-		public function createUser($class, $name){
-					if($class=='User'){
-						$this->_user = new User($name); 
-					} else {
-						print 'no';
-					}
-					return $this;
-				}
+		// public function createUser($class, $name){
+		// 			if($class=='User'){
+		// 				$this->_user = new User($name); 
+		// 			} else {
+		// 				print 'no';
+		// 			}
+		// 			return $this;
+		// 		}
 	/**
 	 * [getUser description]Provides a way to get to a users data as provided by the User class
 	 * @return array [description] An array of the users data from the database
@@ -152,6 +153,7 @@ $playlists_url="https://www.googleapis.com/youtube/v3/playlists?part=id,snippet&
 				}
 			$this->_youtubeDbArray=$playlistArray;
 			return $this;	
+				//return $playlistArray;
 		}
 
 

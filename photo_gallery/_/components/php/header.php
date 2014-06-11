@@ -39,7 +39,10 @@ if(Session::exists('home')){
 }
 
 $user= new User();
-$fivehundredpx = new Fivehundredpx;
+//var_dump($user);
+$fivehundredpx = new Fivehundredpx($user);  //THis is the third user object being created.  It is after the header buttons
+
+//var_dump($user);
 //$fivehundredpx = new Fivehundredpx;
 //echo $user->data()->username;  //this will get the username using the data method of the User class
 // if($fivehundredpx->getUserImage($fivehundredpx->fhpxDbUserSelect(Input::get(user)))){

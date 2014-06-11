@@ -1,32 +1,37 @@
- <div class="row">
 <?php
-
-require_once '_/components/php/core/init.php';
-//$name='jinky32';
-$db =  DB::getInstance();
-//$user2 = new User('jinky32');
+	require_once '_/components/php/core/init.php';
+	include "_/components/php/header.php";
+	
+//$test = new Hello($user);
+//$test->sayHello();
 //var_dump($user);
+//
+//class Hello{
+//	private $_class;
+//public function __construct($user){
+//		//print_r($user);
+//		$this->_class=$user;
+//		}
+//
+//public function sayHello(){
+//	//print 'hello '. print $class->youtube;
+//	//print_r($this->_class->data());
+//	print 'hello '. $this->_class->data()->youtube;
+//}
+//
+//}
+//var_dump($fivehundredpx);
+var_dump($user);
+//$fivehundredpx->sayHello();
+//print $fivehundredpx->fivehundredpx;
+//$apistring = 'https://api.500px.com/v1/photos?feature=user_favorites&username=' .$fivehundredpx->fivehundredpx . '&sort=rating&image_size=3&include_store=store_download&include_states=voted&consumer_key=I9CDYnaxrFxLTEvYxTmsDKZQlgStyLNQkmtOKGKb';
+$apistring = 'https://api.500px.com/v1/photos?feature=user_favorites&username=jinky32&sort=rating&image_size=3&include_store=store_download&include_states=voted&consumer_key=I9CDYnaxrFxLTEvYxTmsDKZQlgStyLNQkmtOKGKb';
+$fivehundredpx->fhpxApiConnect($apiString);
+print_r($fivehundredpx->fhpxApiArray($obj));
+
+$db =  DB::getInstance();
 $youtube= new Youtube($db, $user);
-//$user = $youtube->createUser('User','jinky32');
-
-//var_dump($youtube->createUser('User'));
-//print_r($user->getUser()) ;
-//var_dump($user2) ;
-//$user = $youtube->createUser('User','jinky32');
-//var_dump($youtube->test);
-
-//$test = new User();
-// $test = $youtube->createUser('User','jinky32')->User();
-// var_dump($test);
-//var_dump($youtube->youtubeDbVideoSelect()) ;
- //print_r($youtube->getUser());
- //var_dump($youtube->User());
-// if($user->isLoggedIn()){
-//   print '<h1> YEAH!</h1>';
-//   //print_r($user->data());
-// } else {
-//     print '<h1> NOPE!</h1>';
-// };
+var_dump($user);
 $youtube->youtubePlaylistCompare();
 $playlists = $youtube->youtubeDbPlaylistSelect()->getYoutubeDbPlaylist();
 $image_url = $youtube->youtubeDbPlaylistImageSelect();
@@ -100,3 +105,8 @@ if(Input::get('delete_youtube_playlists')){
     <script src="_/js/myscript.js"></script>
   </body>
 </html>
+
+
+?>
+
+

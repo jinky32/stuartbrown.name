@@ -19,8 +19,8 @@ if(!Input::get(feature)) {
 } else {
   $feature = Input::get(feature);
 }
-$fivehundredpx = new Fivehundredpx;
-Fivehundredpx::fhpxUser();
+//$fivehundredpx = new Fivehundredpx;
+//Fivehundredpx::fhpxUser();
 //print 'hello '. Fivehundredpx::$username . 'your userid is ' . Fivehundredpx::$userid;
 $obj = $fivehundredpx->fhpxApiConnect($fivehundredpx->fhpxEndpoint($feature));
 $fivehundredpx->fhpxApiArray($obj);

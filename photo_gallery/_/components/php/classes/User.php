@@ -15,21 +15,23 @@ class User {
 		$this->_db =DB::getInstance(); //connect to the database
 		$this->_sessionName = Config::get('session/session_name');
 		$this->_cookieName = Config::get('remember/cookie_name');
-
+//print '<h1>There is no user!</h1>';
 		if(!$user) { //this way we can grab any user's details or the curretly logged in user using the same method (just put the user id as a param e.g. User(6))
+			//print '<h1>There is no user!</h1>';
 			if(Session::exists($this->_sessionName)) {
 				$user=Session::get($this->_sessionName);
 
 				//now check if that user actually exists or not 
 				if($this->find($user)) {
+					//print '<h1>I see you!</h1>';
 					$this->_isLoggedIn = true;
 				} else {
-					//process logout
+					//print '<h1>I can\'t find you!</h1>';
 				}
 			}
 		} else {
 			$this->find($user);
-			$this->_isLoggedIn = true;
+			//$this->_isLoggedIn = true;
 		}
 	}
 
