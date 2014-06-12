@@ -37,11 +37,11 @@ require_once '_/components/php/core/init.php';
 if(Session::exists('home')){
   echo '<p>' . Session::flash('home') .'</p>';
 }
-
+$db =  DB::getInstance();
 $user= new User();
 //var_dump($user);
 $fivehundredpx = new Fivehundredpx($user);  //THis is the third user object being created.  It is after the header buttons
-
+$youtube= new Youtube($db, $user);
 //var_dump($user);
 //$fivehundredpx = new Fivehundredpx;
 //echo $user->data()->username;  //this will get the username using the data method of the User class

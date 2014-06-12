@@ -157,6 +157,17 @@ $playlists_url="https://www.googleapis.com/youtube/v3/playlists?part=id,snippet&
 		}
 
 
+	public function youtubeSelectedDbPlaylistSelect(){ //I THINK THAT USERNAME SHOULD BE PASSED AS A PARAMETER TO MAKE IT MORE OBVIOUS
+				$playlists=$this->_db->get('playlists', array(array('user_id','selected'), array('=','='), array($this->getUser()->id, TRUE)))->results(); 					 
+				for ($i=0; $i < sizeof($playlists); $i++) { 
+					$selectedPlaylistArray[$playlists[$i]->playlist_title]=$playlists[$i]->playlist_id; //PLAYLISY_URL NEEDS TO CHANGE TO ID SO IT IS ADDED TO THE YOUTUBE.PHP
+					//AND WILL ALLOW VIDEO INSERT METHOS TO WORK.  OTHER METHODS THAT USE $SELECT VALUES NNED TO ALTER TO NOT LOOK AT PID
+					//BUT PLAYLISY_ID  (I THINK!)
+				}
+		
+			return $selectedPlaylistArray;	
+				//return $playlistArray;
+		}
 
 		/**
 		 * [getYoutubeDbPlaylist description] Returns the $_youtubeDbArray private class method.
@@ -262,7 +273,7 @@ $videourl="https://www.googleapis.com/youtube/v3/playlistItems?part=id,snippet&f
 			$dbVideoArray=$this->_db->get('videos', array('pid', '=', $value))->results();
 		//print_r($dbVideoArray);
 			for ($i=0; $i < sizeof($dbVideoArray); $i++) { 
-							$dbVideos[$dbVideoArray[$i]->video_label]=$dbVideoArray[$i]->pid;		 
+							$dbVideos[$dbVideoArray[$i]->video_label]=$dbVideoArray[$i]->vid;		 
 			}
 		}
 		
