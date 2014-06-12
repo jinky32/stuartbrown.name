@@ -7,7 +7,7 @@ class Fivehundredpx {
 			$_user,
 			$_results;
 	public static $consumer_key;
-	public $fivehundredpx;
+	public static $fivehundredpx;
 	public static $username;
 	public static $userid;
 	public static $dbUserId;
@@ -30,18 +30,23 @@ sdjsdfjs
 			$this->_user = $user->data();
 			$this->userid = $user->data()->id;
 			$this->fivehundredpx = $user->data()->fivehundredpx;
+			self::$fivehundredpx=$user->data()->fivehundredpx;
 			$this->username = $user->data()->username;
 		}
 
 
-// 		public function userData(){
-// 	//print 'hello '. print $class->youtube;
-// 	//print_r($this->_class->data());
-// 	print 'hello '. $this->_user->data()->id;
-// 	//var_dump($this->_user->data());
-// 	$data=$this->_user->data(); 
-// 	//var_dump($data);
-// }
+		public function userData(){
+	//print 'hello '. print $class->youtube;
+	//print_r($this->_class->data());
+	//print 'hello '. $fivehundredpx;
+	print 'here is some text '. $this->fivehundredpx;
+
+	//print 'here is some text '. Fivehundredpx::fivehundredpx();
+	//return $this->fivehundredpx;
+	//var_dump($this->_user->data());
+	//$data=$this->_user->data(); 
+	//var_dump($data);
+}
 /**
  * Will take a username but if one is not set it will look for username in the url.  
  * Using this it will create an instance of User and return an array of all the data related to that user in 
@@ -98,15 +103,22 @@ sdjsdfjs
  * @return [type] URL           [description] the URL to use to request images from 500px API
  */
 	public function fhpxEndpoint($endpoint){
+		//$fivehundred = $this->fivehundredpx;
 		switch ($endpoint) {
 			case 'user_favourites':
-				return $apistring = 'https://api.500px.com/v1/photos?feature=user_favorites&username=' .$fivehundredpx . '&sort=rating&image_size=3&include_store=store_download&include_states=voted&consumer_key=I9CDYnaxrFxLTEvYxTmsDKZQlgStyLNQkmtOKGKb';
+				//return $apistring = 'https://api.500px.com/v1/photos?feature=user_favorites&username=' .$fivehundredpx . '&sort=rating&image_size=3&include_store=store_download&include_states=voted&consumer_key=I9CDYnaxrFxLTEvYxTmsDKZQlgStyLNQkmtOKGKb';
+				return $apistring = "https://api.500px.com/v1/photos?feature=user_favorites&username=". self::$fivehundredpx."&sort=rating&image_size=3&include_store=store_download&include_states=voted&consumer_key=I9CDYnaxrFxLTEvYxTmsDKZQlgStyLNQkmtOKGKb";
+
 				break;
 			case 'user':
-				return $apistring = 'https://api.500px.com/v1/photos?feature=user&username=' .$fivehundredpx . '&sort=rating&image_size=3&include_store=store_download&include_states=voted&consumer_key=I9CDYnaxrFxLTEvYxTmsDKZQlgStyLNQkmtOKGKb';
+				//return $apistring = 'https://api.500px.com/v1/photos?feature=user&username=' .$fivehundredpx . '&sort=rating&image_size=3&include_store=store_download&include_states=voted&consumer_key=I9CDYnaxrFxLTEvYxTmsDKZQlgStyLNQkmtOKGKb';
+				return $apistring = "https://api.500px.com/v1/photos?feature=user&username=". self::$fivehundredpx."&sort=rating&image_size=3&include_store=store_download&include_states=voted&consumer_key=I9CDYnaxrFxLTEvYxTmsDKZQlgStyLNQkmtOKGKb";
+				
 				break;		
 			default:
-				return $apistring = 'https://api.500px.com/v1/photos?feature=user_favorites&username=' .$fivehundredpx . '&sort=rating&image_size=3&include_store=store_download&include_states=voted&consumer_key=I9CDYnaxrFxLTEvYxTmsDKZQlgStyLNQkmtOKGKb';
+				//return $apistring = 'https://api.500px.com/v1/photos?feature=user_favorites&username=' .$fivehundredpx . '&sort=rating&image_size=3&include_store=store_download&include_states=voted&consumer_key=I9CDYnaxrFxLTEvYxTmsDKZQlgStyLNQkmtOKGKb';
+				return $apistring = "https://api.500px.com/v1/photos?feature=user_favorites&username=". self::$fivehundredpx."&sort=rating&image_size=3&include_store=store_download&include_states=voted&consumer_key=I9CDYnaxrFxLTEvYxTmsDKZQlgStyLNQkmtOKGKb";
+
 				break;
 		}
 	}
@@ -117,6 +129,7 @@ sdjsdfjs
  * @return [array] $obj    [description] a json object from the 500px API.
  */
 	public function fhpxApiConnect($apiString){
+		//print $apiString;
 		$ch = curl_init();
 	   	curl_setopt($ch, CURLOPT_URL,$apiString);
 	    curl_setopt($ch , CURLOPT_HEADER, 0);
@@ -137,7 +150,8 @@ sdjsdfjs
 		 else {
 		      print "<p>Currently, No Service Available.</p>";
 		        } 
-		 return $obj;        
+		 return $obj;   
+		 //print_r($obj);     
 		}
 
 

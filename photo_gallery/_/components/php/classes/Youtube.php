@@ -172,7 +172,7 @@ $playlists_url="https://www.googleapis.com/youtube/v3/playlists?part=id,snippet&
 			// print_r($this->youtubeDbPlaylistSelect()->getYoutubeDbPlaylist());
 			// print_r($this->youtubeApiPlaylistSelect());
 			//print_r($this->youtubeApiPlaylistSelect()->getYoutubeApiPlaylist());
-			$difference = array_diff_key($this->getYoutubeDbPlaylist(), $this->youtubeApiPlaylistSelect());
+			$difference = array_diff_key($this->youtubeDbPlaylistSelect()->getYoutubeDbPlaylist(), $this->youtubeApiPlaylistSelect());
 			if($difference) {
 				$this->deletePlaylist($difference);	
 			} else {
