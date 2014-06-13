@@ -10,7 +10,7 @@
 //	private $_class;
 //public function __construct($user){
 //		//print_r($user);
-//		$this->_class=$user;
+//		$this->_class=$user;           fhpxInsert
 //		}
 //
 //public function sayHello(){
@@ -24,7 +24,32 @@
 //print $fivehundredpx->fivehundredpx;
 //print_r($fivehundredpx->userData());
 //print $fivehundredpx->userData()->fivehundredpx;
-$fivehundredpx->userData();
+$test = $fivehundredpx->fhpxApiArray($fivehundredpx->fhpxApiConnect($fivehundredpx->fhpxEndpoint('user_favorites')));
+print_r($test);
+
+// $test2 = $fivehundredpx->fhpxApiConnect($fivehundredpx->fhpxEndpoint('user_favorites'));
+// print_r($test2);
+
+
+// $test3 = $fivehundredpx->fhpxEndpoint('user_favorites');
+// print_r($test3);
+
+// $test4 = $fivehundredpx->fhpxDbImageSelect('user_favorites', 28);
+// print_r($test4);
+
+//$test5 = $fivehundredpx->fhpxNav('user_favorites');
+// //print $test5;
+// if(is_array($fivehundredpx->fhpxNav('user_favorites'))){
+// 	print 'YEAH';
+// }
+
+$test6 =$fivehundredpx->fhpApiDbSync('user_favorites', 28, 'https://api.500px.com/v1/photos?feature=user_favorites&username=jinky32&sort=rating&image_size=3&include_store=store_download&include_states=voted&consumer_key=I9CDYnaxrFxLTEvYxTmsDKZQlgStyLNQkmtOKGKb');
+//print_r($test6);
+
+//SEEMS TO BE AN ISSUES IN fhpApiDbSync WITH fhpxApiArray*************************
+
+
+//$fivehundredpx->userData();
 //var_dump($user);
 //$fivehundredpx->sayHello();
 //print $fivehundredpx->fivehundredpx;

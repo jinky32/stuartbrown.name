@@ -106,17 +106,14 @@ sdjsdfjs
 		//$fivehundred = $this->fivehundredpx;
 		switch ($endpoint) {
 			case 'user_favourites':
-				//return $apistring = 'https://api.500px.com/v1/photos?feature=user_favorites&username=' .$fivehundredpx . '&sort=rating&image_size=3&include_store=store_download&include_states=voted&consumer_key=I9CDYnaxrFxLTEvYxTmsDKZQlgStyLNQkmtOKGKb';
 				return $apistring = "https://api.500px.com/v1/photos?feature=user_favorites&username=". self::$fivehundredpx."&sort=rating&image_size=3&include_store=store_download&include_states=voted&consumer_key=I9CDYnaxrFxLTEvYxTmsDKZQlgStyLNQkmtOKGKb";
 
 				break;
 			case 'user':
-				//return $apistring = 'https://api.500px.com/v1/photos?feature=user&username=' .$fivehundredpx . '&sort=rating&image_size=3&include_store=store_download&include_states=voted&consumer_key=I9CDYnaxrFxLTEvYxTmsDKZQlgStyLNQkmtOKGKb';
 				return $apistring = "https://api.500px.com/v1/photos?feature=user&username=". self::$fivehundredpx."&sort=rating&image_size=3&include_store=store_download&include_states=voted&consumer_key=I9CDYnaxrFxLTEvYxTmsDKZQlgStyLNQkmtOKGKb";
 				
 				break;		
 			default:
-				//return $apistring = 'https://api.500px.com/v1/photos?feature=user_favorites&username=' .$fivehundredpx . '&sort=rating&image_size=3&include_store=store_download&include_states=voted&consumer_key=I9CDYnaxrFxLTEvYxTmsDKZQlgStyLNQkmtOKGKb';
 				return $apistring = "https://api.500px.com/v1/photos?feature=user_favorites&username=". self::$fivehundredpx."&sort=rating&image_size=3&include_store=store_download&include_states=voted&consumer_key=I9CDYnaxrFxLTEvYxTmsDKZQlgStyLNQkmtOKGKb";
 
 				break;
@@ -130,6 +127,7 @@ sdjsdfjs
  */
 	public function fhpxApiConnect($apiString){
 		//print $apiString;
+		//die();
 		$ch = curl_init();
 	   	curl_setopt($ch, CURLOPT_URL,$apiString);
 	    curl_setopt($ch , CURLOPT_HEADER, 0);
@@ -142,7 +140,7 @@ sdjsdfjs
 		   }
 		 	curl_close($ch);
 		   $obj = array();
-
+//print_r($obj);
 	//decode json response
 		 if($json){
 		      $obj = json_decode($json); 
@@ -164,6 +162,7 @@ sdjsdfjs
  */	
 	public function fhpxApiArray($obj){
 		$photos = $obj->photos;
+		//print_r($photos);
 		for ($i=0; $i < sizeof($photos); $i++) { 
 			$photo[$photos[$i]->name] = array(
 				'username'=>$photos[$i]->user->username,
@@ -187,6 +186,7 @@ sdjsdfjs
  */
 		public function fhpxInsert($feature){
 		$combined=$this->fhpxApiArray($this->fhpxApiConnect($this->fhpxEndpoint($feature)));
+		print_r($combined);
 		for ($i=0; $i < sizeof($combined); $i++) { 							
 				foreach($combined as $key => $value){
 			$this->_db->insert('images_'.$feature, array(
@@ -270,12 +270,17 @@ sdjsdfjs
  * @return array     fhpxDbFullArray     [description] The images from the database after being checked and synced against the values from the API
  */
 		public function fhpApiDbSync($feature, $userid, $obj){
+			// print 'API ARRAY <br />';
+			// print_r($this->fhpxApiArray($obj));
+			// print 'DB ARRAY <br />';
+			// print_r($this->fhpxDbImageSelect($feature, $userid));
 	//public function fhpxNav($feature, $userid, $obj){
 		if(!count($this->fhpxDbImageSelect($feature, $userid))){ // if nothing is returned from the query...
 			$this->fhpxInsert($feature); // ...then go ahead and insert the API data (most likely first load of the page)
 		} else {
 			 $difference = array_diff_assoc($this->fhpxDbImageSelect($feature, $userid), $this->fhpxApiArray($obj)); // if there is a result then compare the two arrays and store the difference in a variable
 			 if($difference){ // if there is a difference ...
+			 	//print_r($difference);
     		foreach ($difference as $key => $value) { // ...break apart array to get $key (image name) ...
       				$delete = $this->_db->delete('images_'.$feature, array('photo_title', '=', $key)); // ...and user that the delete rows from the db
      				} 
@@ -313,12 +318,19 @@ public function fhpxDbUserSelect($fivehundredpx){
 		$test = $this->fhpApiDbSync($feature, $this->fhpxDbUserSelect(Input::get(user)),$this->fhpxApiConnect($this->fhpxEndpoint($feature)));
 
 		for ($i=0; $i < sizeof($test); $i++) { 
+			//print $i . '<br />';
 		foreach($test as $key => $value){
 			$fhpxDbNavArray[$key] = $value[cat_id];
 			}
 		return $fhpxDbNavArray;
 		}
-
+	
+		// foreach($test as $key => $value){
+		// 	print  '<h1>Hello<h1/><br />';
+		// 	//$fhpxDbNavArray[$key] = $value[category];
+		// 	}
+		// return $fhpxDbNavArray;
+		
 		// return $intersect = array_intersect($this->fhpDbCategorySelect(), 
 		// 							$fhpxDbNavArray); 
 	}
