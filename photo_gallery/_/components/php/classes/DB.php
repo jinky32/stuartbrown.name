@@ -117,7 +117,7 @@ class DB {
 		if(count($where)===3) { //check if value is 3 cos we need a field an opertor and a value (e.g. 'username', '=', 'alex')
 		// print '<h1>here is where</h1>';
 			//print_r($where);
-			$operators = array('=', '>', '<', '>=', '<='); //define the list of operators
+			$operators = array('=', '>', '<', '>=', '<=', '<>'); //define the list of operators
 			//set the variables for the sql query. taken from the $where array
 			$field = $where[0]; //for example 'username'
 			$operator = $where[1]; //for example '='
