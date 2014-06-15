@@ -34,7 +34,7 @@ $fivehundredpx->fhpxEndpoint($feature);
 if($intersect = array_intersect($fivehundredpx->fhpDbCategorySelect(), 
                   $fivehundredpx->fhpxPhotoCompare()->fhpxNav()) ){
 
-print_r($intersect);
+//print_r($intersect);
 
 
 
