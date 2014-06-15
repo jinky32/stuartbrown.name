@@ -54,7 +54,16 @@
       </ol> -->
       <div class="carousel-inner">  
        <?php
-            $images = $fivehundredpx->fhpxDbImageSelect('user',$fivehundredpx->fhpxDbUserSelect(Input::get(user)));
+      // include "_/components/php/500nav.php";
+           
+if(!Input::get(feature)) {
+    $feature = 'user';
+} else {
+  $feature = Input::get(feature);
+}
+$fivehundredpx->fhpxEndpoint($feature);
+
+            $images = $fivehundredpx->fhpxDbImageSelect('user',$fivehundredpx->getUser()->id);
 
              reset($images);
 $first_key = key($images);

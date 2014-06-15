@@ -22,15 +22,20 @@ if(!Input::get(feature)) {
 //$fivehundredpx = new Fivehundredpx;
 //Fivehundredpx::fhpxUser();
 //print 'hello '. Fivehundredpx::$username . 'your userid is ' . Fivehundredpx::$userid;
-$obj = $fivehundredpx->fhpxApiConnect($fivehundredpx->fhpxEndpoint($feature));
-$fivehundredpx->fhpxApiArray($obj);
-$navigationImagesArray = $fivehundredpx->fhpApiDbSync($feature,$fivehundredpx->fhpxDbUserSelect(Input::get(user)),
-                                                  Fivehundredpx::fhpxApiConnect(Fivehundredpx::fhpxEndpoint($feature)));
-$navigationCategoriesArray = $fivehundredpx->fhpDbCategorySelect();
-if($fhpxDbNavArray = $fivehundredpx->fhpxNav($feature)){
+// $obj = $fivehundredpx->fhpxApiConnect($fivehundredpx->fhpxEndpoint($feature));
+// $fivehundredpx->fhpxApiArray($obj);
+// $navigationImagesArray = $fivehundredpx->fhpApiDbSync($feature,$fivehundredpx->fhpxDbUserSelect(Input::get(user)),
+//                                                   Fivehundredpx::fhpxApiConnect(Fivehundredpx::fhpxEndpoint($feature)));
+// $navigationCategoriesArray = $fivehundredpx->fhpDbCategorySelect();
+// if($fhpxDbNavArray = $fivehundredpx->fhpxNav($feature)){
+//$fivehundredpx->fhpxPhotoCompare()->fhpxNav();
+$fivehundredpx->fhpxEndpoint($feature);
+//print_r($fivehundredpx->fhpxEndpoint('user_favorites')->fhpxApiConnect()->fhpxApiPhotoSelect());
+if($intersect = array_intersect($fivehundredpx->fhpDbCategorySelect(), 
+                  $fivehundredpx->fhpxPhotoCompare()->fhpxNav()) ){
 
-$intersect = array_intersect($fivehundredpx->fhpDbCategorySelect(), 
-                  $fhpxDbNavArray); 
+print_r($intersect);
+
 
 
 
@@ -39,9 +44,14 @@ $intersect = array_intersect($fivehundredpx->fhpDbCategorySelect(),
              print "<li class='dropdown'>
                     <a href='#' class='dropdown-toggle' data-toggle='dropdown'>$label <b class='caret'></b>
                     </a><ul class='dropdown-menu'>";
-      
+  //     print_r(
+
+  // $fivehundredpx->fhpxEndpoint($feature)->fhpxNav()
+
+  // );
             
-              foreach ($fhpxDbNavArray as $key => $value) {
+              foreach ($fivehundredpx->fhpxEndpoint($feature)->fhpxNav() as $key => $value) {
+               // print 'this is key ' .$key . ' and this is value ' . $value;
                     if($id==$value){
                       $menu_item=urlencode($key);
                       //PERHAPS TRY URLENCODING WHEN INSERTING INTO DB AND THEN URLDECODE ON THE WAY OUT HERE.

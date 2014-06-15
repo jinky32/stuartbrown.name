@@ -3,7 +3,7 @@
 	//include "_/components/php/header.php";
 	$db =  DB::getInstance();
 	$user = new User('jinky32');
-	$fivehundredpx = new Fivehundredpx($user, $db); 
+	$fivehundredpx = new Fivehundredpx($db, $user); 
 	//print_r($fivehundredpx->getUser());
 	//print $fivehundredpx->getUser()->fivehundredpx;
 	//print_r($fivehundredpx->fhpxEndpoint('user'));
@@ -11,12 +11,13 @@
 	
 	//print_r($fivehundredpx->fhpxApiPhotoSelect());
 	//print_r($fivehundredpx->fhpxEndpoint('user_favorites')->fhpxApiConnect()->fhpxApiPhotoSelect());
-	$fivehundredpx->fhpxEndpoint('user_favorites')->fhpxApiConnect()->fhpxApiPhotoSelect();
+	//$fivehundredpx->fhpxEndpoint('user_favorites')->fhpxApiConnect()->fhpxApiPhotoSelect();
 	//$fivehundredpx->fhpxInsert();
 	//$fivehundredpx->fhpxEndpoint('user_favorites');
 		//$fivehundredpx->fhpxPhotoCompare();
-	//print_r($fivehundredpx->fhpxDbImageSelect());
-	print_r($fivehundredpx->fhpxPhotoCompare()->fhpxNav());
+	print_r($fivehundredpx->fhpxEndpoint('user_favorites')->fhpxDbImageSelect());
+	//print_r($fivehundredpx->fhpxPhotoCompare()->fhpxNav());
+	//print_r($fivehundredpx->fhpxEndpoint('user_favorites')->fhpxNav());
 //$test = new Hello($user);
 //$test->sayHello();
 //var_dump($user);

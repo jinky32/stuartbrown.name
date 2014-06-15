@@ -81,7 +81,7 @@ if(Session::exists('home')){
 $db =  DB::getInstance();
 $user= new User();
 //var_dump($user);
-$fivehundredpx = new Fivehundredpx($user);  //THis is the third user object being created.  It is after the header buttons
+$fivehundredpx = new Fivehundredpx($db, $user);  //THis is the third user object being created.  It is after the header buttons
 $youtube= new Youtube($db, $user);
 //var_dump($user);
 //$fivehundredpx = new Fivehundredpx;
@@ -89,8 +89,8 @@ $youtube= new Youtube($db, $user);
 // if($fivehundredpx->getUserImage($fivehundredpx->fhpxDbUserSelect(Input::get(user)))){
 // $fivehundredpx->displayImage(Fivehundredpx::$userid);
 //print '<h1> this is displayImage Test</h1><img src="'.$fivehundredpx->displayImage($fivehundredpx->fhpxDbUserSelect(Input::get(user))).'" >';
-if($fivehundredpx->getUserImage($fivehundredpx->fhpxDbUserSelect(Input::get(user)))){
-  $userPicURL=$fivehundredpx->getUserImage($fivehundredpx->fhpxDbUserSelect(Input::get(user)));
+if($userPicURL = $fivehundredpx->getUserImage()){
+  //$userPicURL=$fivehundredpx->getUserImage($fivehundredpx->fhpxDbUserSelect(Input::get(user)));
   print '<a href="index.php"><img src=\''.str_replace('/1.', '/3.', $userPicURL).'\' class=\'img-rounded\'></a>';
             //print '<img src=\''.str_replace('/3.', '/4.', $url).'\' class=\'img-responsive img-rounded img-centred\');>';
 } else {

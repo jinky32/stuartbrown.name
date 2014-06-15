@@ -13,7 +13,7 @@ class Fivehundredpx {
  * Connects to the database and stores the connection in the private variable $_db (above)
  * @param string $user by default set to null but will take a username. 
  */
-	public function __construct(User $user, DB $db){//define if we want to pass in a user value or not.
+	public function __construct(DB $db, User $user){//define if we want to pass in a user value or not.
 			$this->_db = $db;  //set db to getInstance e.g. connect to db
 			$this->_user = $user;
 			// $this->userid = $user->data()->id;
@@ -185,8 +185,8 @@ class Fivehundredpx {
  * @param  [integer] $userid [description] called via $fivehundredpx->fhpxDbUserSelect(Input::get(user)) which gets the user id from the username
  * @return [string / url]     $profilePicture    [description] a link to the profile picture which can be rendered in img src
  */
-		public function getUserImage($userid){ 
-		 if($userQuery=$this->_db->get('images_user', array('user_id', '=', $userid))->results()){ 
+		public function getUserImage(){ 
+		 if($userQuery=$this->_db->get('images_user', array('user_id', '=', $this->getUser()->id))->results()){ 
 		 	return $profilePicture = $userQuery[0]->userpic_url; 
 				} 
 		 else {
@@ -228,7 +228,7 @@ class Fivehundredpx {
 
 	public function fhpxPhotoCompare(){
 	if($this->fhpxDbImageSelect()){
-		$difference = array_diff_key($this->fhpxDbImageSelect(), $this->fhpxApiPhotoSelect());
+		$difference = array_diff_key($this->fhpxDbImageSelect(), $this->fhpxApiConnect()->fhpxApiPhotoSelect());
 		if($difference) {
 			//print_r($difference);
 			$this->deletePhoto($difference);	
