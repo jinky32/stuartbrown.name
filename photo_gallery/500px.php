@@ -1,5 +1,5 @@
 <?php
-// include "_/components/php/500nav.php";
+include "_/components/php/500nav.php";
 
 //THESE SWITCH STATEMENTS SHOULD GO INTO THE INPUT CLASS AS A METHOD AND BE REMOVED FROM THESE FILES 
 

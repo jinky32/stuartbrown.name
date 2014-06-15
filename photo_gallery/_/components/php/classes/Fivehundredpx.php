@@ -2,86 +2,116 @@
 
 class Fivehundredpx {
 	private $_db,
-			$_userFavourites,
-			$_userFavouritesEnd,
-			$_user,
-			$_results;
-	public static $consumer_key;
-	public static $fivehundredpx;
-	public static $username;
-	public static $userid;
-	public static $dbUserId;
-	public static $nonunique=array(); //initiate $nonunique array.  This will hold the full list of category IDs from the 500px API.  $categories below will be used to get only unique IDs in order to create the primary navigation.
-	public static $photoname=array(); // intitiate $photoname array.  Holds the names of the photographs from the API array
-	public static $categories=array(); // intitiate $categories array.  This will be filtered to contain only unique values to drive the primary navigation labels.
-	//public static $combined ='foo';
+	$_obj,
+	$_feature,
+	$_fhpxApiArray,
+	$_user;
+	public $apistring;
 
-/*
-dsjskd
-sdjsdfjs
- */
 
 /**
  * Connects to the database and stores the connection in the private variable $_db (above)
  * @param string $user by default set to null but will take a username. 
  */
-	public function __construct(User $user){//define if we want to pass in a user value or not.
-			$this->_db = DB::getInstance();  //set db to getInstance e.g. connect to db
-			$this->_user = $user->data();
-			$this->userid = $user->data()->id;
-			$this->fivehundredpx = $user->data()->fivehundredpx;
-			self::$fivehundredpx=$user->data()->fivehundredpx;
-			$this->username = $user->data()->username;
+	public function __construct(User $user, DB $db){//define if we want to pass in a user value or not.
+			$this->_db = $db;  //set db to getInstance e.g. connect to db
+			$this->_user = $user;
+			// $this->userid = $user->data()->id;
+			// $this->fivehundredpx = $user->data()->fivehundredpx;
+			// self::$fivehundredpx=$user->data()->fivehundredpx;
+			// $this->username = $user->data()->username;
+			return $this;
 		}
 
 
-		public function userData(){
-	//print 'hello '. print $class->youtube;
-	//print_r($this->_class->data());
-	//print 'hello '. $fivehundredpx;
-	print 'here is some text '. $this->fivehundredpx;
-
-	//print 'here is some text '. Fivehundredpx::fivehundredpx();
-	//return $this->fivehundredpx;
-	//var_dump($this->_user->data());
-	//$data=$this->_user->data(); 
-	//var_dump($data);
-}
-/**
- * Will take a username but if one is not set it will look for username in the url.  
- * Using this it will create an instance of User and return an array of all the data related to that user in 
- * the user table of the db
- * 
- * @param  string $userid is the name of a user (the name they sign up with ratehr than their 500px handle)
- * MIGHT WANT TO CONSIDER WHETHER THE STATIC VARIABLES NEED TO BE SET STILL.  at least two do i think
- */
-	// public function fhpxUser(){
-	// 	// if(!$userid){
-	// 	// 	$username = Input::get('user');
-	// 	// } else {
-	// 	// 	$username=$userid;
-	// 	// }
-	// 	//print_r($this->_user);
-	// 	$username = Input::get('user');  //I THINK THIS LINE NEEDS TO COME OUT COS DEALT WITH ABOVE
-	// 	//$user = new User($username);
-	// 	//$data=$this->_user->data(); 
-	// 	//print_r($data);
-	// 	// self::$consumer_key = $data->fivehundredpxconsumerkey;
-	// 	// self::$username = $data->username;
-	// 	// self::$userid = $data->id;
-	// 	// self::$fivehundredpx=$data->fivehundredpx;	
-	// 	self::$consumer_key = $this->_user->fivehundredpxconsumerkey;
-	// 	self::$username = $this->_user->username;
-	// 	self::$userid = $this->_user->id;
-	// 	self::$fivehundredpx=$this->_user->fivehundredpx;	
-	// }
-
+//
 
 // see https://github.com/500px/api-documentation/blob/master/endpoints/photo/GET_photos.md for the list of phot-related endpints
 // categories at https://github.com/500px/api-documentation/blob/master/basics/formats_and_terms.md#categories.
 // might want to show other photos from users in the same category as theirs that you have favourited 
 // eg https://api.500px.com/v1/photos?feature=user&username=***user**earlmcgraw**/user***category**&only=Black and White****/category***&sort=rating&image_size=3&include_store=store_download&include_states=voted&consumer_key=I9CDYnaxrFxLTEvYxTmsDKZQlgStyLNQkmtOKGKb
-	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////TASKS:
+/////////// GIVEN AN ARRAY OF PLAYLIST URI:
+///QUERY THE API FOR PLAYLISTS - youtubeApiPlaylistSelect()
+///RETURN THE API PLAYLISTS - getYoutubeApiPlaylist()  -THIS IS GOING TO BE DELETED
+///QUERY THE DB FOR PLAYLISTS - youtubeDbPlaylistSelect()
+///COMPARE THE DB AND API PLAYLISTS - youtubePlaylistCompare()
+///INSERT PLAYLISTS INTO THE DB - youtubeInsert()
+///INSERT PLAYLIST IMAGES INTO THE DB - youtubeDbPlaylistImageInsert()
+///RETURN PLAYLIST IMAGES FROM THE DB - youtubeDbPlaylistImageSelect()
+///DELETE PLAYLISTS FROM THE DB - deletePlaylist()
+///
+///QUERY THE API FOR VIDEOS - youtubeAPIVideoSelect() 
+///QUERY THE DB FOR VIDEOS -youtubeDbVideoSelect()
+///COMPARE THE DB AND API FOR VIDEOS IN A PLAYLISTS youtubePlaylistVideosCompare()
+///INSERT VIDEOS INTO THE DB - youtubeVideoInsert() 
+///DELETE VIDEOS FROM THE DB - deleteFromPlaylist()
+///
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+/**
+ * [fhpxEndpoint description] Defines / creates the URL to use for the 500px API
+ * @param  [type] string $endpoint [description] which aspect of a user's profile you want form the 500px API (user_favorites - 
+ * the user's favourited images or user - their own images)
+ * @return [type] URL           [description] the URL to use to request images from 500px API
+ */
+	public function fhpxEndpoint($endpoint){
+		//$fivehundred = $this->fivehundredpx;
+		switch ($endpoint) {
+			case 'user_favourites':
+				 $this->apistring = "https://api.500px.com/v1/photos?feature=user_favorites&username=". $this->getUser()->fivehundredpx."&sort=rating&image_size=3&include_store=store_download&include_states=voted&consumer_key=I9CDYnaxrFxLTEvYxTmsDKZQlgStyLNQkmtOKGKb";
+
+				break;
+			case 'user':
+				 $this->apistring = "https://api.500px.com/v1/photos?feature=user&username=". $this->getUser()->fivehundredpx."&sort=rating&image_size=3&include_store=store_download&include_states=voted&consumer_key=I9CDYnaxrFxLTEvYxTmsDKZQlgStyLNQkmtOKGKb";
+				
+				break;		
+			default:
+				 $this->apistring = "https://api.500px.com/v1/photos?feature=user_favorites&username=". $this->getUser()->fivehundredpx."&sort=rating&image_size=3&include_store=store_download&include_states=voted&consumer_key=I9CDYnaxrFxLTEvYxTmsDKZQlgStyLNQkmtOKGKb";
+
+				break;
+		}
+		$this->_feature = $endpoint;
+		return $this;
+	}
+
+/**
+ * [fhpxApiConnect description] Connect to the 500px API and return the data as a json object
+ * @param  [string / URI] $apiString [description] the API URI returned by the fhpxEndpoint method above.
+ * @return [array] $obj    [description] a json object from the 500px API.
+ */
+	public function fhpxApiConnect(){
+		//print $apiString;
+		//die();
+		$ch = curl_init();
+	   	curl_setopt($ch, CURLOPT_URL,$this->apistring);
+	    curl_setopt($ch , CURLOPT_HEADER, 0);
+	    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
+
+		$json = curl_exec($ch);
+		if(curl_errno($ch))
+		   {
+		       // echo 'Curl error: ' . curl_error($ch);
+		   }
+		 	curl_close($ch);
+		   $obj = array();
+//print_r($_obj);
+	//decode json response
+		 if($json){
+		      $obj = json_decode($json); 
+		          }
+		 else {
+		      print "<p>Currently, No Service Available.</p>";
+		        } 
+		  $this->_obj = $obj;   
+		  return $this;
+		 //print_r($_obj);     
+		}
+
 
 /**
  * [fhpDbCategorySelect description] Gets the categories from the database
@@ -95,62 +125,10 @@ sdjsdfjs
 	return $nav;
 	}
 
-
-/**
- * [fhpxEndpoint description] Defines / creates the URL to use for the 500px API
- * @param  [type] string $endpoint [description] which aspect of a user's profile you want form the 500px API (user_favorites - 
- * the user's favourited images or user - their own images)
- * @return [type] URL           [description] the URL to use to request images from 500px API
- */
-	public function fhpxEndpoint($endpoint){
-		//$fivehundred = $this->fivehundredpx;
-		switch ($endpoint) {
-			case 'user_favourites':
-				return $apistring = "https://api.500px.com/v1/photos?feature=user_favorites&username=". self::$fivehundredpx."&sort=rating&image_size=3&include_store=store_download&include_states=voted&consumer_key=I9CDYnaxrFxLTEvYxTmsDKZQlgStyLNQkmtOKGKb";
-
-				break;
-			case 'user':
-				return $apistring = "https://api.500px.com/v1/photos?feature=user&username=". self::$fivehundredpx."&sort=rating&image_size=3&include_store=store_download&include_states=voted&consumer_key=I9CDYnaxrFxLTEvYxTmsDKZQlgStyLNQkmtOKGKb";
-				
-				break;		
-			default:
-				return $apistring = "https://api.500px.com/v1/photos?feature=user_favorites&username=". self::$fivehundredpx."&sort=rating&image_size=3&include_store=store_download&include_states=voted&consumer_key=I9CDYnaxrFxLTEvYxTmsDKZQlgStyLNQkmtOKGKb";
-
-				break;
-		}
-	}
-
-/**
- * [fhpxApiConnect description] Connect to the 500px API and return the data as a json object
- * @param  [string / URI] $apiString [description] the API URI returned by the fhpxEndpoint method above.
- * @return [array] $obj    [description] a json object from the 500px API.
- */
-	public function fhpxApiConnect($apiString){
-		//print $apiString;
-		//die();
-		$ch = curl_init();
-	   	curl_setopt($ch, CURLOPT_URL,$apiString);
-	    curl_setopt($ch , CURLOPT_HEADER, 0);
-	    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
-
-		$json = curl_exec($ch);
-		if(curl_errno($ch))
-		   {
-		       // echo 'Curl error: ' . curl_error($ch);
-		   }
-		 	curl_close($ch);
-		   $obj = array();
-//print_r($obj);
-	//decode json response
-		 if($json){
-		      $obj = json_decode($json); 
-		          }
-		 else {
-		      print "<p>Currently, No Service Available.</p>";
-		        } 
-		 return $obj;   
-		 //print_r($obj);     
-		}
+	public function getUser()
+			{
+			    return $this->_user->data();
+			}	
 
 
 /**
@@ -160,8 +138,8 @@ sdjsdfjs
  * @return [array]   $photo   [description] a multidimensional associative array with the name of the image 
  * as the key and then an array collecting the username etc.  This will be compared with the output of fhpxDbImageSelect
  */	
-	public function fhpxApiArray($obj){
-		$photos = $obj->photos;
+	public function fhpxApiPhotoSelect(){
+		$photos = $this->_obj->photos;
 		//print_r($photos);
 		for ($i=0; $i < sizeof($photos); $i++) { 
 			$photo[$photos[$i]->name] = array(
@@ -175,7 +153,7 @@ sdjsdfjs
 				);
       		//print 'this is photo name'. $photos[$i]->name . 'and this is photo ID' . $photos[$i]->id . '<br />';
     	}
-    	return $photo;
+    	return $this->_fhpxApiArray = $photo;
 		
 	}
 
@@ -184,38 +162,22 @@ sdjsdfjs
  * @param  [string] $feature [description] either user or user_favorites. This both gets the correct URI for the 500px API call
  * and sets the correct table for the data to be inserted into.	
  */
-		public function fhpxInsert($feature){
-		$combined=$this->fhpxApiArray($this->fhpxApiConnect($this->fhpxEndpoint($feature)));
-		print_r($combined);
-		for ($i=0; $i < sizeof($combined); $i++) { 							
-				foreach($combined as $key => $value){
-			$this->_db->insert('images_'.$feature, array(
+		public function fhpxInsert(){						
+				foreach($this->_fhpxApiArray as $key => $value){
+			$this->_db->insert('images_'.$this->_feature, array(
 								'photo_title'=>$key,
-								'username'=>$value[username],
-								'fullname'=>$value[fullname],
-								'userpic_url'=>$value[userpic_url],
-								'description'=>$value[description],
-								'cat_id'=>$value[category],
-								'url'=>$value[url],	
-								'image_url'=>$value[image_url],						
-								'user_id'=>self::$userid
+								'username'=>$value['username'],
+								'fullname'=>$value['fullname'],
+								'userpic_url'=>$value['userpic_url'],
+								'description'=>$value['description'],
+								'cat_id'=>$value['category'],
+								'url'=>$value['url'],	
+								'image_url'=>$value['image_url'],						
+								'user_id'=>$this->getUser()->id
 								)
 							);
 				}
-
-			}
-	
 		}
-
-/**
- * [displayImage description] test function to try and debug issues with getUserImage method
- * @param  [type] $userid [description]
- * @return [type]         [description]
- */
-		// public function displayImage($userid){
-		// 	$userQuery = $this->_db->get('images_user', array('user_id', '=', $userid))->results();
-		// 	return $profilePicture = $userQuery[0]->userpic_url;
-		// }
 
 
 /**
@@ -242,70 +204,48 @@ sdjsdfjs
  * @return array $image         [description] a multidimensional associative array with the name of the image 
  * as the key and then an array collecting the username etc.  This will be compared with the output of fhpxApiArray
  */
-		public function fhpxDbImageSelect($feature, $userid){
-		 $images=$this->_db->get('images_'.$feature, array('user_id', '=', $userid))->results(); 
-		 for ($i=0; $i < sizeof($images); $i++) { 
-		  //$dbImageArray[$images[$i]->photo_title]=$images[$i]->cat_id;
-		 	foreach($images as $key => $value){
-		 		//$image[$images[$i]->photo_title];
-		 		$image[$images[$i]->photo_title]=array(
-		 			'username'=>$images[$i]->username,
-					'fullname'=>$images[$i]->fullname,
-					'userpic_url'=>$images[$i]->userpic_url,
-					'description'=>$images[$i]->description,
-					'cat_id'=>$images[$i]->cat_id,
-					'image_url'=>$images[$i]->image_url,
-					'url'=>$images[$i]->url
-		 			);
-		 	};
-  		}
-  		return $image;
+	public function fhpxDbImageSelect(){
+	 $images=$this->_db->get('images_'.$this->_feature, array('user_id', '=', $this->getUser()->id))->results(); 
+	 for ($i=0; $i < sizeof($images); $i++) { 
+	  //$dbImageArray[$images[$i]->photo_title]=$images[$i]->cat_id;
+	 	foreach($images as $key => $value){
+	 		//$image[$images[$i]->photo_title];
+	 		$image[$images[$i]->photo_title]=array(
+	 			'username'=>$images[$i]->username,
+				'fullname'=>$images[$i]->fullname,
+				'userpic_url'=>$images[$i]->userpic_url,
+				'description'=>$images[$i]->description,
+				'cat_id'=>$images[$i]->cat_id,
+				'image_url'=>$images[$i]->image_url,
+				'url'=>$images[$i]->url
+	 			);
+	 	};
+	}
+  	return $image;
 	} 
 
-/**
- * [fhpApiDbSync description] attempts to keep the API data (always the most up-to-date) and the db data in sync so that when a user adds/deletes a new favourite it is removed from the nav
- * @param  string $feature [description] user or user_favorites
- * @param  integer $userid  [description] numeric id for the user to make sure we are selecting from corect row
- * @param  string / URI $obj     [description] the string to use when connecting to the 500px API
- * @return array     fhpxDbFullArray     [description] The images from the database after being checked and synced against the values from the API
- */
-		public function fhpApiDbSync($feature, $userid, $obj){
-			// print 'API ARRAY <br />';
-			// print_r($this->fhpxApiArray($obj));
-			// print 'DB ARRAY <br />';
-			// print_r($this->fhpxDbImageSelect($feature, $userid));
-	//public function fhpxNav($feature, $userid, $obj){
-		if(!count($this->fhpxDbImageSelect($feature, $userid))){ // if nothing is returned from the query...
-			$this->fhpxInsert($feature); // ...then go ahead and insert the API data (most likely first load of the page)
-		} else {
-			 $difference = array_diff_assoc($this->fhpxDbImageSelect($feature, $userid), $this->fhpxApiArray($obj)); // if there is a result then compare the two arrays and store the difference in a variable
-			 if($difference){ // if there is a difference ...
-			 	//print_r($difference);
-    		foreach ($difference as $key => $value) { // ...break apart array to get $key (image name) ...
-      				$delete = $this->_db->delete('images_'.$feature, array('photo_title', '=', $key)); // ...and user that the delete rows from the db
-     				} 
-     		$this->fhpxInsert($feature);
-    		} 
-		}
-		// $this->fhpxInsert($feature); // I THINK THIS SHOULD BE WITHIN THE ELSE STATEMENT ABOVE. OTHERWISE IT IS BEING RUN TWICE IF THE ORIGINAL IF STATEMENT IS TRUE
-		//$fhpxDbNavArray=array();
-		return $fhpxDbFullArray = $this->fhpxDbImageSelect($feature, $userid);	// go back to the database and get the (possibly) updated list of images
-		//return $fhpxDbFullArray = $this->fhpxDbImageSelect($feature, $userid);	
-			
 
 
-		}
-
-
- /**
-  * [fhpxDbUserSelect description] Get the numeric user ID from the string of the username
-  * @param  [string] $fivehundredpx [description] a username string
-  * @return [integer]    self::$dbUserId            [description] the userid available without instantiating a class
-  */
-public function fhpxDbUserSelect($fivehundredpx){
-		self::$dbUserId=$this->_db->get('users', array('username', '=', $fivehundredpx))->first()->id;
-		return self::$dbUserId;
+	public function fhpxPhotoCompare(){
+	if($this->fhpxDbImageSelect()){
+		$difference = array_diff_key($this->fhpxDbImageSelect(), $this->fhpxApiPhotoSelect());
+		if($difference) {
+			//print_r($difference);
+			$this->deletePhoto($difference);	
+		} 
 	}
+	$this->fhpxInsert();
+	return $this;
+	}
+
+
+	public function deletePhoto($difference){ 
+		foreach ($difference as $key => $value) { // ...break apart array to get $key (image name) ...
+				//$title=$key;
+				$this->_db->delete('images_'.$this->_feature, array('url','=',$value['url'])); // ...and user that the delete rows from the db
+				}
+		}
+
 
 /**
  * [fhpxNav description] uses the fhpApiDbSync method to comare the API data to the DB data.  Once the fhpApiDbSync method has
@@ -314,26 +254,12 @@ public function fhpxDbUserSelect($fivehundredpx){
  * @return [array]    $fhpxDbNavArray      [description] an associative array of category label and ID to be used in the
  * site primary navigation.
  */
-	public function fhpxNav($feature){
-		$test = $this->fhpApiDbSync($feature, $this->fhpxDbUserSelect(Input::get(user)),$this->fhpxApiConnect($this->fhpxEndpoint($feature)));
-
-		for ($i=0; $i < sizeof($test); $i++) { 
-			//print $i . '<br />';
-		foreach($test as $key => $value){
-			$fhpxDbNavArray[$key] = $value[cat_id];
+	public function fhpxNav(){
+		$photos = $this->fhpxDbImageSelect();
+		foreach($photos as $key => $value){
+			$fhpxDbNavArray[$key] = $value['cat_id'];
 			}
 		return $fhpxDbNavArray;
-		}
-	
-		// foreach($test as $key => $value){
-		// 	print  '<h1>Hello<h1/><br />';
-		// 	//$fhpxDbNavArray[$key] = $value[category];
-		// 	}
-		// return $fhpxDbNavArray;
-		
-		// return $intersect = array_intersect($this->fhpDbCategorySelect(), 
-		// 							$fhpxDbNavArray); 
 	}
-
-}
+	}
 ?>

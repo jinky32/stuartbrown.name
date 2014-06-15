@@ -1,42 +1,28 @@
 <?php
+include "_/components/php/500nav.php";
 print '<h1>'. Input::get('service').' '.Input::get('feature').'</h1>';
 
 if(Input::get('title')){
-	 print "<h1>" . Input::get('title')." - " . Input::get('category')."</h1>";
+   print "<h1>" . Input::get('title')." - " . Input::get('category')."</h1>";
         } else {
           print "<h1>Hello World!</h1>";
         }
-
+        
+$image_catid_array = $db->get('categories', array('label', '=', Input::get('category')))->results();
+$image_catid = $image_catid_array[0]->cat_id;
+$image_title=Input::get('title');
               
-        // if ( $conn ) {
-        //   $image_category_query=query2("SELECT cat_id FROM categories WHERE label = '$category'", 
-        //   $conn);
-        //   $image_catid=$image_category_query[0][cat_id];
-        // }
-
-      // print_r($image_category_query);
-      // print $image_catid;
-
-        // $arraykey=array_keys($photoname); 
-        // // put the keys of $photoname (from 500pxapi.php) into $arraykey.  This will be used below to try and match $title (of image) to its array key.
-
-
-        // foreach ($arraykey as $key => $value) { //break apart $arraykey to use the key
-        //   if($photoname[$key]==$title){ // playlist_combined if the value at position $photoname[key] is the same as current $title.  If it is we know the key of the array in $obj->photos that we want
-        //     $photoarray=$obj->photos[$key]; // the playlist_combined has returned true.  Now grab the whole array for that photo and put it in $photarray.
-        //   } 
-        // }
-//MIGHT WANT TO ADD SOME MORE INFORMATION ON THE PHOTO - FOR EXAMPLE THE PHOTOGRAPHER, LINK BACK TO 500PX ETC ETC. ALL THIS IS IN $PHOTOARRAY()?
+       
     ?>
 <div class="container">
       <div class="jumbotron">
       <?php //print the selected image into the bootstrap jumbotron. str_replace to get larger iage
       $images = $fivehundredpx->fhpxDbImageSelect('user_favorites',$fivehundredpx->fhpxDbUserSelect(Input::get(user)));
-		foreach ($images as $key => $value) { 
-			if ($key ==Input::get('title')) {
-				$url = $value[image_url];
-			}
-		}
+    foreach ($images as $key => $value) { 
+      if ($key ==Input::get('title')) {
+        $url = $value[image_url];
+      }
+    }
           print '<img src=\''.str_replace('/3.', '/4.', $url).'\' class=\'img-responsive img-rounded img-centred\');>';
       ?>
       </div>
@@ -45,132 +31,69 @@ if(Input::get('title')){
           <div class="forms col-lg-6">
 
       <?php
-//beginning of youtube integration
+      //print_r($youtube->youtubeDbPlaylistSelect()->getYoutubeDbPlaylist());
+      $playlists=$db->get('playlists', array(array('user_id','selected'), array('=','='), array($youtube->getUser()->id, TRUE)))->results();           
+        for ($i=0; $i < sizeof($playlists); $i++) { 
+          $selectedPlaylistArray[$playlists[$i]->playlist_title]=$playlists[$i]->playlist_id;
+        }
+
 
         print "<form method='post' action=''>
               <select multiple='multiple' class='form-control'  
                name='playlistselect' id='playlistselect' required='required' style='height: 169px;''>";
 
-        foreach($playlists_database_combined as $key => $value){ // break the array apart to be used in select list 
-          $key=str_replace("http://gdata.youtube.com/feeds/api/users/jinky32/playlists/","",$key); //I only want the ID
-          print "<option value='".$key."'>".$value."</option>";
+        foreach($selectedPlaylistArray as $key => $value){ // break the array apart to be used in select list 
+          //$key=str_replace("http://gdata.youtube.com/feeds/api/users/jinky32/playlists/","",$key); //I only want the ID
+          print "<option value='".$value."'>".$key."</option>";
         }
 
         print "</select>
            <input type='submit' class='btn btn-default' name='youtube' id='youtube' value='submit'>
             </form></div>";
-     
-        if (isset($_POST['playlistselect'])){ //when the form is submitted use the value (which will be the ID of a playlist) to create a new request to YouTube API
-          $playlist_selected=$_POST["playlistselect"];
-          $chosen_playlist="https://gdata.youtube.com/feeds/api/playlists/".$_POST["playlistselect"]; //set URI to be used
-          //print $chosen_playlist;
-          $specific_playlist=simplexml_load_file($chosen_playlist); // load the URI ($chosen_playlist above) and parse
-
-
-          $videos=array(); //initiate $videos array - this will house all videos in the returned array
-          $video_titles=array(); //initiate $video_titles array - this will contain all the titles of the videos
-          $video_url=array(); //initiate $video_url which will hold the urls of the videos
-          $i=0;
-          
-          foreach ($specific_playlist->entry as $playlist_videos) {
-            $videos[]=$playlist_videos;
-            $video_titles[]=$videos[$i]->title;
-            $video_url[]=$videos[$i]->link->attributes()->href;
-            $i++;
-          }
-
-          $youtube_second_api_call=array();
-          $i=0;
-          foreach ($video_url as $ytkey => $youtube_id) {
-            $youtube_second_api_call[$i]=str_replace("&feature=youtube_gdata", "", $youtube_id);
-            $i++;
-            //$youtube_second_api_call=str_replace("&feature=youtube_gdata", "", $youtube_second_api_call);
-          }
-
-          $youtube_combined=array_combine($youtube_second_api_call, $video_titles);
-
-          if($youtube_combined){
-            if ( $conn ) {
-              foreach ($youtube_combined as $youtube_combined_key => $youtube_combined_value) {
-                $combinedquery=query("INSERT INTO videos(video_label, video_url, pid) 
-                VALUES (:video_label, :video_url, :pid)
-                ON DUPLICATE KEY UPDATE video_label = VALUES(video_label)",
-                array('video_label'=>$youtube_combined_value, 'video_url'=>$youtube_combined_key, 'pid'=>$chosen_playlist), //bind the values
-                $conn);
-              }
-            }
-          } else {
-                  //print "<option value='#'>Choose a video</option>";
-                }
-        } 
-
-        //print_r($playlist_combined);
+   
         print "<div class='forms col-lg-6'><form method='post' action=''>
                 <select name='videoselect[]' multiple='multiple' id='input' class='form-control' required='required' style='height: 169px;'>";
-                   
-        if($youtube_combined){
-          foreach ($youtube_combined as $youtube_combined_key => $youtube_combined_value) {
-            print "<option value='$youtube_combined_key'>$youtube_combined_value</option>";
+        
+
+        if(Input::get('youtube')){
+          $playlists = array(Input::get('playlistselect'));
+          foreach ($youtube->youtubeDbVideoSelect($playlists) as $title => $vid) {
+            print "<option value='$vid'>$title</option>";
           }
         } else {
           //print "<option value='#'>Choose a video</option>";
         }
                   
         print "</select>
-              <input type='submit' class='btn btn-default' name='youtube2' id='youtube2' value='submit'>
+              <input type='submit' class='btn btn-default' name='youtubevideo' id='youtubevideo' value='submit'>
                 </form></div>";
 
           $i=0;
           $embed_array=array();
-
-     //IS IT BETTER TO USE SOME FORM OF !EMPTY SO THAT THE VALUES PERSIST IN THE BOX AFTER THEY ARE SELECTED?
-
-        if(isset($_POST['videoselect'])){
-          foreach ($_POST['videoselect'] as $skey => $yt_embed_url) {
-          //print "this is key $key and this is yt_embed_url $yt_embed_url";
-            $embed_value=str_replace("https://www.youtube.com/watch?v=", "", $yt_embed_url);
-            $embed_value="http://www.youtube.com/embed/".$embed_value;
-            //print $embed_value;
-           // print "this is key $embkey and this is yt_embed_url $embed_value<br />";
-
-            if ( $conn ) {
-                $combinedquery=query("INSERT INTO vidpicjoin(video_url, cat_id, photo_title, pid) 
-                VALUES (:video_url, :cat_id, :photo_title, :pid)
-                ON DUPLICATE KEY UPDATE photo_title = VALUES(photo_title)",
-                array('video_url'=>$yt_embed_url, 'cat_id'=>$image_catid, 'photo_title'=>$title, 'pid'=>$chosen_playlist), //bind the values
-                $conn);
-
-                $insert_embed_query=query("UPDATE videos SET video_embed = :video_embed
-                WHERE video_url='$yt_embed_url'",
-                array('video_embed'=>$embed_value), //bind the values
-                $conn);
+          if(Input::get('youtubevideo')){
+            foreach (Input::get('videoselect') as $key => $vid) {
+            
+            $db->insert('vidpicjoin', array(
+                        'user_id'=>$youtube->getUser()->id,
+                        'photo_title'=>$image_title,
+                        'video_url'=>'https://www.youtube.com/watch?v='.$vid,
+                        'cat_id'=>$image_catid,
+                        'pid'=>$value,
+                        'vid'=>$vid,
+                        'video_comment'=>"Add your comment here",
+                        'video_embed'=>"http://www.youtube.com/embed/".$vid        
+                        )
+                      );
             }
 
-            $i++;
-          }
-        }
-//print gettype($combinedquery);
-      
-        if(isset($_GET['title'])){
-        if ( $conn ) {
-                  $title=urlencode($title);
-                  $youtube_video_database=query2("SELECT video_embed FROM videos, vidpicjoin WHERE vidpicjoin.cat_id=$image_catid
-                                                  AND vidpicjoin.photo_title='$title' AND vidpicjoin.video_url=videos.video_url", 
-                                                  $conn
-                                                );
+  }
+        if($videos=$db->get('vidpicjoin', array(array('user_id','photo_title','video_comment'), array('=','=','<>'), array($youtube->getUser()->id, $image_title, '')))->results()){
 
-
-
-
-                    // print "youtube_video_database";
-                    // print_r($youtube_video_database);
-
-          $youtube_video_database_embed=array();
-          $i=0;
-          if($youtube_video_database) {
-            foreach ($youtube_video_database as $key => $value) {
-              foreach ($value as $key => $value) {
-                $shortvalue=str_replace("http://www.youtube.com/embed/", "", $value);
+            for ($i=0; $i < sizeof($videos); $i++) { 
+              $video_embed[$videos[$i]->vid] = $videos[$i]->video_embed;
+            }
+            $i=0;
+            foreach ($video_embed as $key => $value) {
                 print "<div class='content row'>
                   <div class='videos_and_comments col col-lg-12'>
                      <div class='videos col-lg-6'>
@@ -178,48 +101,36 @@ if(Input::get('title')){
                      </div>
                      <div class='videos col-lg-6'>
                       <form method='post' action=''>
-                        <textarea class='form-control' name='$shortvalue' id='$shortvalue' rows='14'>";
-                        $insertvalue= "https://www.youtube.com/watch?v=".$shortvalue;
-                        $result=query2("SELECT video_comment FROM vidpicjoin WHERE cat_id=$image_catid AND photo_title='$title' AND video_url='$insertvalue'", 
-                        $conn);
-                          if ($result) {
-                              // print_r($result);
-                            print $result[0][video_comment];
-                          }
-
+                        <textarea class='form-control' name='playlist[$key]' id='$key' rows='14'>";
+                        print $videos[$i]->video_comment;
                         print "</textarea>
-                        <input type='submit' class='btn btn-default' name='submit' id='youtube_comment' value='submit'>
+                        <input type='submit' class='btn btn-default' name='youtube_comment' id='youtube_comment' value='submit'>
+                        <input type='submit' class='btn btn-default' name='youtube_comment_delete' id='youtube_comment_delete' value='Remove Video'>
                       </form>
                     </div>
                    </div>
                  </div> ";
-
-                 // print_r($_POST);
-                 // print sizeof($_POST);
-                 // print $_POST[0];
-                  if (isset($_POST[$shortvalue]) ) {
-                   
-                    
-                    //print $insertvalue;
-                    $title=urlencode($title);
-                    $commentinsertquery=query("UPDATE vidpicjoin SET video_comment = :comment WHERE cat_id=$image_catid AND photo_title='$title' AND video_url='$insertvalue'",
-                    array('comment'=>$_POST[$shortvalue]), //bind the values
-                    $conn);
-
-             
-              }
-    
-              }
-            
-            }
-        
+                 $i++;
           }
 
-
-          } else {
-              print "could not connect to the database";
-          }
         }
+              
+
+
+          if(Input::get('youtube_comment')){
+            foreach (Input::get('playlist') as $vid => $comment) {
+             // print 'this is vid '.$vid . 'and this is comment ' . $comment;
+              $db->update('vidpicjoin', 'vid', $vid, array('video_comment'=> $comment));
+            }
+          }
+
+
+            if(Input::get('youtube_comment_delete')){
+            foreach (Input::get('playlist') as $vid => $comment) {
+              $db->delete('vidpicjoin', array(array('vid','video_comment'), array('=','='), array($vid, $comment)));
+            }
+          }
+
 
 
             ?>

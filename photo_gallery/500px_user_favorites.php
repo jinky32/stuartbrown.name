@@ -1,9 +1,9 @@
 <?php
-include "_/components/php/500nav.php";
+//include "_/components/php/500nav.php";
 print '<h1>'. Input::get('service').' '.Input::get('feature').'</h1>';
 
 if(Input::get('title')){
-	 print "<h1>" . Input::get('title')." - " . Input::get('category')."</h1>";
+   print "<h1>" . Input::get('title')." - " . Input::get('category')."</h1>";
         } else {
           print "<h1>Hello World!</h1>";
         }
@@ -18,11 +18,11 @@ $image_title=Input::get('title');
       <div class="jumbotron">
       <?php //print the selected image into the bootstrap jumbotron. str_replace to get larger iage
       $images = $fivehundredpx->fhpxDbImageSelect('user_favorites',$fivehundredpx->fhpxDbUserSelect(Input::get(user)));
-		foreach ($images as $key => $value) { 
-			if ($key ==Input::get('title')) {
-				$url = $value[image_url];
-			}
-		}
+    foreach ($images as $key => $value) { 
+      if ($key ==Input::get('title')) {
+        $url = $value[image_url];
+      }
+    }
           print '<img src=\''.str_replace('/3.', '/4.', $url).'\' class=\'img-responsive img-rounded img-centred\');>';
       ?>
       </div>
