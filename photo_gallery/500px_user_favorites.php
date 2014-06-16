@@ -1,5 +1,18 @@
 <?php
 include "_/components/php/500nav.php";
+      if(Input::get('youtube_comment')){
+            foreach (Input::get('playlist') as $vid => $comment) {
+             // print 'this is vid '.$vid . 'and this is comment ' . $comment;
+              $db->update('vidpicjoin', 'vid', $vid, array('video_comment'=> $comment));
+            }
+          }
+
+
+            if(Input::get('youtube_comment_delete')){
+            foreach (Input::get('playlist') as $vid => $comment) {
+              $db->delete('vidpicjoin', array(array('vid','video_comment'), array('=','='), array($vid, $comment)));
+            }
+          }
 print '<h1>'. Input::get('service').' '.Input::get('feature').'</h1>';
 
 if(Input::get('title')){
@@ -117,19 +130,19 @@ $image_title=Input::get('title');
               
 
 
-          if(Input::get('youtube_comment')){
-            foreach (Input::get('playlist') as $vid => $comment) {
-             // print 'this is vid '.$vid . 'and this is comment ' . $comment;
-              $db->update('vidpicjoin', 'vid', $vid, array('video_comment'=> $comment));
-            }
-          }
+          // if(Input::get('youtube_comment')){
+          //   foreach (Input::get('playlist') as $vid => $comment) {
+          //    // print 'this is vid '.$vid . 'and this is comment ' . $comment;
+          //     $db->update('vidpicjoin', 'vid', $vid, array('video_comment'=> $comment));
+          //   }
+          // }
 
 
-            if(Input::get('youtube_comment_delete')){
-            foreach (Input::get('playlist') as $vid => $comment) {
-              $db->delete('vidpicjoin', array(array('vid','video_comment'), array('=','='), array($vid, $comment)));
-            }
-          }
+          //   if(Input::get('youtube_comment_delete')){
+          //   foreach (Input::get('playlist') as $vid => $comment) {
+          //     $db->delete('vidpicjoin', array(array('vid','video_comment'), array('=','='), array($vid, $comment)));
+          //   }
+          // }
 
 
 
