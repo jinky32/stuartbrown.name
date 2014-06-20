@@ -55,15 +55,19 @@
       <div class="carousel-inner">  
        <?php
       // include "_/components/php/500nav.php";
-           
+    
 if(!Input::get(feature)) {
     $feature = 'user';
 } else {
   $feature = Input::get(feature);
 }
+$fivehundredpx->getViewerId(Input::get(user));
+ //print 'WHY HELLO THERE' . $fivehundredpx->userid;
 $fivehundredpx->fhpxEndpoint($feature);
 
-            $images = $fivehundredpx->fhpxDbImageSelect('user',$fivehundredpx->getUser()->id);
+            $images = $fivehundredpx->fhpxDbImageSelect();
+           // print_r($images);
+            // $images = $fivehundredpx->fhpxDbImageSelect('user_favorites',$fivehundredpx->getUser()->id);
 
              reset($images);
 $first_key = key($images);

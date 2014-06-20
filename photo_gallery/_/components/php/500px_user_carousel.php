@@ -54,6 +54,8 @@
       </ol> -->
       <div class="carousel-inner">  
        <?php
+       print Input::get(user);
+       print 'HELLO';
             $images = $fivehundredpx->fhpxDbImageSelect('user',$fivehundredpx->fhpxDbUserSelect(Input::get(user)));
 
              reset($images);

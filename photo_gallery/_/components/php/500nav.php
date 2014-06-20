@@ -14,6 +14,8 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav">
 <?php
+$fivehundredpx->getViewerId(Input::get(user));
+ //print 'WHY HELLO THERE' . $fivehundredpx->userid;
 if(!Input::get(feature)) {
     $feature = 'user';
 } else {
@@ -30,15 +32,28 @@ if(!Input::get(feature)) {
 // if($fhpxDbNavArray = $fivehundredpx->fhpxNav($feature)){
 //$fivehundredpx->fhpxPhotoCompare()->fhpxNav();
 $fivehundredpx->fhpxEndpoint($feature);
-//print_r($fivehundredpx->fhpxEndpoint('user_favorites')->fhpxApiConnect()->fhpxApiPhotoSelect());
-if($intersect = array_intersect($fivehundredpx->fhpDbCategorySelect(), 
-                  $fivehundredpx->fhpxPhotoCompare()->fhpxNav()) ){
+if($user->isLoggedIn()){
+  
+  if($youtube->getUser()->username == Input::get('user')){
+    $loggedin = TRUE;
+   
+  }
+ }
+ if($loggedin) {
+  //print_r($fivehundredpx->fhpxEndpoint('user_favorites')->fhpxApiConnect()->fhpxApiPhotoSelect());
+$intersect = array_intersect($fivehundredpx->fhpDbCategorySelect(), 
+                  $fivehundredpx->fhpxPhotoCompare()->fhpxNav());
+} else {
+  $intersect = array_intersect($fivehundredpx->fhpDbCategorySelect(), 
+                  $fivehundredpx->fhpxNav());
+}
+
 
 //print_r($intersect);
 
 
 
-
+{
             foreach ($intersect as $label => $id) {
             //print "<p>this is $id</p><br />";        
              print "<li class='dropdown'>
@@ -70,9 +85,10 @@ if($intersect = array_intersect($fivehundredpx->fhpDbCategorySelect(),
                     }
                     print "</ul></li>";
                  } 
-} else {
-  print 'you haven\'t favourited anything on 500px yet';
-}
+} 
+// else {
+//   print 'you haven\'t favourited anything on 500px yet';
+// }
    
             ?>
 

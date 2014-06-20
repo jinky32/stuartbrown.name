@@ -1,5 +1,24 @@
 <?php
+
+if($user->isLoggedIn()){
+  
+  if($youtube->getUser()->username == Input::get('user')){
+    $loggedin = TRUE;
+   
+  }
+ }
+ if($loggedin) {
+  //print_r($fivehundredpx->fhpxEndpoint('user_favorites')->fhpxApiConnect()->fhpxApiPhotoSelect());
+$intersect = array_intersect($fivehundredpx->fhpDbCategorySelect(), 
+                  $fivehundredpx->fhpxPhotoCompare()->fhpxNav());
+}
+ // if($loggedin){
+ //    $fivehundredpx->fhpxInsert();
+ // }
+$fivehundredpx->getViewerId(Input::get(user));
 include "_/components/php/500nav.php";
+  print Input::get(user);
+      // print 'HELLO';  
       if(Input::get('youtube_comment')){
             foreach (Input::get('playlist') as $vid => $comment) {
              // print 'this is vid '.$vid . 'and this is comment ' . $comment;

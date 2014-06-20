@@ -6,6 +6,7 @@ class Fivehundredpx {
 	$_feature,
 	$_fhpxApiArray,
 	$_user;
+	public $userid;
 	public $apistring;
 
 
@@ -22,7 +23,11 @@ class Fivehundredpx {
 			// $this->username = $user->data()->username;
 			return $this;
 		}
-
+public function getViewerId($username){
+	$userId = $this->_db->get('users',array('username','=',$username))->results();
+	//print_r($userId);
+	$this->userid = $userId[0]->id;
+}
 
 //
 
@@ -140,7 +145,7 @@ class Fivehundredpx {
  */	
 	public function fhpxApiPhotoSelect(){
 		$photos = $this->_obj->photos;
-		//print_r($photos);
+		print_r($photos);
 		for ($i=0; $i < sizeof($photos); $i++) { 
 			$photo[$photos[$i]->name] = array(
 				'username'=>$photos[$i]->user->username,
@@ -164,6 +169,7 @@ class Fivehundredpx {
  */
 		public function fhpxInsert(){						
 				foreach($this->_fhpxApiArray as $key => $value){
+					print 'this is key '.$key;
 			$this->_db->insert('images_'.$this->_feature, array(
 								'photo_title'=>$key,
 								'username'=>$value['username'],
@@ -205,7 +211,8 @@ class Fivehundredpx {
  * as the key and then an array collecting the username etc.  This will be compared with the output of fhpxApiArray
  */
 	public function fhpxDbImageSelect(){
-	 $images=$this->_db->get('images_'.$this->_feature, array('user_id', '=', $this->getUser()->id))->results(); 
+	 $images=$this->_db->get('images_'.$this->_feature, array('user_id', '=', $this->userid))->results();
+	 // $images=$this->_db->get('images_'.$this->_feature, array('username', '=', Input::get(user)))->results();  
 	 for ($i=0; $i < sizeof($images); $i++) { 
 	  //$dbImageArray[$images[$i]->photo_title]=$images[$i]->cat_id;
 	 	foreach($images as $key => $value){
