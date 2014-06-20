@@ -6,8 +6,9 @@
 } else {
   $feature = Input::get(feature);
 }
+$fivehundredpx->getViewerId(Input::get(user));
 $fivehundredpx->fhpxEndpoint($feature);
-            $images = $fivehundredpx->fhpxDbImageSelect('user',$fivehundredpx->getUser()->id);
+            $images = $fivehundredpx->fhpxDbImageSelect();
 
 //              reset($images);
 // $first_key = key($images);

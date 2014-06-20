@@ -169,7 +169,7 @@ public function getViewerId($username){
  */
 		public function fhpxInsert(){						
 				foreach($this->_fhpxApiArray as $key => $value){
-					print 'this is key '.$key;
+					//print 'this is key '.$key;
 			$this->_db->insert('images_'.$this->_feature, array(
 								'photo_title'=>$key,
 								'username'=>$value['username'],

@@ -9,8 +9,7 @@ if($user->isLoggedIn()){
  }
 //  if($loggedin) {
 //   //print_r($fivehundredpx->fhpxEndpoint('user_favorites')->fhpxApiConnect()->fhpxApiPhotoSelect());
-// $intersect = array_intersect($fivehundredpx->fhpDbCategorySelect(), 
-//                   $fivehundredpx->fhpxPhotoCompare()->fhpxNav());
+// $fivehundredpx->fhpxPhotoCompare();
 // }
  // if($loggedin){
  //    $fivehundredpx->fhpxInsert();
@@ -49,7 +48,7 @@ $image_title=Input::get('title');
 <div class="container">
       <div class="jumbotron">
       <?php //print the selected image into the bootstrap jumbotron. str_replace to get larger iage
-      $images = $fivehundredpx->fhpxDbImageSelect('user_favorites',$fivehundredpx->getUser()->id);
+      $images = $fivehundredpx->fhpxDbImageSelect();
     foreach ($images as $key => $value) { 
       if ($key ==Input::get('title')) {
         $url = $value[image_url];
