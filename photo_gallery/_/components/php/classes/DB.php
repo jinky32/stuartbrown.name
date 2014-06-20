@@ -135,13 +135,13 @@ class DB {
 			    $sql .= " {$field[$i]} {$operator[$i]} ? AND";
 				}
 				$sql = substr($sql, 0, strlen($sql) - 4);
-				print $sql;	
+				//print $sql;	
 				if(!$this->query($sql, array($value))->error()){ // send $sql to the query method in this class along with the $value array
 					return $this;  //return the object we are in
 				}
 				} else {
 					$sql= "{$action} FROM {$table} WHERE {$field} {$operator} ? "; //construct the query. first two vars from method params, last two split out of the $where array.  The ? allows us to bind the value
-					print $sql;
+					//print $sql;
 					if(!$this->query($sql, array($value))->error()){ // send $sql to the query method in this class along with the $value array
 					return $this;  //return the object we are in
 				}

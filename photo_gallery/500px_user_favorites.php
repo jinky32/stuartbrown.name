@@ -7,11 +7,11 @@ if($user->isLoggedIn()){
    
   }
  }
- if($loggedin) {
-  //print_r($fivehundredpx->fhpxEndpoint('user_favorites')->fhpxApiConnect()->fhpxApiPhotoSelect());
-$intersect = array_intersect($fivehundredpx->fhpDbCategorySelect(), 
-                  $fivehundredpx->fhpxPhotoCompare()->fhpxNav());
-}
+//  if($loggedin) {
+//   //print_r($fivehundredpx->fhpxEndpoint('user_favorites')->fhpxApiConnect()->fhpxApiPhotoSelect());
+// $intersect = array_intersect($fivehundredpx->fhpDbCategorySelect(), 
+//                   $fivehundredpx->fhpxPhotoCompare()->fhpxNav());
+// }
  // if($loggedin){
  //    $fivehundredpx->fhpxInsert();
  // }

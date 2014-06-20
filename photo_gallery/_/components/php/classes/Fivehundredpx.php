@@ -145,7 +145,7 @@ public function getViewerId($username){
  */	
 	public function fhpxApiPhotoSelect(){
 		$photos = $this->_obj->photos;
-		print_r($photos);
+		//print_r($photos);
 		for ($i=0; $i < sizeof($photos); $i++) { 
 			$photo[$photos[$i]->name] = array(
 				'username'=>$photos[$i]->user->username,
