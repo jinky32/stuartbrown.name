@@ -57,11 +57,15 @@ $image_title=Input::get('title');
           print '<img src=\''.str_replace('/3.', '/4.', $url).'\' class=\'img-responsive img-rounded img-centred\');>';
       ?>
       </div>
-      <div class="content row">
+   <!--    <div class="content row">
         <div class="main col col-lg-12">
-          <div class="forms col-lg-6">
+          <div class="forms col-lg-6"> -->
 
       <?php
+      if($loggedin){
+  print '<div class="content row">
+          <div class="main col col-lg-12">
+            <div class="forms col-lg-6">';
       //print_r($youtube->youtubeDbPlaylistSelect()->getYoutubeDbPlaylist());
       $playlists=$db->get('playlists', array(array('user_id','selected'), array('=','='), array($youtube->getUser()->id, TRUE)))->results();           
         for ($i=0; $i < sizeof($playlists); $i++) { 
@@ -118,6 +122,7 @@ $image_title=Input::get('title');
             }
 
   }
+}
         if($videos=$db->get('vidpicjoin', array(array('user_id','photo_title','video_comment'), array('=','=','<>'), array($fivehundredpx->userid, $image_title, '')))->results()){
 
             for ($i=0; $i < sizeof($videos); $i++) { 
@@ -131,14 +136,14 @@ $image_title=Input::get('title');
                        <iframe width='420' height='315' src='$value' frameborder='0' allowfullscreen></iframe>
                      </div>
                      <div class='videos col-lg-6'>
-                      <form method='post' action=''>
-                        <textarea class='form-control' name='playlist[$key]' id='$key' rows='14'>";
-                        print $videos[$i]->video_comment;
-                        print "</textarea>
-                        <input type='submit' class='btn btn-default' name='youtube_comment' id='youtube_comment' value='submit'>
-                        <input type='submit' class='btn btn-default' name='youtube_comment_delete' id='youtube_comment_delete' value='Remove Video'>
-                      </form>
-                    </div>
+                      <textarea class='form-control' name='playlist[$key]' id='$key' rows='14'>";
+                      print $videos[$i]->video_comment;
+                      print "</textarea>";
+                      if($loggedin){
+                      print "<input type='submit' class='btn btn-default' name='youtube_comment' id='youtube_comment' value='submit'>";
+                      print "<input type='submit' class='btn btn-default' name='youtube_comment_delete' id='youtube_comment_delete' value='Remove Video'>";
+                      }
+                    print "</div>
                    </div>
                  </div> ";
                  $i++;
