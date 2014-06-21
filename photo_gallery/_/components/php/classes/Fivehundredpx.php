@@ -81,6 +81,7 @@ public function getViewerId($username){
 				break;
 		}
 		$this->_feature = $endpoint;
+		//print $this->apistring;
 		return $this;
 	}
 
@@ -114,7 +115,7 @@ public function getViewerId($username){
 		        } 
 		  $this->_obj = $obj;   
 		  return $this;
-		 //print_r($_obj);     
+		 print_r($this->_obj);     
 		}
 
 

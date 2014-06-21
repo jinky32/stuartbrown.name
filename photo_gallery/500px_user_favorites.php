@@ -48,7 +48,7 @@ $image_title=Input::get('title');
 <div class="container">
       <div class="jumbotron">
       <?php //print the selected image into the bootstrap jumbotron. str_replace to get larger iage
-      $images = $fivehundredpx->fhpxDbImageSelect();
+      $images = $fivehundredpx->fhpxDbImageSelect('user_favorites',$fivehundredpx->getUser()->id);
     foreach ($images as $key => $value) { 
       if ($key ==Input::get('title')) {
         $url = $value[image_url];
@@ -118,7 +118,7 @@ $image_title=Input::get('title');
             }
 
   }
-        if($videos=$db->get('vidpicjoin', array(array('user_id','photo_title','video_comment'), array('=','=','<>'), array($youtube->getUser()->id, $image_title, '')))->results()){
+        if($videos=$db->get('vidpicjoin', array(array('user_id','photo_title','video_comment'), array('=','=','<>'), array($fivehundredpx->userid, $image_title, '')))->results()){
 
             for ($i=0; $i < sizeof($videos); $i++) { 
               $video_embed[$videos[$i]->vid] = $videos[$i]->video_embed;
