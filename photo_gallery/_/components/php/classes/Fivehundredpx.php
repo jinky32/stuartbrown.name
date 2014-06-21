@@ -115,7 +115,7 @@ public function getViewerId($username){
 		        } 
 		  $this->_obj = $obj;   
 		  return $this;
-		 print_r($this->_obj);     
+		// print_r($this->_obj);     
 		}
 
 
@@ -242,6 +242,7 @@ public function getViewerId($username){
 			$this->deletePhoto($difference);	
 		} 
 	}
+	$this->fhpxApiConnect()->fhpxApiPhotoSelect();
 	$this->fhpxInsert();
 	return $this;
 	}

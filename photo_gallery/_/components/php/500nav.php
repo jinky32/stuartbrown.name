@@ -36,6 +36,7 @@ if($user->isLoggedIn()){
   
   if($youtube->getUser()->username == Input::get('user')){
     $loggedin = TRUE;
+   // print '<h1>logged in and the same</h1>';
    
   }
  }
@@ -43,6 +44,8 @@ if($user->isLoggedIn()){
   //print_r($fivehundredpx->fhpxEndpoint('user_favorites')->fhpxApiConnect()->fhpxApiPhotoSelect());
 $intersect = array_intersect($fivehundredpx->fhpDbCategorySelect(), 
                   $fivehundredpx->fhpxPhotoCompare()->fhpxNav());
+// $fivehundredpx->fhpxApiConnect()->fhpxApiPhotoSelect();
+// $fivehundredpx->fhpxInsert();
 } else {
   $intersect = array_intersect($fivehundredpx->fhpDbCategorySelect(), 
                   $fivehundredpx->fhpxNav());
