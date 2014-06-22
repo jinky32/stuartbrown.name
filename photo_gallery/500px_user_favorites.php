@@ -1,5 +1,4 @@
 <?php
-
 if($user->isLoggedIn()){
   
   if($youtube->getUser()->username == Input::get('user')){
@@ -7,17 +6,10 @@ if($user->isLoggedIn()){
    
   }
  }
-//  if($loggedin) {
-//   //print_r($fivehundredpx->fhpxEndpoint('user_favorites')->fhpxApiConnect()->fhpxApiPhotoSelect());
-// $fivehundredpx->fhpxPhotoCompare();
-// }
- // if($loggedin){
- //    $fivehundredpx->fhpxInsert();
- // }
+
 $fivehundredpx->getViewerId(Input::get(user));
+
 include "_/components/php/500nav.php";
-  print Input::get(user);
-      // print 'HELLO';  
       if(Input::get('youtube_comment')){
             foreach (Input::get('playlist') as $vid => $comment) {
              // print 'this is vid '.$vid . 'and this is comment ' . $comment;
@@ -57,12 +49,12 @@ $image_title=Input::get('title');
           print '<img src=\''.str_replace('/3.', '/4.', $url).'\' class=\'img-responsive img-rounded img-centred\');>';
       ?>
       </div>
-   <!--    <div class="content row">
+    <!--   <div class="content row">
         <div class="main col col-lg-12">
           <div class="forms col-lg-6"> -->
 
       <?php
-      if($loggedin){
+            if($loggedin){
   print '<div class="content row">
           <div class="main col col-lg-12">
             <div class="forms col-lg-6">';
@@ -120,9 +112,8 @@ $image_title=Input::get('title');
                         )
                       );
             }
-
+     }
   }
-}
         if($videos=$db->get('vidpicjoin', array(array('user_id','photo_title','video_comment'), array('=','=','<>'), array($fivehundredpx->userid, $image_title, '')))->results()){
 
             for ($i=0; $i < sizeof($videos); $i++) { 
@@ -136,14 +127,16 @@ $image_title=Input::get('title');
                        <iframe width='420' height='315' src='$value' frameborder='0' allowfullscreen></iframe>
                      </div>
                      <div class='videos col-lg-6'>
-                      <textarea class='form-control' name='playlist[$key]' id='$key' rows='14'>";
-                      print $videos[$i]->video_comment;
-                      print "</textarea>";
-                      if($loggedin){
-                      print "<input type='submit' class='btn btn-default' name='youtube_comment' id='youtube_comment' value='submit'>";
-                      print "<input type='submit' class='btn btn-default' name='youtube_comment_delete' id='youtube_comment_delete' value='Remove Video'>";
+                      <form method='post' action=''>
+                        <textarea class='form-control' name='playlist[$key]' id='$key' rows='14'>";
+                        print $videos[$i]->video_comment;
+                        print "</textarea>";
+                        if($loggedin){
+                       print " <input type='submit' class='btn btn-default' name='youtube_comment' id='youtube_comment' value='submit'>";
+                       print " <input type='submit' class='btn btn-default' name='youtube_comment_delete' id='youtube_comment_delete' value='Remove Video'>";
                       }
-                    print "</div>
+                     print " </form>
+                    </div>
                    </div>
                  </div> ";
                  $i++;
