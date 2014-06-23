@@ -44,6 +44,7 @@ $image_title=Input::get('title');
     foreach ($images as $key => $value) { 
       if ($key ==Input::get('title')) {
         $url = $value[image_url];
+        
       }
     }
           print '<img src=\''.str_replace('/3.', '/4.', $url).'\' class=\'img-responsive img-rounded img-centred\');>';

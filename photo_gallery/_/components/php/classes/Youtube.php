@@ -288,6 +288,7 @@ $videourl="https://www.googleapis.com/youtube/v3/playlistItems?part=id,snippet&f
 			$value = (array)$value;
 		if(count($this->youtubeDbVideoSelect($value))) {
 			$difference = array_diff_key($this->youtubeDbVideoSelect($value), $this->youtubeAPIVideoSelect($value));
+			print_r($difference);
 			if($difference) {
 				$this->deleteFromPlaylist($difference);
 				 } 
@@ -331,7 +332,7 @@ $videourl="https://www.googleapis.com/youtube/v3/playlistItems?part=id,snippet&f
 		public function deleteFromPlaylist($difference){ 
 		foreach ($difference as $key => $value) { // ...break apart array to get $key (image name) ...
 				//$title=$key;
-				$delete = $this->_db->delete('videos', array(array('video_label','pid'), array('=','='), array($key, $value))); // ...and user that the delete rows from the db
+				$delete = $this->_db->delete('videos', array(array('video_label','vid'), array('=','='), array($key, $value))); // ...and user that the delete rows from the db
 			}
 			}
 
