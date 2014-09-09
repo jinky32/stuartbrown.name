@@ -288,7 +288,7 @@ $videourl="https://www.googleapis.com/youtube/v3/playlistItems?part=id,snippet&f
 			$value = (array)$value;
 		if(count($this->youtubeDbVideoSelect($value))) {
 			$difference = array_diff_key($this->youtubeDbVideoSelect($value), $this->youtubeAPIVideoSelect($value));
-			print_r($difference);
+			//print_r($difference);
 			if($difference) {
 				$this->deleteFromPlaylist($difference);
 				 } 
