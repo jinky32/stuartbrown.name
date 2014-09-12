@@ -1,0 +1,27 @@
+input.gsc-search-button, input.gsc-search-button:hover, input.gsc-search-button:focus {
+  -webkit-box-shadow: none;
+  -moz-box-sizing: content-box;
+  box-shadow: none;
+}
+
+
+input.gsc-input, .gsc-input-box, .gsc-input-box-hover, .gsc-input-box-focus {
+  box-sizing: content-box;
+  line-height: normal;
+}
+
+/* Sidebar modules for boxing content */
+.sidebar-module {
+  padding: 15px;
+  margin: 0 -15px 15px;
+}
+.sidebar-module-inset {
+  padding: 15px;
+  background-color: #DBEAE9;
+  border-radius: 4px;
+}
+.sidebar-module-inset p:last-child,
+.sidebar-module-inset ul:last-child,
+.sidebar-module-inset ol:last-child {
+  margin-bottom: 0;
+}
