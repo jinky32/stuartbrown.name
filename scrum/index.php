@@ -2,19 +2,6 @@
 <php lang="">
 	<head>
 	<?php include('../scrum/includes/gcs.php');?>
-	<!-- 	<script>
-		(function() {
-		var cx = '009779544953096465337:v5t5viucpg4';
-		var gcse = document.createElement('script');
-		gcse.type = 'text/javascript';
-		gcse.async = true;
-		gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
-		'//www.google.com/cse/cse.js?cx=' + cx;
-		var s = document.getElementsByTagName('script')[0];
-		s.parentNode.insertBefore(gcse, s);
-		})();
-		</script>
-		<gcse:search></gcse:search> -->
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -36,7 +23,29 @@
 		<h1 class="text-center">Working with Scrum</h1>
 			<div class="row">
 				<div class="col-sm-8 blog-main">
-					<!-- <h1 class="text-center">Working with Scrum</h1> -->
+						<h2>Scrum Process</h2>
+						<img src="http://agileprojectmanagementtraining.com/wp-content/uploads/2014/03/Agile_Roadmap.png" alt="">
+				<ol>
+				<li>Request comes in from customer. 1-1 discussion to explain process and their role in it.</li>
+				<li>Development of Product Vision</li>
+				<li>User Stories created (at User Story Workshop)</li>
+				<li>Product Backlog Items created at the Product Backlog Meeting (or PB Refinement Mtg after first Sprint).
+				<ul>
+				  	<li>Backlog groomed by Product Owner</li>
+				  	<li>Product Owner sets Acceptance Criteria</li>
+				  	<li>Items are Estimated by the Development Team in points rather than hours (use Estimate Cards?)</li>
+				  </ul>   
+				<li>First very draft Release Plan created based on Estimates and Product Backlog</li>
+				<li>Sprint Planning takes place at Sprint Planning Meeting</li>
+				<ol>
+					<li>Sprint Goal defined</li>
+					<li>User Stories broken down into Tasks by the Development Team and hours assigned to each.</li>
+				</ol>
+				<li>Sprint begins (Daily Standups)</li>
+				<li>Sprint Review</li>
+				<li>Sprint Retrospective</li>
+				<li>Judge Velocity (burndown chart for Sprint and Release).  Go back and re-examine the Release Plan</li>
+			</ol>
 					<h2>Why Scrum?</h2>
 					<p>The <a href="scrum-process.php">Scrum Process</a></p>
 					<ol>
@@ -68,13 +77,10 @@
 						<li>Through customer review at the <a href="print-review.php">Sprint Review</a></li>
 						<li>CFrom customer use. This is the best and most reliable kind and should be sought as often as possible</li>
 					</ul>
+				
+			
 				</div>
-					<div class="col-sm-3 col-sm-offset-1 blog-sidebar">
-						<?php include('../scrum/includes/artifacts.php');?>
-						<?php include('../scrum/includes/details.php');?>
-						<?php include('../scrum/includes/meetings.php');?>
-						<?php include('../scrum/includes/participants.php');?>
-				</div>
+					
 			</div>
 		</div>
 		<!-- jQuery -->
