@@ -28,15 +28,15 @@
 				<ol>
 				<li>Request comes in from customer. 1-1 discussion to explain process and their role in it.</li>
 				<li>Development of Product Vision</li>
-				<li>User Stories created (at User Story Workshop)</li>
-				<li>Product Backlog Items created at the Product Backlog Meeting (or PB Refinement Mtg after first Sprint).
+				<li>User Stories created in the User Story Workshop section of the first Product Backlog Meeting.  After the first 
+				Sprint approx. 10% of Sprint time is spent grooming and Estimating the Product Backlog</li>
 				<ul>
 				  	<li>Backlog groomed by Product Owner</li>
 				  	<li>Product Owner sets Acceptance Criteria</li>
 				  	<li>Items are Estimated by the Development Team in points rather than hours (use Estimate Cards?)</li>
 				  </ul>   
 				<li>First very draft Release Plan created based on Estimates and Product Backlog</li>
-				<li>Sprint Planning takes place at Sprint Planning Meeting</li>
+				<li>Sprint Planning Meeting</li>
 				<ol>
 					<li>Sprint Goal defined</li>
 					<li>User Stories broken down into Tasks by the Development Team and hours assigned to each.</li>

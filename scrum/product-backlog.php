@@ -23,32 +23,31 @@
 			<h1 class="text-center">Product Backlog</h1>
 			<div class="row">
 			<div class="col-sm-8 blog-main">
-			<p>The Product Backlog is a list of alldesired functioanlity that is not yet in the product</p>
+			<p>The Product Backlog is a list of all desired functionality that is not yet in the product</p>
 			<p>Items on the Product Backlog are derived from <a href="user-story.php">User Stories</a> and each item should be a step towards achieving the <a href="product-vision.php">Product Vision</a>.  Everything goes on the Product Backlog - there is not a separate bug backlog because this would make prioritisation more difficult.</p>
 			<p>Each Product Backlog Item needs to comply with the expectations set in the wide <a href="definition-of-done.php">Definition of Done</a>in addition to its item-specific <a href="acceptance-criteria.php">Acceptance Criteria</a></p>
 			<h2>The Product Backlog is:</h2>
 			<ul>
-				<li>List of requirements - items with business desires from the customer which lead to product improvement.</li>
+				<li>List of requirements - items with business desires from the customer which lead to product improvement.  Often PBIs are epxressed as User Stories but they don't have to be.</li>
 				<li>A means to reach the <a href="product-vision.php">Product Vision</a></li>
-				<li>Items are ordered be development priority.</li>
-				<li>It is an incomplete and dynamic list - it is in constant evolution.</li>
+				<li>Items are ordered in development priority.</li>
+				<li>An incomplete and dynamic list - it is in constant evolution.</li>
 			</ul>
 			<p>Product Backlog Items should state problems not solutions.  For example if building a cooking application and PBI should be "I need to know when to prepare each item" rather than "I need an audio reminder for each step."</p>
 			<h2>The Product Backlog should be:</h2>
 			<ol>
 				<li>Ordered</li>
-				<li>Estimable (it can be <a href="estimate.php">Estimated</a>)</li>
+				<li>Estimable (it can be <a href="estimate.php">Estimated</a> in Story Points)</li>
 				<li>Emergent</li>
 				<li>Gradually Refined.</li>
 			</ol>
 			<h2>Refining the Product Backlog</h2>
 			<ul>
-				<li>Product Backlog needs regular attention and care</li>
-				<li>Ongoing process and ensures the Product Backlog is ordered, estimable, emergent and gradually refined.</li>
+				<li>Product Backlog needs regular attention and care to ensure it is ordered, estimable, emergent and gradually refined.</li>
 				<li>Done collaboratively by the <a href="product-owner.php">Product Owner</a> and <a href="development-team.php">Development Team</a></li>
 				<li>Every <a href="scrum-team.php">Scrum Team</a> has it's own process - little daily sessions, weekly sessions, grooming session.</li>
 			</ul>
-			<p>A good rule of thumb is that about ten percent of the effort in each <a href="sprint.php">Sprint</a> should be spent grooming the Product Backlog in preparation for future <a href="sprint.php">Sprints</a>.  The goal is not te begin each Sprint with a perfect understanding of the PBIs that will be developed during the Sprint. Rather the feature needs only to be sufficiently understood that the <a href="development-team.php">Development Team</a> has a reasonably strong chance of finishing it during the Sprint.</p>
+			<p>A good rule of thumb is that about ten percent of the effort in each <a href="sprint.php">Sprint</a> should be spent grooming the Product Backlog in preparation for future <a href="sprint.php">Sprints</a>.  The goal is not to begin each Sprint with a perfect understanding of the PBIs that will be developed during the Sprint. Rather the feature needs only to be sufficiently understood that the <a href="development-team.php">Development Team</a> has a reasonably strong chance of finishing it during the Sprint.</p>
 			<p><a href="user-story.php">User Stories</a>at the top of the Product Backlog are small and reasonably well understood.  Those further down are larger and understood in less detail.  These <a href="epics.php">Epics</a> are left large, often only known in enough detail that each can be <a href="estimate.php">Estimated</a> approximately and then prioritised.</p>
 			<p>Product Backlog Items must be ready (according to the <a href="definition-of-ready.php">Definition of Ready</a>) to be consumed by the <a href="development-team.php">Development Team</a> so that they can be added to the <a href="sprint-backlog.php">Sprint Backlog</a> if necessary.</p>
 			<h2>Estimating Backlog Items</h2>
@@ -64,7 +63,18 @@
 			</li>
 			<li>If team members disagree radically on the estimated time for an item then take the highest time.</li>
 		</ul>
-		<div class="alert alert-success" role="alert"><p>Discuss the <a href="product-backlog.php">Product Backlog</a>.  Identify th e
+		<p>Sample questions the team should ask (obviously this is a template, and this may vary based on your scenario)</p>
+<ul>
+	<li>Design: What will we have to learn before we can start work on this story?</li>
+	<li>Coding: What will be the likely coding effort? Has anyone from the team implemented it before?</li>
+	<li>Unit testing: Is any special setup required (e.g., mock objects) to unit test this story?</li>
+	<li>Acceptance testing: How much work is involved in helping the customer automate the acceptance tests for this story?</li>
+	<li>Integration points: Does the story have any external dependencies?</li>
+	<li>Expertise: Does anyone have prior experience?
+</li>
+</ul>
+
+		<div class="alert alert-success" role="alert"><p>Discuss the <a href="product-backlog.php">Product Backlog</a>.  Identify the
 			top five items in need of advance thinking.  For each discuss who needs to think about it (an architect, a user experience designer?) and decide how
 			many sprints in advance that should begin</p>
 			</div>
@@ -75,9 +85,9 @@
 			<li>Confirmation - Agree acceptance test criteria - the mothod of building and testing within the <a href="sprint.php">Sprint</a></li>
 		</ol>
 		<h2>Emergent Requirements</h2>
-		<p>Features that we cannot identify in advnace are called Emergent Requirements.  When someone identifies an emergent requirement they usually start like 'seeing that makes me think....'</p>
+		<p>Features that we cannot identify in advance are called Emergent Requirements.  When someone identifies an emergent requirement they usually start like 'seeing that makes me think....'</p>
 		<p>One reason Scrum puts so much emphasis on working code at the end of each <a href="sprint.php">Sprint</a> is to create a situation where Emergent Requirements can be discovered sooner rather than later.</p>
-		<p>The first step in dealing with emergent Requirements is to acknowledge that we cannot think of everything.  After acknowledgeing will emerge as we build the system it is easier to accept the idea that we don't need (and cannot have) a perfect requirements document up front that specifies all the details of the system to be built.</p>
+		<p>The first step in dealing with emergent Requirements is to acknowledge that we cannot think of everything.  After acknowledging that requirements will emerge as we build the system it is easier to accept the idea that we don't need (and cannot have) a perfect requirements document up front that specifies all the details of the system to be built.</p>
 		<h2>Epics</h2>
 		<p><a href="epics.php">Epics</a> are required features (or features that might be required) for which details are not yet known.  As you learn more about an epic they are broken down into separate <a href="user-story.php">User Stories</a> and added to the Product Backlog by the <a href="product-owner.php">Product Owner</a> </p>
 		<p>Epics live at the bottom of the Product Backlog until they are broken down into individual User Stories</p>

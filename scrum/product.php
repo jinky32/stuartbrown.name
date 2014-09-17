@@ -27,7 +27,7 @@
 				<h3><a name="product-vision"></a>Product Vision</h3>
 				<p>The Product Vision is a shared goal - it provides context and guidance.</p>
 				<h3><a name="user-story"></a>User Stories</h3>
-				<p>User Stories are normally written at a <a href="user-story-writing-workshop.php">Story Writing Workshop</a>.</p>
+				<p>User Stories are normally written at a <a href="user-story-writing-workshop.php">Story Writing Workshop in the first Product Backlog Refinement Meeting</a>.</p>
 				<p>A User Story is a short, simple description of a feature told from the perspective of the person who desires the new capability, usually a user or a customer of the system. </p>
 				<ul>
 					<li>Who</li>
@@ -54,6 +54,13 @@
 				<h3><a name="release-plan"></a>Release Plan</h3>
 				<h4>What is Release Planning?</h4>
 				<p>Release Planning is the plan for the next time a customer sees a release.  It is not part of core Scrum.</p>
+				<p>From <a href="www.romanpichler.com/blog/release-planning-workshop/">Roman Pichler</a>: The Release Planning Workshop is a collaborative workshop involving the Product Owner, the Scrum Master, the Development Team and stakeholder representatives.  A shared Product Vision and an initial Product Backlog now have to be in place.</p>
+				<ol>
+					<li>Identify the window of opportunity - Based ont he Prodct Vision and Product Backlog we determine the window of opportunity - the timeframe in which the product must be launched in order to achieve the desired benefits.</li>
+					<li>Determine the budget</li>
+					<li>Make a go / no-go decision.</li>
+				</ol>
+				<p>Once development is underway we capture the proress at the end of each Sprint in the form of a Release Burndown Chart and create a forecast for the remainder of the project.  This validated the original plan and allows the Product Owner to steer the project and to trade off time, budget and functioanlity (but never quality).</p>
 				<p>Out of the Release Planning Workshop might come the Product Roadmap.</p>
 				<p><a href="release.php">Release Dates</a> are based on an estimated <a href="velocity.php">Velocity</a> (the count of items achieved per sprint, the <a href="estimate.php">Estimated points</a> for each of those items and the <a href="sprint.php">Sprint</a> cycle periods (i.e. how many Sprints can you get in between the start and the <a href="release.php">Release Date</a></p>.
 				<p><em>Read http://stackoverflow.com/questions/502731/scrum-when-do-you-estimate-the-effort-for-product-backlog-items</em></p>
@@ -68,49 +75,37 @@
 				
 				<h3><a name="definition-of-done">Defintion of Done</a></h3>
 				<p>Definition of Done and <a href="definition-of-ready.php">Defintion of Ready</a> are either defined or re-articulated based on previous versions. The Defintion of Done may be that what has been produced is 'coded, tested, checked-in, well-written, integrated, and has automated tests.'
-					Each <a href="product-backlog.php">Product Backlog Item</a> needs to comply with these expectations in addition to its item-specific <a href="acceptance-criteria.php">Acceptance Criteria</a></p>
+				Each <a href="product-backlog.php">Product Backlog Item</a> needs to comply with these expectations in addition to its item-specific <a href="acceptance-criteria.php">Acceptance Criteria</a></p>
 				
 				<div class="alert alert-success" role="alert"><p>The Definition of Done defines a potentially shippable product increment appropritae for its environment.  In many ways the elements
 					that comprise a team's Definition of Done are like <a href="acceptance-criteria.php">Acceptance Criteria</a> applied across all
 					<a href="user-story.php">User Stories</a> on the <a href="product-backlog.php">Product Backlog</a></p></div>
 					
+					<h4><a name="definition-of-ready">Defintion of Ready</a></h4>
+					<p>In this meeting the Definition of Ready is also defined (http://www.romanpichler.com/blog/the-definition-of-ready/).</p>
+
+					<p>The Definition of Ready is the definition of a <a href="product-backlog.php">Product Backlog Item</a> that is ready to be considered for <a href="sprint-planning.php">Sprint Planning</a>.</p>
+					<p>A Definition of Ready might be that the item is <a href="estimated.php">Estimated</a>, small enough, and there is enough information about it.</p>
+					<p>Only Product Backlog Items that meet the requirements set in the Defintion of Ready will be considered in the Sprint Planning Meeting</p>
 					
-				
+					
 					<h4>Defining Potentially Shippable</h4>
 					<ul>
 						<li>Potentially shippable means tested.</li>
 						<li>Potetnially shippable mean integrated</li>
 					</ul>
 					<h2>Meetings</h2>
-					<h3><a name="user-story-writing-workshop"></a>Story Writing Workshops</h3>
-					<p>Used to:</p>
-					<ol>
-						<li>Write <a href="user-story.php">User Stories</a> </li>
-						<li>Brainstorm / rapid prototype</li>
-					</ol>
-					<p>From all of this the <a href="product-owner.php">Product Owner</a> builds the <a href="product-backlog.php">Product Backlog</a></p>
 					
 					
-				
 					<h3><a name="product-backlog-refinement-meeting"></a>Product Backlog Refinement Meeting</h3>
-					<p>An objective of the Product Backlog Refinement Meeting is to create <a href="product-backlog.php">Product Backlog Items that are</a>:</p>
-					<ul>
-						<li>Independent</li>
-						<li>Negotiable</li>
-						<li>Valuable</li>
-						<li>Estimable</li>
-						<li>Small</li>
-						<li>Testable</li>
-					</ul>
-					<p>In this meeting Product Backlog Items are <a href="estimate.php">Estimated</a> and given Story Points by the Development Team.  This might be done using <a href="estimation-cards.php">Estimation Cards</a> or using <a href="planning-poker.php">Planning Poker</a></p>
-					<p>In this meeting the Definition of Ready is also defined (http://www.romanpichler.com/blog/the-definition-of-ready/).</p>
-					<h4><a name="definition-of-ready">Defintion of Ready</a></h4>
-					<p>The Definition of Ready is the definition of a <a href="product-backlog.php">Product Backlog Item</a> that is ready to be considered for <a href="sprint-planning.php">Sprint Planning</a>.</p>
-					<p>A Definition of Ready might be that the item is <a href="estimated.php">Estimated</a>, small enough, and there is enough information about it.</p>
-					<p>Only Product Backlog Items that meet the requirements set in the Defintion of Ready will be considered in the Sprint Planning Meeting</p>
 					
+					<p>In the first Product Backlog Refinement Meeting of a Sprint the User Stories are written by the Development Team
+					and the Product Owner.  The PO Also adds Acceptance Criteria.  In this first meeting approx. 80% of the User Stories 
+					should be Eseitmated using Story Points in order to build a reasonable initial Product Roadmap (which will likely consist of Stories grouped in Sprints and 
+					an initial estimated projection of project length).  In future meetings PB is groomed and PBIs are re-evalutated in the light of what has been learned.  The next highest PBIs are Estimated and given Story Points by the Development Team.  This might be done using <a href="estimation-cards.php">Estimation Cards</a> or using <a href="planning-poker.php">Planning Poker</a></p>
+
 					<h4>Estimating Backlog Items</h4>
-					<p><a href="development-team.php">Development Team</a> members estimate PBIs.  <a href="product-owners.php">Product Owners</a> user these Estimates to plan and keep track of how delivery is going.  There are various tools to help Estimating, for example <a href="planning-poker.php">Planning Poker</a></p>
+					<p><a href="development-team.php">Development Team</a> members estimate PBIs.  <a href="product-owners.php">Product Owners</a> user these Estimates to plan and keep track of how delivery is going.  </p>
 					<ul>
 						<li>Estimates help understand team <a href="velocity.php">Velocity</a></li>
 						<li>Precise / precision is the level of confidence in the interval i.e. an estimate of 1-3 days is less precise than an estimate of one day but more precise than an estimate of 1-7 days</li>
@@ -145,7 +140,17 @@
 				
 				<h2>Documents</h2>
 				<h3><a name="product-roadmap"></a>Product Roadmap</h3>
+				<p>from <a href="www.romanpichler.com/blog/product-roadmap-product-backlog/">Roman Pichler</a>.  The Priduct Roadmap is a strategic product-planning tool that shows how the product is likely to grown across several major releases. (see the Raodmap Doc on his site)</p>
+				<p>Applied correctly the Product Raodmap and the Product Backlog complement each other.  The Product Roadmap provides an umbrella for the Product Backlog; it tells a longer-term story about the
+				likely growth of the product weheras the Product Backlog contains the details necessary to create the product.</p>
+				<p>The Product Ower should lead the strategic and tactical product decisions, as such they are responsible for both the Product Raodmap and the Product Backlog. 
+				 The Product Roadmap especially is the primary tool to achieve stakeholder alignment, agree overall product direction and the go-to-market strategy.</p>
 				<p>It contains the main features and objectives for the next releases (and is possibly an outcome of the <a href="release-planning.php">Release Planning Workshop</a>.  There might be a <a href="release-goal.php">Release Goal</a> stated for each marker on the Product Roadmap and maybe a list of <a href="product-backlog.php">Product Backlog Items</a>for each.</p>
+				<p>In the first Product Backlog Meeting approx. 80% of the User Stories 
+					should be Eseitmated using Story Points in order to build a reasonable initial Product Roadmap (which will likely consist of Stories grouped in Sprints and 
+					an initial estimated projection of project length).  </p>
+					<p>On the following Sprints this roadmap will be revised over and over, at the start of each Sprint, adjusting the velocity to the actual velocoty
+					that the team is obtaining and re-calculating the proect length as needed.</p>
 				<p>check out http://www.romanpichler.com/blog/product-roadmap-product-backlog/ and http://www.romanpichler.com/tools/product-roadmap/</p>
 				<h3><a href="product-backlog.php">Product Backlog</a></h3>
 				<h3><a href="release-burndown.php">Release Burndown</a></h3>

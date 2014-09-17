@@ -25,7 +25,7 @@
 			<div class="col-sm-8 blog-main">
 				<h2>What is a Sprint?</h2>
 				<p>A Sprint is a time boxed piece of work that delivers a product increment (a 'shipable increment') for the customer (not necessarily the same thing as an end user).  Not all Sprints result in a public <a href="release.php">Release</a> however.</p>
-				<p> Agile methodologies emphasise working software for three key reasons:</p>
+				<p> Agile methodologies emphasise working software as an outcome form a Sprint for three key reasons:</p>
 				<ol>
 					<li>Working software encourages feedback.</li>
 					<li>Working software helps a team guage its progress</li>
@@ -48,16 +48,15 @@
 				<p>There are two parts to Sprint Planning:</p>
 				<ol>
 					<li>What - Define the <a href="sprint-goal.php">Sprint Goal</a></li>
-					<li>How - Createa and Evaluate Tasks</li>
-				</ol>
-				<p>At the end of each <a href="sprint.php">Sprint</a> there is a usesable output (a 'shipable increment') for the customer (not necessarily the same thing as an end user.  Not all Sprints result in a public <a href="release.php">Release</a> however.</p>
-				<p>At the Sprint Planning Meeting the:</p>
-				<ul>
+					<li>How - Create and Evaluate Tasks</li>
+					<ul>
 					<li><a href="definition-of-done.php">Definition of Done</a> and <a href="definition-of-ready.php">Defintion of Ready</a> are either defined or re-articulated based on previous versions.
 					<li><a href="product-backlog.php">Product Backlog Items</a> that have met the Definition of Ready are selected for consideration in the <a href="sprint.php">Sprint</a>.
-					From these <a href="tasks.php">Tasks</a>are defined by the <a href="development-team.php">Development Team</a>, Estimated and assigned a time in hours.</li>
+					From these <a href="tasks.php">Tasks</a>are defined by the <a href="development-team.php">Development Team</a>, Estimated and assigned a time in hours. This should be no more than a working day</li>
 				</ul>
-				<p>This results in the creation of the <a href="sprint-backlog.php">Sprint Backlog</a> that the Development Team commits to.</p>
+				
+				</ol>
+				<p>This results in the creation of the <a href="sprint-backlog.php">Sprint Backlog</a>, with Tasks groped by Story, that the Development Team commits to.</p>
 				
 				
 				<h3><a name="daily-standup"></a>Daily Standup</h3>
@@ -67,6 +66,8 @@
 					<li>What you are going to do today</li>
 					<li>What are the impediments to you work</li>
 				</ol>
+				<h3><a name="product-backog-refinement-meeting"></a>Product Backlog Refinement Meeting</h3>
+				<p>At least 10% of the Sprint should be spent refining and (re) estimating based on what has been learned during the Sprint</p>
 				<h3><a name="sprint-review"></a>Sprint Review</h3>
 				<p>The Sprint Review Meeting is atteneded by:</p>
 				<ul>
@@ -86,7 +87,12 @@
 		<p>Each <a href="product-backlog.php">Product Backlog Item</a> needs to comply with the wider expectation set in the <a href="defintion-of-done.php">Definition of Done</a> in addition to its item-specific <a href="acceptance-criteria.php">Acceptance Criteria
 	</a></p>
 	<h3><a name="sprint-retrospective"></a>Sprint Retrospective</h3>
-	http://www.romanpichler.com/blog/product-owner-sprint-retrospective/
+	<p>from <a href="http://www.romanpichler.com/blog/product-owner-sprint-retrospective/">Roman Pichler</a></p>
+	<p>The Sprint Retrospective is an opportunity to pause for a short while and reflect on what happened during the Sprint.  This allows attendees to improve
+	their collaboration and their work practices to get even better at creating a great product.</p>
+	<p>The meeting takes place right at the end of the Sprint after the Sprint Review Meeting.  Its outcomes should be actioanble improvement measures.</p>
+	<p>A great way to review and improve te collaboration with your partners from around the organisation is to invite tem to the retrospective
+	on a regular basis.  Depending on how closely you collaborate this may range form once per month to once per major release.</p>
 	<h2>Tips</h2>
 	<div class="alert alert-success" role="alert"><p>Discuss the <a href="product-backlog.php">Product Backlog</a>.  Identify th e
 	top five items in need of advance thinking.  For each discuss who needs to think about it (an architect, a user experience designer?) and decide how
@@ -112,7 +118,7 @@ for the length of the Sprint.</li>
 
 <h2>Documents</h2>
 <h3><a name="sprint-goal"></a>Sprint Goal</h3>
-<p>Sprint goals are statements of value.  They are not items themselves althugh they are obviously related.</p>
+<p>Sprint goals are statements of value.  They are not items themselves although they are obviously related.</p>
 <h3><a name="sprint-backlog"></a>Sprint Backlog</h3>
 <p>The Sprint Backlog is derived from the <a href="product-backlog.php">Product Backlog</a>but includes only those items which meet the <a href="definition-of-ready.php">Definition of Ready</a></p>
 <p>Each <a href="product-backlog.php">Product Backlog Item</a> needs to comply with the wider expectation set in the <a href="defintion-of-done.php">Definition of Done</a> in addition to its item-specific <a href="acceptance-criteria.php">Acceptance Criteria
